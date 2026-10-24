@@ -1,0 +1,38 @@
+# Database (1.5GB)
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+update_log.log
+step4_run.log
+backfill_2019_2021.log
+
+# Output / Reports
+reports/
+output/
+*.pdf
+*.docx
+*.xlsx
+
+# Backups
+backups/
+
+# Temporary
+tmp/
+D:claude/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
