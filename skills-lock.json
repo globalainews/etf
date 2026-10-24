@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "skills": {
+    "backtest-expert": {
+      "source": "https://gitee.com/wind_info/wind-skills.git",
+      "sourceUrl": "https://gitee.com/wind_info/wind-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/backtest-expert/SKILL.md",
+      "computedHash": "637280a11ddca68ecd21868b5ba9362eb46578f2bb5b7d09b0dcfb70eeb30cce"
+    },
+    "position-sizer": {
+      "source": "https://gitee.com/wind_info/wind-skills.git",
+      "sourceUrl": "https://gitee.com/wind_info/wind-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/position-sizer/SKILL.md",
+      "computedHash": "e10834fa3a81f9dc21d23313dd3e3113a76f5130569ca68bffcc08d4a158e413"
+    },
+    "trade_plan_builder_skill": {
+      "source": "https://gitee.com/wind_info/wind-skills.git",
+      "sourceUrl": "https://gitee.com/wind_info/wind-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/trade_plan_builder_skill/SKILL.md",
+      "computedHash": "f96ef082914d2756cd86a275bb93b76d7e0dd595b02ac8006f00107ca026d836"
+    },
+    "wind-alice": {
+      "source": "https://gitee.com/wind_info/wind-skills.git",
+      "sourceUrl": "https://gitee.com/wind_info/wind-skills.git",
+      "sourceType": "git",
+      "skillPath": "skills/wind-alice/SKILL.md",
+      "computedHash": "d71eaa61cd80789e420c01f03bac701f47b63b8a37245508482bf695f60c7420"
+    }
+  }
+}

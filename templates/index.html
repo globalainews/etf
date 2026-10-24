@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETF基金规模趋势分析</title>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js';document.head.appendChild(s);"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f0f2f5; height: 100vh; overflow: hidden; }
+.header { background: linear-gradient(135deg, #1a3a5c 0%, #2d6aa0 100%); color: #fff; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; height: 52px; }
+.header h1 { font-size: 18px; font-weight: 600; }
+.header .info { font-size: 12px; opacity: 0.85; }
+.container { display: flex; height: calc(100vh - 52px); }
+.sidebar { width: 320px; min-width: 320px; background: #fff; display: flex; flex-direction: column; border-right: 1px solid #e0e0e0; }
+.sidebar-header { padding: 12px 16px; border-bottom: 1px solid #eee; }
+.sidebar-header .tools { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.sidebar-header .tools button { padding: 5px 12px; border: 1px solid #d0d0d0; border-radius: 4px; background: #fff; cursor: pointer; font-size: 12px; transition: all 0.2s; }
+.sidebar-header .tools button:hover { border-color: #2d6aa0; color: #2d6aa0; }
+.sidebar-header .tools button.primary { background: #2d6aa0; color: #fff; border-color: #2d6aa0; font-weight: 600; }
+.sidebar-header .tools button.primary:hover { background: #1a3a5c; }
+.year-select { width: 100%; padding: 5px 8px; border: 1px solid #d0d0d0; border-radius: 4px; font-size: 12px; outline: none; margin-bottom: 6px; background: #fff; cursor: pointer; appearance: auto; }
+.year-select:focus { border-color: #2d6aa0; }
+.date-filter { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 12px; color: #555; }
+.date-filter input { flex: 1; min-width: 0; padding: 5px 7px; border: 1px solid #d0d0d0; border-radius: 4px; font-size: 12px; }
+.date-filter button { padding: 5px 8px; border: 1px solid #d0d0d0; border-radius: 4px; background: #fff; cursor: pointer; }
+.date-filter-status { margin: 0 0 6px; font-size: 11px; color: #666; }
+.fund-group { padding: 8px 16px; background: #f4f6f9; border-bottom: 1px solid #e5e9ef; color: #555; font-size: 12px; font-weight: 600; }
+.fund-item.gain .fund-scale .value { color: #d32f2f; }
+.fund-item.loss .fund-scale .value { color: #2e7d32; }
+.marker-options { margin-bottom: 8px; padding: 8px; border: 1px dashed #d0d0d0; border-radius: 4px; background: #fafbfc; font-size: 12px; }
+.marker-options .marker-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 6px; }
+.marker-options .marker-row:last-child { margin-bottom: 0; }
+.marker-options label { display: flex; align-items: center; gap: 4px; cursor: pointer; color: #333; }
+.marker-options input[type="checkbox"] { width: 13px; height: 13px; cursor: pointer; }
+.marker-options .mk-select { padding: 3px 6px; border: 1px solid #d0d0d0; border-radius: 4px; font-size: 12px; cursor: pointer; background: #fff; }
+.marker-legend { font-size: 11px; color: #666; line-height: 1.6; }
+.search-box { width: 100%; padding: 6px 10px; border: 1px solid #d0d0d0; border-radius: 4px; font-size: 12px; outline: none; }
+.search-box:focus { border-color: #2d6aa0; }
+.fund-list { flex: 1; overflow-y: auto; padding: 4px 0; }
+.fund-list::-webkit-scrollbar { width: 6px; }
+.fund-list::-webkit-scrollbar-thumb { background: #c0c0c0; border-radius: 3px; }
+.fund-item { display: flex; align-items: center; padding: 7px 16px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid #f5f5f5; }
+.fund-item:hover { background: #f5f8fc; }
+.fund-item.selected { background: #e8f0fa; }
+.fund-item input[type="checkbox"] { margin-right: 10px; cursor: pointer; width: 15px; height: 15px; }
+.fund-item .fund-info { flex: 1; min-width: 0; }
+.fund-item .fund-name { font-size: 13px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fund-item .fund-code { font-size: 11px; color: #999; margin-top: 2px; }
+.fund-item .fund-scale { text-align: right; }
+.fund-item .fund-scale .value { font-size: 13px; font-weight: 600; color: #e65c00; }
+.fund-item .fund-scale .unit { font-size: 10px; color: #999; }
+.sidebar-footer { padding: 8px 16px; border-top: 1px solid #eee; font-size: 11px; color: #999; text-align: center; }
+.main { flex: 1; display: flex; flex-direction: column; background: #fafafa; }
+.chart-container { flex: 1; margin: 12px; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); position: relative; }
+.chart-container .placeholder { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #bbb; }
+.chart-container .placeholder .icon { font-size: 64px; margin-bottom: 12px; }
+.chart-container .placeholder .text { font-size: 15px; }
+#chart { width: 100%; height: 100%; }
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #ccc; }
+.empty-state svg { width: 80px; height: 80px; margin-bottom: 16px; }
+.loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; display: none; }
+.loading.show { display: block; }
+.spinner { width: 36px; height: 36px; border: 3px solid #e0e0e0; border-top-color: #2d6aa0; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 ETF基金规模趋势分析</h1>
+  <span class="info" id="headerInfo">数据日期: 加载中...</span>
+</div>
+
+<div class="container">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="tools">
+        <button onclick="selectAll()">全选</button>
+        <button onclick="deselectAll()">取消全选</button>
+        <button onclick="selectTop(5)">Top 5</button>
+        <button onclick="selectTop(10)">Top 10</button>
+        <button class="primary" onclick="doAnalysis()">📈 图形分析</button>
+        <button class="primary" onclick="doSummary()" style="background:#e65c00;border-color:#e65c00;">📊 汇总分析</button>
+        <button class="primary" onclick="doPriceAnalysis()" style="background:#2e7d32;border-color:#2e7d32;">💹 价格分析</button>
+        <button class="primary" onclick="doTotalScale()" style="background:#6a1b9a;border-color:#6a1b9a;">📈 总规模</button>
+      </div>
+      <div class="date-filter">
+        <label for="moverDate">📅 份额变动</label>
+        <input type="date" id="moverDate" onchange="onMoverDateChange()" aria-label="份额变动日期">
+        <button type="button" onclick="clearMoverDate()">清除</button>
+      </div>
+      <div class="date-filter-status" id="moverStatus" hidden></div>
+      <select class="year-select" id="yearSelect" onchange="onYearChange()">
+        <option value="">📅 全部年份</option>
+      </select>
+      <select class="year-select" id="chartRangeSelect" onchange="onChartRangeChange()" aria-label="图表时间范围">
+        <option value="year" selected id="chartYearOption">📈 图表时间：当年</option>
+        <option value="all">📈 图表时间：全部时间</option>
+      </select>
+      <select class="year-select" id="themeSelect" onchange="onThemeChange()">
+        <option value="">🏷️ 全部行业主题</option>
+      </select>
+      <div class="marker-options">
+        <div class="marker-row">
+          <label><input type="checkbox" id="showMarkers" checked> 显示信号/买卖点</label>
+        </div>
+        <div class="marker-row">
+          <label><input type="checkbox" id="showSignals" checked> E2信号</label>
+          <label><input type="checkbox" id="showBuys" checked> 买点</label>
+          <label><input type="checkbox" id="showSells" checked> 卖点</label>
+        </div>
+        <div class="marker-row">
+          <select class="mk-select" id="schemeSelect">
+            <option value="fixed_40">方案1 · 持有40天</option>
+            <option value="ma20_early">方案2 · MA20回归提前卖</option>
+            <option value="both">两种方案都显示</option>
+          </select>
+        </div>
+        <div class="marker-legend">▲橙=E2信号 · ▲红=买入 · ▼绿=卖出</div>
+      </div>
+      <input type="text" class="search-box" placeholder="🔍 搜索基金名称或代码..." oninput="filterList()" id="searchInput">
+    </div>
+    <div class="fund-list" id="fundList"></div>
+    <div class="sidebar-footer">
+      已选择 <strong id="selectCount">0</strong> / <span id="totalCount">0</span> 只基金 | Ctrl+点击多选
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="chart-container" id="chartContainer">
+      <div class="placeholder" id="placeholder">
+        <div class="icon">📈</div>
+        <div class="text">请在左侧选择基金，然后点击「图形分析」</div>
+      </div>
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div style="color:#999;font-size:13px;">加载数据中...</div>
+      </div>
+      <div id="chart"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let allFunds = [];
+let selectedCodes = new Set();
+let chart = null;
+let availableYears = [];
+let availableThemes = [];
+let lastChartData = null;
+let moverRanking = null;
+let moverLoading = false;
+let moverMessage = '';
+let moverRequestId = 0;
+
+// 图表时间范围与上方按发行年份筛选基金的控件相互独立。
+function chartDateIndexes(dates) {
+  if (document.getElementById('chartRangeSelect').value === 'all') {
+    return dates.map((_, i) => i);
+  }
+  const selectedDate = document.getElementById('moverDate').value;
+  const yearPrefix = (selectedDate ? selectedDate.substring(0, 4) : new Date().getFullYear()) + '-';
+  return dates.reduce((indexes, date, i) => {
+    if (date.startsWith(yearPrefix)) indexes.push(i);
+    return indexes;
+  }, []);
+}
+
+function formatChartDate(date) {
+  return document.getElementById('chartRangeSelect').value === 'all' ? date : date.substring(5);
+}
+
+function filterDatedSeries(data) {
+  const indexes = chartDateIndexes(data.dates);
+  const filtered = { ...data };
+  ['dates', 'scales', 'prices', 'amounts', 'average_prices', 'fund_counts', 'priced_counts'].forEach(key => {
+    if (Array.isArray(data[key])) filtered[key] = indexes.map(i => data[key][i]);
+  });
+  if ('has_prices' in filtered) filtered.has_prices = filtered.prices.some(p => p != null);
+  if ('has_amounts' in filtered) filtered.has_amounts = filtered.amounts.some(a => a != null);
+  if ('has_average_prices' in filtered) {
+    filtered.has_average_prices = filtered.average_prices.some(p => p != null);
+  }
+  return filtered;
+}
+
+// 每次绘图只根据当前时间范围内的有效数值设置纵轴，避免历史极值压平当年波动。
+function calculateAxisBounds(values, paddingRatio = 0.08) {
+  const numbers = values.filter(value => typeof value === 'number' && Number.isFinite(value));
+  if (!numbers.length) return {};
+  const min = Math.min(...numbers);
+  const max = Math.max(...numbers);
+  const span = max - min;
+  const padding = span > 0 ? span * paddingRatio : Math.max(Math.abs(max) * paddingRatio, 1);
+  return { min: min - padding, max: max + padding };
+}
+
+function prepareChartData(kind, data, markers) {
+  lastChartData = { kind, data, markers };
+  let filtered;
+  if (kind === 'trend' || kind === 'price') {
+    filtered = Object.fromEntries(Object.entries(data).map(([code, info]) =>
+      [code, filterDatedSeries(info)]));
+    if (Object.values(filtered).some(info => info.dates.length)) {
+      document.getElementById('placeholder').style.display = 'none';
+      return filtered;
+    }
+  } else {
+    filtered = filterDatedSeries(data);
+    if (filtered.dates.length) {
+      if (kind === 'total') {
+        const last = filtered.dates.length - 1;
+        filtered.latest_date = filtered.dates[last];
+        filtered.latest_scale = filtered.scales[last];
+        filtered.latest_amount = filtered.amounts[last];
+        filtered.latest_count = filtered.fund_counts[last];
+        filtered.total_days = filtered.dates.length;
+      }
+      document.getElementById('placeholder').style.display = 'none';
+      return filtered;
+    }
+  }
+  if (chart) { chart.dispose(); chart = null; }
+  const placeholder = document.getElementById('placeholder');
+  placeholder.querySelector('.text').textContent = '所选时间范围暂无数据，请选择“全部时间”查看历史图形';
+  placeholder.style.display = 'block';
+  return null;
+}
+
+function onChartRangeChange() {
+  if (!lastChartData) return;
+  const { kind, data, markers } = lastChartData;
+  if (kind === 'trend') renderChart(data, markers);
+  else if (kind === 'price') renderPriceChart(data, markers);
+  else if (kind === 'summary') renderSummaryChart(data);
+  else if (kind === 'total') renderTotalScaleChart(data);
+}
+
+// ---------- 信号/买卖点标记 ----------
+function getMarkerState() {
+  const master = document.getElementById('showMarkers');
+  const enabled = master && master.checked;
+  return {
+    enabled: !!enabled,
+    showSignals: enabled && !!document.getElementById('showSignals').checked,
+    showBuys: enabled && !!document.getElementById('showBuys').checked,
+    showSells: enabled && !!document.getElementById('showSells').checked,
+    scheme: document.getElementById('schemeSelect').value
+  };
+}
+function schemeLabel(s) {
+  if (s === 'ma20_early') return '方案2';
+  if (s === 'both') return '两方案';
+  return '方案1';
+}
+// 取标记数据（失败时不阻塞主图）
+function fetchMarkers(codes) {
+  const state = getMarkerState();
+  const url = '/api/markers/' + codes + '?scheme=' + state.scheme;
+  return fetch(url).then(r => r.json()).catch(() => ({}));
+}
+// 丢弃不在公共日期轴上的标记（防御性）
+function filterMarkersByDates(markersData, allDates) {
+  if (!markersData) return markersData;
+  const set = new Set(allDates);
+  for (const code in markersData) {
+    const m = markersData[code] || {};
+    ['signals', 'buys', 'sells'].forEach(k => {
+      m[k] = (m[k] || []).filter(it => set.has(it.date));
+    });
+  }
+  return markersData;
+}
+// 为某一系列构建 markPoint（mapByDate 决定 y 值来源：scale_yi 或 price）
+// mode: 'all'（默认，E2+买+卖）| 'signals'（仅E2）| 'buysells'（仅买/卖）
+function buildMarkPoint(m, allDates, mapByDate, scheme, mode) {
+  mode = mode || 'all';
+  const state = getMarkerState();
+  const items = [];
+  const sl = schemeLabel(scheme);
+  const wantSig = mode === 'all' || mode === 'signals';
+  const wantBS = mode === 'all' || mode === 'buysells';
+  // E2 信号（橙▲）
+  if (wantSig && state.showSignals && m.signals && m.signals.length) {
+    m.signals.forEach(sg => {
+      const y = mapByDate(sg.date);
+      if (y == null || !allDates.includes(sg.date)) return;
+      items.push({
+        name: 'E2信号', coord: [sg.date, y], symbol: 'triangle', symbolSize: 9,
+        itemStyle: { color: '#ff9800', borderColor: '#fff', borderWidth: 1 },
+        label: { show: true, formatter: 'E2', fontSize: 9, fontWeight: 'bold' },
+        tooltip: { formatter: fmtMarkerTip('E2信号', sg.date, y, sg) }
+      });
+    });
+  }
+  // 买点（红▲）
+  if (wantBS && state.showBuys && m.buys && m.buys.length) {
+    const seen = new Set();
+    m.buys.forEach(b => {
+      if (seen.has(b.date)) return;
+      seen.add(b.date);
+      const y = mapByDate(b.date);
+      if (y == null || !allDates.includes(b.date)) return;
+      const lbl = scheme === 'both' ? ('买(' + sl + ')') : '买';
+      items.push({
+        name: '买入', coord: [b.date, y], symbol: 'triangle', symbolSize: 13,
+        itemStyle: { color: '#d32f2f', borderColor: '#fff', borderWidth: 1 },
+        label: { show: true, formatter: lbl, fontSize: 10, fontWeight: 'bold' },
+        tooltip: { formatter: fmtMarkerTip('买入', b.date, y, b) }
+      });
+    });
+  }
+  // 卖点（绿▼）
+  if (wantBS && state.showSells && m.sells && m.sells.length) {
+    m.sells.forEach(s2 => {
+      const y = mapByDate(s2.date);
+      if (y == null || !allDates.includes(s2.date)) return;
+      const lbl = scheme === 'both' ? ('卖(' + sl + ')') : '卖';
+      items.push({
+        name: '卖出', coord: [s2.date, y], symbol: 'triangle', symbolRotate: 180, symbolSize: 13,
+        itemStyle: { color: '#2e7d32', borderColor: '#fff', borderWidth: 1 },
+        label: { show: true, formatter: lbl, fontSize: 10, fontWeight: 'bold' },
+        tooltip: { formatter: fmtMarkerTip('卖出', s2.date, y, s2) }
+      });
+    });
+  }
+  return items.length ? items : null;
+}
+function fmtMarkerTip(kind, date, y, item) {
+  const lines = [kind, '日期: ' + date];
+  if (item.price != null) lines.push('价格: ' + item.price.toFixed(3) + ' 元');
+  if (item.scale_yi != null) lines.push('规模: ' + item.scale_yi + ' 亿份');
+  else if (typeof y === 'number') lines.push('数值: ' + y);
+  if (item.share_z_20 != null) lines.push('份额Z(20): ' + item.share_z_20);
+  if (item.price_dev_20 != null) lines.push('价格偏离(20): ' + (item.price_dev_20 * 100).toFixed(2) + '%');
+  if (item.scheme) lines.push('方案: ' + schemeLabel(item.scheme));
+  if (item.exit_reason) lines.push('退出: ' + item.exit_reason);
+  return lines.join('<br/>');
+}
+
+// 初始化
+Promise.all([
+  fetch('/api/funds').then(r => r.json()),
+  fetch('/api/themes').then(r => r.json())
+]).then(([data, themes]) => {
+    allFunds = data;
+    availableThemes = themes;
+    // 提取可用年份
+    const years = new Set();
+    allFunds.forEach(f => { if (f.issue_year) years.add(f.issue_year); });
+    availableYears = Array.from(years).sort();
+    // 填充年份下拉框
+    const yearSel = document.getElementById('yearSelect');
+    availableYears.forEach(y => {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y + '年 (' + allFunds.filter(f => f.issue_year === y).length + '只)';
+      yearSel.appendChild(opt);
+    });
+    // 填充行业主题下拉框
+    const themeSel = document.getElementById('themeSelect');
+    availableThemes.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t.name;
+      opt.textContent = t.name + ' (' + t.count + '只)';
+      themeSel.appendChild(opt);
+    });
+    document.getElementById('totalCount').textContent = allFunds.length;
+    document.getElementById('headerInfo').textContent =
+      `数据日期: ${allFunds[0]?.scale_yi ? '最新' : ''} | ${allFunds.length}只基金`;
+    renderList();
+  });
+
+function getSelectedYear() {
+  return document.getElementById('yearSelect').value;
+}
+
+function getSelectedTheme() {
+  return document.getElementById('themeSelect').value;
+}
+
+function clearMoverDate() {
+  document.getElementById('moverDate').value = '';
+  onMoverDateChange();
+}
+
+function updateMoverStatus() {
+  const status = document.getElementById('moverStatus');
+  const selectedDate = document.getElementById('moverDate').value;
+  status.hidden = !selectedDate;
+  if (!selectedDate) return;
+  status.textContent = moverLoading ? '正在统计份额变化...' :
+    moverMessage || `${moverRanking.previous_date} → ${moverRanking.date} · 各取前10只`;
+}
+
+function onMoverDateChange() {
+  const selectedDate = document.getElementById('moverDate').value;
+  const requestId = ++moverRequestId;
+  selectedCodes.clear();
+  moverRanking = null;
+  moverLoading = !!selectedDate;
+  moverMessage = '';
+  document.getElementById('yearSelect').disabled = !!selectedDate;
+  document.getElementById('themeSelect').disabled = !!selectedDate;
+  const range = document.getElementById('chartRangeSelect');
+  range.value = 'year';
+  document.getElementById('chartYearOption').textContent = selectedDate ?
+    `📈 图表时间：${selectedDate.substring(0, 4)}年` : '📈 图表时间：当年';
+  updateMoverStatus();
+  renderList();
+  onChartRangeChange();
+
+  if (!selectedDate) return;
+  fetch('/api/scale-movers?date=' + encodeURIComponent(selectedDate))
+    .then(async response => {
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || '榜单加载失败');
+      return result;
+    })
+    .then(result => {
+      if (requestId !== moverRequestId) return;
+      moverRanking = result;
+      moverLoading = false;
+      moverMessage = result.message || '';
+      updateMoverStatus();
+      renderList();
+    })
+    .catch(error => {
+      if (requestId !== moverRequestId) return;
+      moverLoading = false;
+      moverMessage = error.message || '榜单加载失败';
+      updateMoverStatus();
+      renderList();
+    });
+}
+
+function getVisibleFunds() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  if (document.getElementById('moverDate').value) {
+    const funds = moverRanking ? moverRanking.gainers.concat(moverRanking.losers) : [];
+    return funds.filter(f => !search || f.name.toLowerCase().includes(search) || f.code.includes(search));
+  }
+  const year = getSelectedYear();
+  const theme = getSelectedTheme();
+  return allFunds.filter(f => {
+    if (year && f.issue_year !== parseInt(year)) return false;
+    if (theme && f.theme !== theme) return false;
+    if (search && !f.name.toLowerCase().includes(search) && !f.code.includes(search)) return false;
+    return true;
+  });
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+}
+
+function renderFundItem(fund, changeMode) {
+  const sel = selectedCodes.has(fund.code) ? ' selected' : '';
+  const direction = changeMode ? ` ${fund.direction}` : '';
+  const value = changeMode ? `${fund.direction === 'gain' ? '+' : ''}${fund.delta_yi.toFixed(2)}` :
+    fund.scale_yi.toFixed(0);
+  const code = escapeHtml(fund.code);
+  const name = escapeHtml(fund.name);
+  const theme = fund.theme ? ` <span style="color:#e65c00;font-size:10px;">${escapeHtml(fund.theme)}</span>` : '';
+  return `
+    <div class="fund-item${sel}${direction}" onclick="toggleFund('${code}', event)" data-code="${code}">
+      <input type="checkbox" ${sel ? 'checked' : ''} onclick="event.stopPropagation(); toggleFund('${code}')">
+      <div class="fund-info">
+        <div class="fund-name" title="${name}">${name}</div>
+        <div class="fund-code">${code} <span style="color:#2d6aa0;font-size:10px;">${fund.issue_year || '?'}</span>${theme}</div>
+      </div>
+      <div class="fund-scale">
+        <div class="value">${value}</div>
+        <div class="unit">亿份</div>
+      </div>
+    </div>`;
+}
+
+function renderList(filter = '') {
+  const list = document.getElementById('fundList');
+  let html = '';
+  const visibleFunds = getVisibleFunds();
+  if (document.getElementById('moverDate').value) {
+    if (moverRanking && !moverMessage) {
+      const gainers = visibleFunds.filter(fund => fund.direction === 'gain');
+      const losers = visibleFunds.filter(fund => fund.direction === 'loss');
+      html += '<div class="fund-group">📈 份额增加 TOP10</div>';
+      html += gainers.map(fund => renderFundItem(fund, true)).join('') ||
+        '<div class="fund-group">暂无匹配基金</div>';
+      html += '<div class="fund-group">📉 份额减少 TOP10</div>';
+      html += losers.map(fund => renderFundItem(fund, true)).join('') ||
+        '<div class="fund-group">暂无匹配基金</div>';
+    } else {
+      html = `<div style="padding:20px;text-align:center;color:#999;">${escapeHtml(moverLoading ? '正在统计...' : moverMessage || '暂无数据')}</div>`;
+    }
+  } else {
+    html = visibleFunds.map(fund => renderFundItem(fund, false)).join('');
+  }
+  list.innerHTML = html || '<div style="padding:20px;text-align:center;color:#bbb;">无匹配基金</div>';
+  document.getElementById('selectCount').textContent = selectedCodes.size;
+  document.getElementById('totalCount').textContent = visibleFunds.length;
+}
+
+function onYearChange() {
+  selectedCodes.clear();
+  renderList();
+}
+
+function onThemeChange() {
+  selectedCodes.clear();
+  renderList();
+}
+
+function toggleFund(code, evt) {
+  if (evt && evt.ctrlKey) {
+    // Ctrl+click: 切换选中
+    if (selectedCodes.has(code)) selectedCodes.delete(code);
+    else selectedCodes.add(code);
+  } else if (evt && evt.shiftKey) {
+    // Shift+click: 范围选择
+    // 简化处理，仅切换当前
+    if (selectedCodes.has(code)) selectedCodes.delete(code);
+    else selectedCodes.add(code);
+  } else {
+    // 普通click
+    if (selectedCodes.has(code)) selectedCodes.delete(code);
+    else selectedCodes.add(code);
+  }
+  renderList(document.getElementById('searchInput').value);
+}
+
+function selectAll() {
+  if (document.getElementById('moverDate').value) selectedCodes.clear();
+  getVisibleFunds().forEach(f => selectedCodes.add(f.code));
+  renderList();
+}
+
+function deselectAll() {
+  selectedCodes.clear();
+  renderList();
+}
+
+function selectTop(n) {
+  selectedCodes.clear();
+  const visibleFunds = getVisibleFunds();
+  if (document.getElementById('moverDate').value) {
+    visibleFunds.filter(f => f.direction === 'gain').slice(0, n).forEach(f => selectedCodes.add(f.code));
+    visibleFunds.filter(f => f.direction === 'loss').slice(0, n).forEach(f => selectedCodes.add(f.code));
+  } else {
+    visibleFunds.slice(0, n).forEach(f => selectedCodes.add(f.code));
+  }
+  renderList();
+}
+
+function filterList() {
+  renderList(document.getElementById('searchInput').value);
+}
+
+function doSummary() {
+  if (selectedCodes.size === 0) {
+    alert('请先选择至少一只基金');
+    return;
+  }
+  const codes = Array.from(selectedCodes).join(',');
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('loading').classList.add('show');
+
+  fetch('/api/summary/' + codes)
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('loading').classList.remove('show');
+      renderSummaryChart(data);
+    })
+    .catch(err => {
+      document.getElementById('loading').classList.remove('show');
+      alert('加载汇总数据失败: ' + err);
+    });
+}
+
+function renderSummaryChart(data) {
+  data = prepareChartData('summary', data);
+  if (!data) return;
+  const scaleAxisBounds = calculateAxisBounds(data.scales);
+  const amountAxisBounds = calculateAxisBounds(data.amounts || []);
+  const priceAxisBounds = calculateAxisBounds(data.average_prices || []);
+  const chartDom = document.getElementById('chart');
+  if (chart) {
+    chart.dispose();
+    chart = null;
+  }
+  chart = echarts.init(chartDom);
+  window.addEventListener('resize', () => chart.resize());
+
+  const hasAmount = data.has_amounts && data.amounts && data.amounts.some(a => a !== null);
+  const hasAveragePrice = data.has_average_prices && data.average_prices &&
+    data.average_prices.some(price => price !== null);
+
+  const series = [{
+    name: '合计规模',
+    type: 'line',
+    yAxisIndex: 0,
+    data: data.scales,
+    smooth: true,
+    symbol: 'circle',
+    symbolSize: 5,
+    lineStyle: { width: 3, color: '#e65c00' },
+    itemStyle: { color: '#e65c00' },
+    areaStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        { offset: 0, color: 'rgba(230,92,0,0.2)' },
+        { offset: 1, color: 'rgba(230,92,0,0.02)' }
+      ])
+    },
+    markLine: {
+      silent: true,
+      symbol: 'none',
+      lineStyle: { type: 'dashed', color: '#999', width: 1 },
+      label: { fontSize: 10, color: '#999' },
+      data: [{ type: 'average', name: '均值' }]
+    }
+  }];
+
+  const yAxis = [{
+    type: 'value',
+    scale: true,
+    ...scaleAxisBounds,
+    name: '亿份',
+    position: 'left',
+    nameTextStyle: { fontSize: 11, color: '#999' },
+    axisLabel: {
+      fontSize: 11, color: '#999',
+      formatter: v => v >= 10000 ? (v/10000).toFixed(1) + '万' : v.toFixed(0)
+    },
+    splitLine: { lineStyle: { color: '#f0f0f0' } }
+  }];
+
+  if (hasAmount) {
+    series.push({
+      name: '合计金额',
+      type: 'line',
+      yAxisIndex: 1,
+      data: data.amounts,
+      smooth: true,
+      symbol: 'diamond',
+      symbolSize: 4,
+      lineStyle: { width: 3, color: '#2d6aa0' },
+      itemStyle: { color: '#2d6aa0' },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(45,106,160,0.2)' },
+          { offset: 1, color: 'rgba(45,106,160,0.02)' }
+        ])
+      }
+    });
+    yAxis.push({
+      type: 'value',
+      scale: true,
+      ...amountAxisBounds,
+      name: '亿元',
+      position: 'right',
+      nameTextStyle: { fontSize: 11, color: '#2d6aa0' },
+      axisLabel: {
+        fontSize: 11, color: '#2d6aa0',
+        formatter: v => v >= 10000 ? (v/10000).toFixed(1) + '万' : v.toFixed(0)
+      },
+      splitLine: { show: false }
+    });
+  }
+
+  if (hasAveragePrice) {
+    series.push({
+      name: '平均价格',
+      type: 'line',
+      yAxisIndex: yAxis.length,
+      data: data.average_prices,
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 4,
+      showSymbol: false,
+      lineStyle: { width: 2.5, color: '#2e7d32' },
+      itemStyle: { color: '#2e7d32' }
+    });
+    yAxis.push({
+      type: 'value',
+      scale: true,
+      ...priceAxisBounds,
+      name: '元',
+      position: 'right',
+      offset: hasAmount ? 80 : 0,
+      nameTextStyle: { fontSize: 11, color: '#2e7d32' },
+      axisLabel: {
+        fontSize: 11, color: '#2e7d32',
+        formatter: v => v.toFixed(2)
+      },
+      splitLine: { show: false }
+    });
+  }
+
+  let subtitle = `${data.fund_count}只基金合计`;
+  if (data.fund_names) subtitle += ` · ${data.fund_names}`;
+
+  const option = {
+    title: {
+      text: '选中基金份额、金额与平均价格趋势',
+      subtext: subtitle,
+      left: 20,
+      top: 10,
+      textStyle: { fontSize: 16, fontWeight: 600, color: '#333' },
+      subtextStyle: { fontSize: 12, color: '#999' }
+    },
+    legend: {
+      data: series.map(item => item.name),
+      right: 20,
+      top: 10,
+      textStyle: { fontSize: 12 }
+    },
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: '#ddd',
+      borderWidth: 1,
+      textStyle: { color: '#333', fontSize: 12 },
+      formatter: function(params) {
+        let html = `<strong>${params[0].axisValue}</strong><br/>`;
+        params.forEach(p => {
+          if (p.value == null) return;
+          const unit = p.seriesName === '合计金额' ? '亿元' :
+            p.seriesName === '平均价格' ? '元' : '亿份';
+          const digits = p.seriesName === '平均价格' ? 3 : 2;
+          html += `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:6px;"></span>
+            ${p.seriesName}: <b>${p.value.toFixed(digits)}</b> ${unit}<br/>`;
+        });
+        return html;
+      }
+    },
+    grid: {
+      left: 80,
+      right: hasAmount && hasAveragePrice ? 180 : (hasAmount || hasAveragePrice ? 95 : 80),
+      top: 80,
+      bottom: 60
+    },
+    xAxis: {
+      type: 'category',
+      data: data.dates,
+      boundaryGap: false,
+      axisLine: { lineStyle: { color: '#ccc' } },
+      axisTick: { show: false },
+      axisLabel: {
+        fontSize: 11, color: '#999',
+        formatter: formatChartDate
+      }
+    },
+    yAxis: yAxis,
+    dataZoom: [{
+      type: 'slider',
+      start: 0,
+      end: 100,
+      height: 24,
+      bottom: 28,
+      borderColor: '#ddd',
+      fillerColor: 'rgba(230,92,0,0.1)',
+      handleStyle: { color: '#e65c00' }
+    }],
+    series: series
+  };
+
+  chart.setOption(option, true);
+
+  // 点击空白区域恢复
+  chart.getZr().on('click', function(e) {
+    if (!e.target) {
+      chart.dispatchAction({ type: 'restore' });
+    }
+  });
+}
+
+function doPriceAnalysis() {
+  if (selectedCodes.size === 0) {
+    alert('请先选择至少一只基金');
+    return;
+  }
+  const codes = Array.from(selectedCodes).join(',');
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('loading').classList.add('show');
+
+  const state = getMarkerState();
+  Promise.all([
+    fetch('/api/price-trend/' + codes).then(r => r.json()),
+    state.enabled ? fetchMarkers(codes) : Promise.resolve({})
+  ]).then(([data, markers]) => {
+      document.getElementById('loading').classList.remove('show');
+      const hasAnyPrices = Object.values(data).some(d => d.has_prices);
+      if (!hasAnyPrices) {
+        alert('所选基金暂无价格数据。请先运行 fetch_prices.py 获取收盘价数据。');
+      }
+      renderPriceChart(data, markers);
+    })
+    .catch(err => {
+      document.getElementById('loading').classList.remove('show');
+      alert('加载价格数据失败: ' + err);
+    });
+}
+
+function renderPriceChart(data, markers) {
+  data = prepareChartData('price', data, markers);
+  if (!data) return;
+  markers = markers || {};
+  const scaleAxisBounds = calculateAxisBounds(
+    Object.values(data).flatMap(info => info.scales || [])
+  );
+  const priceAxisBounds = calculateAxisBounds(
+    Object.values(data).flatMap(info => info.prices || [])
+  );
+  const chartDom = document.getElementById('chart');
+  if (chart) {
+    chart.dispose();
+    chart = null;
+  }
+  chart = echarts.init(chartDom);
+  window.addEventListener('resize', () => chart.resize());
+
+  const colors = [
+    '#5470c6','#ee6666','#91cc75','#fac858','#73c0de','#3ba272','#fc8452',
+    '#9a60b4','#ea7ccc','#48b8d0','#6e7074','#c1232b','#b5c334','#2b821d'
+  ];
+
+  const sizeSeries = [];   // 左轴：规模
+  const priceSeries = [];  // 右轴：价格
+  const legendData = [];
+  let colorIdx = 0;
+
+  // 获取所有日期（取第一个基金的日期作为基准）
+  const entries = Object.entries(data);
+  if (entries.length === 0) return;
+  const allDates = entries[0][1].dates;
+
+  entries.forEach(([code, info]) => {
+    const c = colors[colorIdx % colors.length];
+    const fundLabel = info.name;
+
+    // 规模线（左轴，实线）
+    sizeSeries.push({
+      name: fundLabel + '-规模',
+      type: 'line',
+      yAxisIndex: 0,
+      data: info.scales,
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 3,
+      showSymbol: false,
+      lineStyle: { width: 2.5, color: c },
+      itemStyle: { color: c },
+      emphasis: { focus: 'series', lineStyle: { width: 4 } }
+    });
+    legendData.push(fundLabel + '-规模');
+
+    // 价格线（右轴，虚线，同色60%透明度）
+    if (info.has_prices) {
+      const rgba = hexToRgba(c, 0.55);
+      priceSeries.push({
+        name: fundLabel + '-价格',
+        type: 'line',
+        yAxisIndex: 1,
+        data: info.prices,
+        smooth: true,
+        symbol: 'diamond',
+        symbolSize: 3,
+        showSymbol: false,
+        lineStyle: { width: 2, color: rgba, type: 'dashed' },
+        itemStyle: { color: rgba },
+        emphasis: { focus: 'series', lineStyle: { width: 3 } }
+      });
+      legendData.push(fundLabel + '-价格');
+    }
+    // 叠加 信号/买卖点 标记
+    const m = markers[code] || {};
+    const scYMap = (d) => { const i = info.dates.indexOf(d); return i >= 0 ? info.scales[i] : null; };
+    const prYMap = (d) => { const i = info.dates.indexOf(d); return i >= 0 ? info.prices[i] : null; };
+    const scheme = getMarkerState().scheme;
+    // E2 信号 → 规模线（份额信号）
+    const sigMp = buildMarkPoint(m, info.dates, scYMap, scheme, 'signals');
+    if (sigMp) sizeSeries[sizeSeries.length - 1].markPoint = { silent: false, symbolOffset: [0, 0], data: sigMp };
+    // 买/卖 → 价格线；无价格时回退到规模线
+    if (info.has_prices) {
+      const bsMp = buildMarkPoint(m, info.dates, prYMap, scheme, 'buysells');
+      if (bsMp) priceSeries[priceSeries.length - 1].markPoint = { silent: false, symbolOffset: [0, 0], data: bsMp };
+    } else {
+      const bsMp = buildMarkPoint(m, info.dates, scYMap, scheme, 'buysells');
+      if (bsMp) sizeSeries[sizeSeries.length - 1].markPoint = { silent: false, symbolOffset: [0, 0], data: bsMp };
+    }
+    colorIdx++;
+  });
+
+  const option = {
+    title: {
+      text: '基金规模与收盘价趋势',
+      subtext: entries.length + '只基金 · 左轴：亿份 | 右轴：收盘价(元)',
+      left: 20,
+      top: 10,
+      textStyle: { fontSize: 16, fontWeight: 600, color: '#333' },
+      subtextStyle: { fontSize: 12, color: '#999' }
+    },
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: '#ddd',
+      borderWidth: 1,
+      textStyle: { color: '#333', fontSize: 12 },
+      formatter: function(params) {
+        let html = '<strong>' + params[0].axisValue + '</strong><br/>';
+        // Group by fund name
+        const groups = {};
+        params.forEach(p => {
+          const base = p.seriesName.replace(/-(规模|价格)$/, '');
+          if (!groups[base]) groups[base] = {};
+          groups[base][p.seriesName.indexOf('-规模') > -1 ? 'scale' : 'price'] = p;
+        });
+        Object.entries(groups).forEach(([name, g]) => {
+          html += '<div style="margin-top:4px;font-weight:600;color:#555;">' + name + '</div>';
+          if (g.scale) {
+            html += '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' +
+              g.scale.color + ';margin-right:4px;"></span>规模: <b>' +
+              g.scale.value.toFixed(0) + '</b> 亿份&nbsp;&nbsp;';
+          }
+          if (g.price && g.price.value != null) {
+            html += '<span style="display:inline-block;width:8px;height:8px;background:' +
+              g.price.color + ';margin-right:4px;"></span>价格: <b>' +
+              g.price.value.toFixed(3) + '</b> 元';
+          }
+        });
+        return html;
+      }
+    },
+    legend: {
+      type: 'scroll',
+      bottom: 0,
+      data: legendData,
+      textStyle: { fontSize: 10 }
+    },
+    grid: {
+      left: 60,
+      right: 80,
+      top: 70,
+      bottom: 60
+    },
+    xAxis: {
+      type: 'category',
+      data: allDates,
+      boundaryGap: false,
+      axisLine: { lineStyle: { color: '#ccc' } },
+      axisTick: { show: false },
+      axisLabel: {
+        fontSize: 11, color: '#999',
+        formatter: formatChartDate
+      }
+    },
+    yAxis: [
+      {
+        type: 'value',
+        scale: true,
+        ...scaleAxisBounds,
+        name: '亿份',
+        position: 'left',
+        nameTextStyle: { fontSize: 11, color: '#999' },
+        axisLabel: {
+          fontSize: 11, color: '#999',
+          formatter: v => v >= 10000 ? (v/10000).toFixed(1) + '万' : v.toFixed(0)
+        },
+        splitLine: { lineStyle: { color: '#f0f0f0' } }
+      },
+      {
+        type: 'value',
+        scale: true,
+        ...priceAxisBounds,
+        name: '收盘价 (元)',
+        position: 'right',
+        nameTextStyle: { fontSize: 11, color: '#999' },
+        axisLabel: {
+          fontSize: 11, color: '#999',
+          formatter: v => v.toFixed(2)
+        },
+        splitLine: { show: false }
+      }
+    ],
+    dataZoom: [{
+      type: 'slider',
+      start: 0,
+      end: 100,
+      height: 24,
+      bottom: 28,
+      borderColor: '#ddd',
+      fillerColor: 'rgba(46,125,50,0.1)',
+      handleStyle: { color: '#2e7d32' }
+    }],
+    series: sizeSeries.concat(priceSeries)
+  };
+
+  chart.setOption(option, true);
+
+  // 点击空白恢复
+  chart.getZr().on('click', function(e) {
+    if (!e.target) {
+      chart.dispatchAction({ type: 'restore' });
+    }
+  });
+}
+
+// 辅助函数：hex转rgba
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+}
+
+function doTotalScale() {
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('loading').classList.add('show');
+
+  fetch('/api/total-scale')
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('loading').classList.remove('show');
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+      renderTotalScaleChart(data);
+    })
+    .catch(err => {
+      document.getElementById('loading').classList.remove('show');
+      alert('加载总规模数据失败: ' + err);
+    });
+}
+
+function renderTotalScaleChart(data) {
+  data = prepareChartData('total', data);
+  if (!data) return;
+  const scaleAxisBounds = calculateAxisBounds(data.scales);
+  const amountAxisBounds = calculateAxisBounds(data.amounts || []);
+  const chartDom = document.getElementById('chart');
+  if (chart) {
+    chart.dispose();
+    chart = null;
+  }
+  chart = echarts.init(chartDom);
+  window.addEventListener('resize', () => chart.resize());
+
+  const hasAmount = data.amounts && data.amounts.some(a => a !== null);
+  const firstScale = data.scales[0];
+  const lastScale = data.scales[data.scales.length - 1];
+  const growth = lastScale - firstScale;
+  const growthPct = ((growth / firstScale) * 100).toFixed(1);
+
+  let subtitle = `${data.dates[0]} ~ ${data.latest_date}  |  `
+    + `规模: ${firstScale.toFixed(0)} 亿 → ${lastScale.toFixed(0)} 亿`
+    + ` (${growth >= 0 ? '+' : ''}${growth.toFixed(0)} 亿, ${growthPct}%)`
+    + ` | ${data.latest_count} 只 ETF`;
+
+  if (hasAmount && data.latest_amount) {
+    const firstAmount = data.amounts.find(a => a !== null);
+    const lastAmount = data.latest_amount;
+    subtitle += `  |  金额: ${data.latest_amount.toFixed(0)} 亿元`;
+  }
+
+  // Build series
+  const series = [
+    {
+      name: '总规模',
+      type: 'line',
+      yAxisIndex: 0,
+      data: data.scales,
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 4,
+      showSymbol: false,
+      lineStyle: { width: 3, color: '#6a1b9a' },
+      itemStyle: { color: '#6a1b9a' },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(106,27,154,0.2)' },
+          { offset: 1, color: 'rgba(106,27,154,0.02)' }
+        ])
+      }
+    }
+  ];
+
+  const yAxis = [
+    {
+      type: 'value',
+      scale: true,
+      ...scaleAxisBounds,
+      name: '亿份',
+      position: 'left',
+      nameTextStyle: { fontSize: 11, color: '#999' },
+      axisLabel: {
+        fontSize: 11, color: '#999',
+        formatter: v => (v / 10000).toFixed(2) + '万'
+      },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    }
+  ];
+
+  if (hasAmount) {
+    series.push({
+      name: '总金额',
+      type: 'line',
+      yAxisIndex: 1,
+      data: data.amounts,
+      smooth: true,
+      symbol: 'diamond',
+      symbolSize: 4,
+      showSymbol: false,
+      lineStyle: { width: 3, color: '#e65c00' },
+      itemStyle: { color: '#e65c00' },
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(230,92,0,0.2)' },
+          { offset: 1, color: 'rgba(230,92,0,0.02)' }
+        ])
+      }
+    });
+    yAxis.push({
+      type: 'value',
+      scale: true,
+      ...amountAxisBounds,
+      name: '亿元',
+      position: 'right',
+      nameTextStyle: { fontSize: 11, color: '#e65c00' },
+      axisLabel: {
+        fontSize: 11, color: '#e65c00',
+        formatter: v => (v / 10000).toFixed(1) + 'w'
+      },
+      splitLine: { show: false }
+    });
+  }
+
+  const option = {
+    title: {
+      text: 'ETF 市场总规模 & 总金额',
+      subtext: subtitle,
+      left: 20,
+      top: 10,
+      textStyle: { fontSize: 16, fontWeight: 600, color: '#333' },
+      subtextStyle: { fontSize: 11, color: '#999' }
+    },
+    legend: {
+      data: ['总规模'].concat(hasAmount ? ['总金额'] : []),
+      right: 20,
+      top: 10,
+      textStyle: { fontSize: 12 }
+    },
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: '#ddd',
+      borderWidth: 1,
+      textStyle: { color: '#333', fontSize: 12 },
+      formatter: function(params) {
+        const idx = params[0].dataIndex;
+        let html = '<strong>' + params[0].axisValue + '</strong><br/>';
+        params.forEach(p => {
+          const val = p.value != null ? p.value.toFixed(p.seriesName === '总金额' ? 0 : 0) : 'N/A';
+          html += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'
+            + p.color + ';margin-right:6px;"></span>'
+            + p.seriesName + ': <b>' + val + '</b> '
+            + (p.seriesName === '总规模' ? '亿份' : '亿元') + '<br/>';
+        });
+        html += 'ETF: <b>' + data.fund_counts[idx] + '</b> 只';
+        if (data.priced_counts && data.priced_counts[idx]) {
+          html += ' (有价: ' + data.priced_counts[idx] + ' 只)';
+        }
+        // 日环比
+        if (idx > 0) {
+          const prevS = data.scales[idx - 1];
+          const chgS = data.scales[idx] - prevS;
+          const signS = chgS >= 0 ? '+' : '';
+          html += '<br/>规模日变动: <b style="color:' + (chgS >= 0 ? '#d32f2f' : '#388e3c') + '">'
+            + signS + chgS.toFixed(0) + '</b> 亿份';
+          if (hasAmount && data.amounts[idx] != null && data.amounts[idx - 1] != null) {
+            const chgA = data.amounts[idx] - data.amounts[idx - 1];
+            const signA = chgA >= 0 ? '+' : '';
+            html += '&nbsp;&nbsp;金额日变动: <b style="color:' + (chgA >= 0 ? '#d32f2f' : '#388e3c') + '">'
+              + signA + chgA.toFixed(0) + '</b> 亿元';
+          }
+        }
+        return html;
+      }
+    },
+    grid: {
+      left: 80,
+      right: hasAmount ? 90 : 80,
+      top: 80,
+      bottom: 60
+    },
+    xAxis: {
+      type: 'category',
+      data: data.dates,
+      boundaryGap: false,
+      axisLine: { lineStyle: { color: '#ccc' } },
+      axisTick: { show: false },
+      axisLabel: {
+        fontSize: 11, color: '#999',
+        formatter: formatChartDate
+      }
+    },
+    yAxis: yAxis,
+    dataZoom: [{
+      type: 'slider',
+      start: 0,
+      end: 100,
+      height: 24,
+      bottom: 28,
+      borderColor: '#ddd',
+      fillerColor: 'rgba(106,27,154,0.1)',
+      handleStyle: { color: '#6a1b9a' }
+    }],
+    series: series
+  };
+
+  chart.setOption(option, true);
+
+  chart.getZr().on('click', function(e) {
+    if (!e.target) {
+      chart.dispatchAction({ type: 'restore' });
+    }
+  });
+}
+
+function doAnalysis() {
+  if (selectedCodes.size === 0) {
+    alert('请先选择至少一只基金');
+    return;
+  }
+  const codes = Array.from(selectedCodes).join(',');
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('loading').classList.add('show');
+
+  const state = getMarkerState();
+  Promise.all([
+    fetch('/api/trend/' + codes).then(r => r.json()),
+    state.enabled ? fetchMarkers(codes) : Promise.resolve({})
+  ]).then(([trend, markers]) => {
+      document.getElementById('loading').classList.remove('show');
+      renderChart(trend, markers);
+    })
+    .catch(err => {
+      document.getElementById('loading').classList.remove('show');
+      alert('加载数据失败: ' + err);
+    });
+}
+
+function renderChart(data, markers) {
+  data = prepareChartData('trend', data, markers);
+  if (!data) return;
+  markers = markers || {};
+  const scaleAxisBounds = calculateAxisBounds(
+    Object.values(data).flatMap(info => info.scales || [])
+  );
+  const chartDom = document.getElementById('chart');
+  if (!chart) {
+    chart = echarts.init(chartDom);
+    window.addEventListener('resize', () => chart.resize());
+  }
+
+  const series = [];
+  const colors = [
+    '#5470c6','#ee6666','#91cc75','#fac858','#73c0de','#3ba272','#fc8452',
+    '#9a60b4','#ea7ccc','#48b8d0','#6e7074','#c1232b','#b5c334','#2b821d',
+    '#d48265','#61a0a8','#ca8622','#749f83','#c4ccd3'
+  ];
+
+  let colorIdx = 0;
+  let seriesMap = {}; // code -> series index
+  Object.entries(data).forEach(([code, info]) => {
+    seriesMap[code] = series.length;
+    series.push({
+      name: info.name,
+      type: 'line',
+      data: info.scales,
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 4,
+      showSymbol: false,
+      clip: false,
+      lineStyle: { width: 2, color: colors[colorIdx % colors.length] },
+      itemStyle: { color: colors[colorIdx % colors.length] },
+      emphasis: { focus: 'series', lineStyle: { width: 4 } },
+      select: {
+        lineStyle: { width: 4, shadowBlur: 8, shadowColor: 'rgba(0,0,0,0.3)' },
+        itemStyle: { borderWidth: 2, borderColor: '#fff' }
+      },
+      endLabel: {
+        show: true,
+        formatter: info.name,
+        color: colors[colorIdx % colors.length],
+        fontSize: 11,
+        offset: [5, 0],
+        overflow: 'none'
+      }
+    });
+    // 在该基金的规模线上叠加 信号/买卖点 标记
+    const m = markers[code] || {};
+    const yMap = (d) => {
+      const i = info.dates.indexOf(d);
+      return i >= 0 ? info.scales[i] : null;
+    };
+    const mp = buildMarkPoint(m, info.dates, yMap, getMarkerState().scheme);
+    if (mp) series[series.length - 1].markPoint = {
+      silent: false,
+      symbolOffset: [0, 0],
+      data: mp
+    };
+    colorIdx++;
+  });
+
+  // 获取所有日期（取第一个基金的日期作为基准）
+  const firstCode = Object.keys(data)[0];
+  const allDates = firstCode ? data[firstCode].dates : [];
+
+  const option = {
+    title: {
+      text: '基金规模趋势',
+      subtext: '单位：亿份',
+      left: 20,
+      top: 10,
+      textStyle: { fontSize: 16, fontWeight: 600, color: '#333' },
+      subtextStyle: { fontSize: 12, color: '#999' }
+    },
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(255,255,255,0.95)',
+      borderColor: '#ddd',
+      borderWidth: 1,
+      textStyle: { color: '#333', fontSize: 12 },
+      formatter: function(params) {
+        let html = `<strong>${params[0].axisValue}</strong><br/>`;
+        params.forEach(p => {
+          html += `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:6px;"></span>`;
+          html += `${p.seriesName}: <b>${p.value.toFixed(0)}</b> 亿份<br/>`;
+        });
+        return html;
+      }
+    },
+    legend: {
+      type: 'scroll',
+      bottom: 0,
+      data: series.map(s => s.name),
+      textStyle: { fontSize: 11 }
+    },
+    grid: {
+      left: 60,
+      right: 160,
+      top: 70,
+      bottom: 60
+    },
+    xAxis: {
+      type: 'category',
+      data: allDates,
+      boundaryGap: false,
+      axisLine: { lineStyle: { color: '#ccc' } },
+      axisTick: { show: false },
+      axisLabel: {
+        fontSize: 11, color: '#999',
+        formatter: formatChartDate
+      }
+    },
+    yAxis: {
+      type: 'value',
+      scale: true,
+      ...scaleAxisBounds,
+      name: '亿份',
+      nameTextStyle: { fontSize: 11, color: '#999' },
+      axisLabel: {
+        fontSize: 11, color: '#999',
+        formatter: v => v >= 10000 ? (v/10000).toFixed(1) + '万' : v.toFixed(0)
+      },
+      splitLine: { lineStyle: { color: '#f0f0f0' } }
+    },
+    dataZoom: [
+      {
+        type: 'slider',
+        start: 0,
+        end: 100,
+        height: 24,
+        bottom: 28,
+        borderColor: '#ddd',
+        fillerColor: 'rgba(45,106,160,0.1)',
+        handleStyle: { color: '#2d6aa0' }
+      }
+    ],
+    series: series
+  };
+
+  chart.setOption(option, true);
+
+  // 点击曲线：高亮选中基金，其他变暗，并显示tooltip
+  chart.off('click');
+  chart.on('click', function(params) {
+    if (params.componentType === 'series') {
+      // 先把所有系列downplay
+      series.forEach((s, idx) => {
+        if (idx !== params.seriesIndex) {
+          chart.dispatchAction({ type: 'downplay', seriesIndex: idx });
+        }
+      });
+      // 高亮选中
+      chart.dispatchAction({ type: 'highlight', seriesIndex: params.seriesIndex });
+      chart.dispatchAction({ type: 'showTip', seriesIndex: params.seriesIndex, dataIndex: params.dataIndex });
+    }
+  });
+
+  // 点击空白区域恢复所有
+  chart.getZr().on('click', function(e) {
+    if (!e.target) {
+      series.forEach((s, idx) => {
+        chart.dispatchAction({ type: 'highlight', seriesIndex: idx });
+      });
+      chart.dispatchAction({ type: 'hideTip' });
+    }
+  });
+}
+</script>
+</body>
+</html>
