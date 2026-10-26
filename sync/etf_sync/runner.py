@@ -16,7 +16,7 @@ from .published_bundle import build_published_bundle
 COLLECTIONS = (
     "etf_master", "etf_history", "ranking_snapshots", "streak_snapshots",
     "anomaly_snapshots", "sector_snapshots", "sync_batches", "publish_status",
-    "user_watchlists", "user_entitlements", "sync_locks",
+    "user_watchlists", "user_entitlements", "user_members", "sync_locks",
 )
 
 

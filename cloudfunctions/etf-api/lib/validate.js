@@ -4,7 +4,7 @@ const CODE = /^\d{6}$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const ACTIONS = new Set([
   'status', 'rankings', 'search', 'detail', 'streaks', 'anomalies', 'sectors',
-  'sectorSamples', 'watchlist.list', 'watchlist.add', 'watchlist.remove', 'user.status'
+  'sectorSamples', 'watchlist.list', 'watchlist.add', 'watchlist.remove', 'user.status', 'member.apply'
 ]);
 
 function action(value) {
@@ -56,5 +56,13 @@ function oneOf(value, allowed, fallback, label) {
   return result;
 }
 
-module.exports = { action, code, date, keyword, page, pageSize, period, oneOf };
+function memberName(value, label, maxLength) {
+  const result = String(value || '').trim();
+  if (!result) throw badRequest(`请填写${label}`);
+  if (result.length > maxLength) throw badRequest(`${label}不能超过${maxLength}个字符`);
+  if (/[\u0000-\u001f\u007f]/.test(result)) throw badRequest(`${label}包含不支持的字符`);
+  return result;
+}
+
+module.exports = { action, code, date, keyword, page, pageSize, period, oneOf, memberName };
 

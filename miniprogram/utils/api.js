@@ -32,7 +32,8 @@ function demoCall(action,args){
   if(action==='watchlist.list'){ const codes=readWatch(); return wait({items:codes.map(code=>({code,snapshot:demo.funds.find(i=>i.code===code)})).filter(i=>i.snapshot),release:demo.status}); }
   if(action==='watchlist.add'){ const items=readWatch(); if(!items.includes(args.code)) writeWatch([args.code,...items]); return wait({code:args.code,added:true}); }
   if(action==='watchlist.remove'){ writeWatch(readWatch().filter(code=>code!==args.code)); return wait({code:args.code,removed:true}); }
-  if(action==='user.status') return wait({tier:'basic',membershipActive:false,expiresAt:null,source:'demo',plansOpen:false});
+  if(action==='user.status') return wait({tier:'member',membershipActive:true,applicationStatus:'active',memberStartDate:'2026-01-01',memberEndDate:'2099-12-31',source:'demo',plansOpen:false});
+  if(action==='member.apply') return wait({tier:'member',membershipActive:true,applicationStatus:'active',source:'demo',submitted:false,message:'演示模式默认已开放会员功能，不会提交真实申请。'});
   throw new Error('未知演示操作');
 }
 

@@ -38,6 +38,10 @@ INDEXES = {
         {"name": "openid_created", "key": {"openid": 1, "created_at": -1}},
         {"name": "openid_code_unique", "key": {"openid": 1, "code": 1}, "unique": True},
     ],
+    "user_members": [
+        {"name": "openid_unique", "key": {"openid": 1}, "unique": True},
+        {"name": "status_applied", "key": {"status": 1, "applied_at": 1}},
+    ],
 }
 
 

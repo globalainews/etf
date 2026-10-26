@@ -1,11 +1,11 @@
 const crypto = require('crypto');
-const { noData, forbidden } = require('./errors');
+const { noData, forbidden, membershipRequired } = require('./errors');
 const v = require('./validate');
 
 const COLLECTION = {
   status: 'publish_status', master: 'etf_master', history: 'etf_history', ranking: 'ranking_snapshots',
   streak: 'streak_snapshots', anomaly: 'anomaly_snapshots', sector: 'sector_snapshots',
-  watchlist: 'user_watchlists', entitlement: 'user_entitlements'
+  watchlist: 'user_watchlists', entitlement: 'user_entitlements', member: 'user_members'
 };
 
 const watchId = (openid, code) => crypto.createHash('sha256').update(`${openid}:${code}`).digest('hex');
@@ -32,6 +32,43 @@ function createService(db, getContext) {
     return { openid: value.OPENID, appid: value.APPID || '' };
   }
 
+  function chinaDate() {
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' })
+      .format(new Date());
+  }
+
+  function publicMember(stored) {
+    if (!stored) return {
+      tier: 'basic', membershipActive: false, applicationStatus: 'not_applied',
+      memberStartDate: null, memberEndDate: null, source: 'default', plansOpen: false
+    };
+    const today = chinaDate();
+    const active = stored.status === 'active' && stored.is_member === true
+      && (!stored.member_start_date || stored.member_start_date <= today)
+      && (!stored.member_end_date || stored.member_end_date >= today);
+    const applicationStatus = active ? 'active'
+      : (stored.status === 'active' && stored.member_end_date && stored.member_end_date < today ? 'expired' : (stored.status || 'pending'));
+    return {
+      tier: active ? 'member' : 'basic', membershipActive: active, applicationStatus,
+      memberStartDate: stored.member_start_date || null, memberEndDate: stored.member_end_date || null,
+      nickname: stored.nickname || '', videoMemberName: stored.video_member_name || '',
+      appliedAt: stored.applied_at || null, reviewedAt: stored.reviewed_at || null,
+      reviewNote: stored.review_note || '', source: 'cloud', plansOpen: false
+    };
+  }
+
+  async function memberFor(openid) {
+    return one(COLLECTION.member, { _id: userId(openid) });
+  }
+
+  async function requireMember(openid) {
+    const member = publicMember(await memberFor(openid));
+    if (!member.membershipActive) {
+      throw membershipRequired('搜索和新增自选仅向已同步的会员开放，请先成为视频号：Global速览的会员后提交核验。');
+    }
+    return member;
+  }
+
   async function paged(collection, where, order, args) {
     const page = v.page(args.page);
     const pageSize = v.pageSize(args.pageSize);
@@ -55,6 +92,8 @@ function createService(db, getContext) {
   }
 
   async function search(args) {
+    const { openid } = context();
+    await requireMember(openid);
     const release = await current();
     const term = v.keyword(args.keyword);
     const limit = Math.min(v.pageSize(args.pageSize || 20), 20);
@@ -134,6 +173,7 @@ function createService(db, getContext) {
 
   async function watchlistAdd(args) {
     const { openid } = context();
+    await requireMember(openid);
     const code = v.code(args.code);
     const exists = await one(COLLECTION.master, { _id: code });
     if (!exists) throw noData('数据库中没有该ETF记录');
@@ -153,19 +193,33 @@ function createService(db, getContext) {
 
   async function userStatus() {
     const { openid } = context();
-    const stored = await one(COLLECTION.entitlement, { _id: userId(openid) });
-    if (!stored) return { tier: 'basic', membershipActive: false, expiresAt: null, source: 'default', plansOpen: false };
-    return {
-      tier: stored.tier === 'member' ? 'member' : 'basic',
-      membershipActive: stored.status === 'active',
-      expiresAt: stored.expires_at || null,
-      source: 'cloud', plansOpen: false
+    return publicMember(await memberFor(openid));
+  }
+
+  async function memberApply(args) {
+    const { openid } = context();
+    const nickname = v.memberName(args.nickname, '微信昵称', 32);
+    const videoMemberName = v.memberName(args.videoMemberName, '视频号会员名称', 40);
+    const id = userId(openid);
+    const previous = await memberFor(openid);
+    if (previous && previous.status === 'active' && publicMember(previous).membershipActive) {
+      return { ...publicMember(previous), submitted: false, message: '会员资格已生效，无需重复提交。' };
+    }
+    const now = db.serverDate();
+    const record = {
+      ...(previous || {}), _id: id, openid, nickname, video_member_name: videoMemberName,
+      status: 'pending', is_member: false, applied_at: previous && previous.applied_at ? previous.applied_at : now,
+      resubmitted_at: previous ? now : null, reviewed_at: null, review_note: '', review_source: '', updated_at: now,
+      schema_version: '1.0'
     };
+    await db.collection(COLLECTION.member).doc(id).set({ data: record });
+    return { ...publicMember({ ...record, status: 'pending' }), submitted: true,
+      message: '申请已提交。请先成为视频号：Global速览的会员，管理员核验后同步权益。' };
   }
 
   return { status, rankings, search, detail, streaks, anomalies, sectors, sectorSamples,
     'watchlist.list': watchlistList, 'watchlist.add': watchlistAdd, 'watchlist.remove': watchlistRemove,
-    'user.status': userStatus };
+    'user.status': userStatus, 'member.apply': memberApply };
 }
 
 module.exports = { createService, watchId, userId, COLLECTION };

@@ -24,7 +24,7 @@
       <view wx:if="{{!items.length}}" class="empty">当前批次没有可靠结果</view>
       <view wx:for="{{items}}" wx:key="code" class="row" data-code="{{item.code}}" bindtap="openDetail">
         <text class="rank">{{index+1}}</text><view class="row-main"><view class="name">{{item.name}}</view><view class="code">{{item.code}} · {{item.sector || '分类缺失'}}</view></view>
-        <view class="metrics"><text class="metric-main {{item.tone}}">{{item.mainText}}</text><text class="metric-sub">份额 {{item.rateText}} · 价格 {{item.priceText}}</text></view>
+        <view class="metrics"><text class="metric-main {{item.tone}}">{{item.mainText}}</text><text class="metric-sub">{{item.subText}}</text></view>
       </view>
       <view class="load-more" bindtap="openFull">查看完整榜单 ›</view>
     </view>
