@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ETF龙虎榜视频工作台</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='ranking-video.css') }}">
+  <script defer src="{{ url_for('static', filename='ranking-video.js') }}"></script>
+</head>
+<body>
+<main class="workbench" id="videoWorkbench" data-token="{{ video_token }}">
+  <header class="wb-header">
+    <div><a href="/" class="back-link">← 返回基金分析</a><p>LOCAL VIDEO STUDIO · 1080 × 1920</p><h1>ETF 龙虎榜视频工作台</h1></div>
+    <div id="releaseStatus" class="release-status">读取已发布批次…</div>
+  </header>
+  <section class="wb-grid">
+    <aside class="wb-control card">
+      <h2>项目设置</h2>
+      <label>统计交易日<select id="videoDate" aria-label="统计交易日"></select></label>
+      <div class="date-nav"><button data-shift="previous">‹ 前一交易日</button><button data-shift="next">后一交易日 ›</button></div>
+      <label>视频预设<select id="videoPreset"><option value="daily-20s">每日双榜＋焦点 · 约20秒</option></select></label>
+      <label>焦点选择<select id="focusMode"><option value="auto">自动推荐</option><option value="manual">人工选择</option></select></label>
+      <label id="focusCodeWrap" hidden>焦点ETF<select id="focusCode"></select></label>
+      <div class="divider"></div>
+      <h3>场景</h3>
+      <label class="check"><input type="checkbox" checked disabled> 开场</label>
+      <label class="check"><input type="checkbox" checked disabled> 增加榜 TOP5</label>
+      <label class="check"><input type="checkbox" checked disabled> 减少榜 TOP5</label>
+      <label class="check"><input type="checkbox" checked disabled> 焦点观察</label>
+      <label class="check"><input type="checkbox" checked disabled> 品牌结尾</label>
+      <button id="refreshProject" class="secondary">更新预览</button>
+      <button id="renderSelected" class="secondary">渲染当前场景</button>
+      <button id="renderAll" class="primary">生成完整素材包</button>
+      <p class="local-note">只读取当前已发布SQLite批次；渲染不会修改行情、排行榜或云端数据。</p>
+    </aside>
+    <section class="wb-preview card">
+      <div class="preview-head"><div><span id="sceneLabel">开场</span><strong id="previewTitle">视频预览</strong></div><label class="safe-toggle"><input id="safeOverlay" type="checkbox"> 显示安全区</label></div>
+      <div class="phone-stage"><div id="previewLoading" class="preview-loading">正在载入视频画面…</div><iframe id="framePreview" title="ETF龙虎榜视频场景预览"></iframe><div id="safeBox" class="safe-box" hidden></div></div>
+      <div class="timeline" id="timeline" aria-label="视频时间线"></div>
+    </section>
+    <aside class="wb-inspect">
+      <section class="card inspect-card"><h2>数据与推荐</h2><div id="projectMeta" class="meta-list">读取中…</div><div class="focus-reason"><span>焦点推荐</span><strong id="focusReason">—</strong></div></section>
+      <section class="card inspect-card"><h2>旁白与字幕</h2><ol id="narrationList" class="narration-list"></ol></section>
+      <section class="card inspect-card"><h2>质量检查</h2><ul id="qaList" class="qa-list"></ul></section>
+      <section class="card inspect-card"><h2>渲染状态</h2><pre id="jobStatus">尚未开始渲染</pre></section>
+    </aside>
+  </section>
+</main>
+</body>
+</html>

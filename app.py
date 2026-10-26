@@ -3,6 +3,7 @@
 import sys
 import os
 import re
+import secrets
 import sqlite3
 from contextlib import closing
 from datetime import datetime
@@ -16,9 +17,14 @@ from src.etf_rankings.ranking_service import (
     build_rankings,
 )
 from src.etf_rankings.web_api import mini_api
+from src.etf_rankings.video_api import video_api
 
 app = Flask(__name__)
 app.register_blueprint(mini_api)
+app.register_blueprint(video_api)
+# This process-local token protects localhost rendering actions from unrelated
+# pages.  It is intentionally not persisted and does not grant database access.
+app.config["ETF_VIDEO_TOKEN"] = secrets.token_urlsafe(24)
 
 def load_data():
     """从 etf.db 加载份额数据 + 基金属性（列名与旧 xlsx 保持一致）"""
@@ -140,6 +146,23 @@ def index():
 def ranking_app():
     """Responsive local-web counterpart of the native mini program."""
     return render_template('ranking_app.html')
+
+
+@app.route('/ranking-video')
+def ranking_video():
+    """Desktop workbench; data remains read-only until a material render starts."""
+    return render_template('ranking_video.html', video_token=app.config["ETF_VIDEO_TOKEN"])
+
+
+@app.route('/ranking-video/frame/<scene>')
+def ranking_video_frame(scene):
+    """A deliberately isolated 1080×1920 video frame, without application chrome."""
+    if scene not in {"open", "increase", "decrease", "focus", "closing"}:
+        return "视频场景不存在", 404
+    return render_template('ranking_video_frame.html', scene=scene,
+                           requested_date=request.args.get('date', ''),
+                           focus_code=request.args.get('focus_code', ''),
+                           embedded=request.args.get('embed') == '1')
 
 
 @app.route('/api/themes')

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080,height=1920,initial-scale=1">
+  <title>ETF龙虎榜视频场景</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='ranking-video-frame.css') }}">
+  <script>window.__VIDEO_SCENE__={{ scene|tojson }};window.__VIDEO_DATE__={{ requested_date|tojson }};window.__VIDEO_FOCUS__={{ focus_code|tojson }};window.__VIDEO_EMBED__={{ embedded|tojson }};</script>
+  <script defer src="{{ url_for('static', filename='ranking-video-frame.js') }}"></script>
+</head>
+<body><article id="videoFrame" class="video-frame"><div class="loading">正在准备视频画面…</div></article></body>
+</html>

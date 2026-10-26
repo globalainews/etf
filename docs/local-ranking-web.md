@@ -8,6 +8,10 @@ SQLite事务中替换受影响日期并更新 `etf_calc_publish_status/current`�
 
 云同步只读取该发布指针；未发布或失败批次不会进入CloudBase。
 
+云端发布以单文档 `publish_status/current` 为原子可见性边界：业务文档校验完成后先把
+`sync_batches` 标为 `validated`，再原子更新当前指针，最后补记 `published` 审计状态。
+不依赖容易超过30秒时限的跨文档REST事务；指针写入失败时旧指针保持不变。
+
 ## 2. 首次回填
 
 建议先备份 `etf.db`，再执行：
@@ -48,6 +52,7 @@ F:\anaconda3\python.exe -X utf8 app.py
 
 - 原有首页：`http://127.0.0.1:5010/`
 - 完整龙虎榜：`http://127.0.0.1:5010/ranking-app`
+- 视频工作台：`http://127.0.0.1:5010/ranking-video`
 
 端口被占用时可在当前PowerShell会话设置：
 
@@ -90,6 +95,18 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
 
 真实云写入仍需要 `.env.example` 中列出的CloudBase环境变量。不会从Web页面或小程序包内读取服务端密钥。
 
+完整同步会核验每个 CloudBase `runCommands` 更新结果；任一批次未得到足额服务端确认就会失败，
+并且不会切换发布指针。当前网关的集合列表/计数REST端点与API Key通道不兼容，因此不把其
+错误的零计数作为发布依据。
+
+若希望在完整上传前单独完成这一步，可先运行：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --write-probe
+```
+
+输出 `"ok": true` 后，再运行完整 `--initial`。
+
 如果首次上传已完成全部集合，但只在最终发布指针事务处失败，不要重新上传14万条历史。
 使用恢复模式校验云端各集合计数，并只重试发布指针：
 
@@ -99,6 +116,14 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --resume-publish
 
 恢复模式不会写入ETF业务集合。即使旧版失败时没有留下 `sync_batches` 标记，仍可用实际
 `release_id` 记录数完成受限恢复；任何集合计数不匹配时都会拒绝发布，届时才需要重新执行完整同步。
+
+如果 CloudBase 控制台已人工确认该失败批次的业务文档完整，但 REST 查询兼容性校验不可用，
+可使用更严格的人工核验发布命令。它要求云端存在同一 `release_id`、`release_seq` 和记录数的
+失败批次，只发布指针，不会读写ETF业务集合：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --publish-verified
+```
 
 恢复前或环境ID可能填错时，可执行只读诊断（不会写入云端）：
 
@@ -112,25 +137,74 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --diagnose-cloud
 同步客户端使用 CloudBase `POST documents:count` 条件计数接口校验 `release_id`，不能用集合
 总数代替批次一致性校验。
 
-## 6. 视频素材
+## 6. 视频素材工作台
+
+`/ranking-video` 是独立于手机龙虎榜的本地视频生产界面。它只读取
+`etf_calc_publish_status/current` 指向的 SQLite 已发布批次，不会重新计算排名，
+不会写回行情或云端。
+
+默认预设为“每日双榜＋焦点”，输出约20秒的五段项目：开场、增加TOP5、减少TOP5、
+焦点ETF、品牌结尾。可选择任何已物化的历史交易日，并可在当天可靠ETF样本中手动
+替换焦点。自动焦点按“异动→连续变化不少于3日→绝对变化率”顺序选择；特殊事件、
+质量异常和关键数据缺失记录不会自动入选。
+
+视频纯画面路由为：
+
+```text
+http://127.0.0.1:5010/ranking-video/frame/open?date=YYYY-MM-DD
+http://127.0.0.1:5010/ranking-video/frame/increase?date=YYYY-MM-DD
+http://127.0.0.1:5010/ranking-video/frame/decrease?date=YYYY-MM-DD
+http://127.0.0.1:5010/ranking-video/frame/focus?date=YYYY-MM-DD
+http://127.0.0.1:5010/ranking-video/frame/closing?date=YYYY-MM-DD
+```
+
+所有纯画面固定为1080×1920，采用Global简读深色编辑风，并在字体、溢出、批次、
+统计日和安全区检查通过后才暴露 `window.__videoRenderState.status="ready"`。
+
+### 命令行素材包
 
 先启动Web，然后执行：
 
 ```powershell
-# 输出JSON、审计、7个HTML场景、旁白和SRT
-F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.video_cli --render data
+# 输出项目JSON、审计、5个离线HTML场景、动态旁白和SRT
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.video_cli --preset daily-20s --render data
 
-# 额外调用agent-browser生成7张1080×1920 PNG
-F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.video_cli --render stills
+# 启动本地Web后，额外生成5张1080×1920 PNG
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.video_cli --preset daily-20s --render stills
+
+# 指定历史日并人工指定当日可靠ETF为焦点
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.video_cli --date 2026-10-23 --focus-code 510300 --render all
 ```
 
 可用 `--date YYYY-MM-DD`、`--base-url http://127.0.0.1:5011` 和 `--output <目录>`
 指定历史日、Web端口和输出位置。默认输出位于
 `output/etf-ranking-video/YYYYMMDD`，该目录被Git忽略。
 
-视频模式支持日增、日减、连续、异动、板块、ETF详情和TOP10结尾。
-数据质量未达发布条件时仅写 `_SKIP.json`。旧的FFmpeg/TTS合成可继续消费这些PNG、
-`narration.txt`和 `narration.srt`；素材程序本身不重新计算榜单。
+默认输出位于 `output/etf-ranking-video/YYYYMMDD/`：
+
+```text
+video-project.json     # 场景、批次、数据、焦点和品牌配置
+content.json/audit.json
+pages/                 # 可离线打开的1080×1920 HTML素材页
+frames/                # 仅 --render stills/all 时生成的PNG
+narration.json/.txt/.srt
+qa-report.json         # 分辨率、时长、批次和渲染检查
+manifest.json          # 输出文件SHA-256清单
+```
+
+数据质量未达发布条件或渲染质量检查失败时仅写 `_SKIP.json`，不会生成可交付的
+成功清单。Global 视频程序应读取 `video-project.json`、PNG、`narration.json` 和
+`manifest.json`，不得重新计算排名。
+
+当五张PNG已经生成后，可先由 Global 适配器进行只读交接校验：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 D:\antigravity\etf_longhubang\workbench_adapter.py `
+  "D:\claude projects\ETF\output\etf-ranking-video\20261023"
+```
+
+适配器校验 `_SKIP.json`、批次、交易日、质量报告、五个场景和 manifest SHA-256，
+输出 `global-handoff.json`。它不会从原始ETF表重新计算日榜。
 
 ## 7. 验收
 

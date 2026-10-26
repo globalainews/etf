@@ -15,3 +15,22 @@ $env:ETF_DB_PATH="D:\claude projects\ETF\etf.db"
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial
 
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --resume-publish
+
+cd "D:\claude projects\ETF"
+
+# 1. 先照常完成原有ETF采集、价格更新和视频流程
+
+# 2. 计算当天/修正范围的本地派生榜单，并原子发布到SQLite
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --incremental
+
+# 3. 检查本地发布批次
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --verify
+
+# 4. 仅预览待同步内容，不写云端
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --dry-run
+
+# 5. 确认预览日期和数量正常后，执行云端增量同步
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
+
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --correction-from 2026-10-20
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --correction-from 2026-10-20

@@ -83,6 +83,20 @@ class HttpCloudbaseClient:
     def run_commands(self, commands: list[dict]) -> Any:
         return self._request("POST", "/commands", {"commands": commands})
 
+    @staticmethod
+    def _command_groups(result: Any) -> list[list[Any]]:
+        """Normalize the documented runCommands result, preserving each command."""
+        value = result.get("list", result.get("data", {}).get("list", [])) if isinstance(result, dict) else []
+        if not isinstance(value, list) or not value:
+            return []
+        return value if isinstance(value[0], list) else [value]
+
+    @classmethod
+    def _command_rows(cls, result: Any) -> list[Any]:
+        """Return rows for the first command, used by single-command helpers."""
+        groups = cls._command_groups(result)
+        return groups[0] if groups else []
+
     def get_document(self, collection: str, doc_id: str) -> dict | None:
         try:
             return self._request("GET", f"/collections/{parse.quote(collection)}/documents/{parse.quote(doc_id)}")
@@ -92,15 +106,11 @@ class HttpCloudbaseClient:
             raise
 
     def find_documents(self, collection: str, query: dict, *, limit: int = 1, skip: int = 0) -> list[dict]:
-        """Use CloudBase's documented :find endpoint and decode EJSON rows."""
-        result = self._request(
-            "POST",
-            f"/collections/{parse.quote(collection)}/documents:find",
-            {"query": json.dumps(query, ensure_ascii=False, separators=(",", ":"))},
-            query={"limit": str(limit), "skip": str(skip)},
-        )
-        data = result.get("data", result)
-        rows = data.get("list", []) if isinstance(data, dict) else []
+        """Read through runCommands, the same documented API as writes."""
+        result = self.run_commands([{
+            "find": collection, "filter": query, "limit": limit, "skip": skip,
+        }])
+        rows = self._command_rows(result)
         parsed: list[dict] = []
         for row in rows:
             value = _decode_ejson(json.loads(row)) if isinstance(row, str) else row
@@ -122,19 +132,35 @@ class HttpCloudbaseClient:
                 if not doc.get("_id"):
                     raise ValueError(f"{collection} document missing _id")
                 updates.append({"q": {"_id": doc["_id"]}, "u": {"$set": doc}, "upsert": True, "multi": False})
-            self._request("POST", "/commands", {"commands": [{"update": collection, "updates": updates}]})
+            result = self._request("POST", "/commands", {"commands": [{"update": collection, "updates": updates}]})
+            rows = self._command_rows(result)
+            if not rows:
+                raise CloudbaseError(f"CloudBase update returned no result for {collection}")
+            changed = 0
+            for row in rows:
+                if not isinstance(row, dict):
+                    raise CloudbaseError(f"CloudBase update returned an invalid result for {collection}")
+                if row.get("ok") in (0, False) or row.get("code"):
+                    raise CloudbaseError(f"CloudBase update failed for {collection}: {row.get('message') or row}")
+                changed += int(row.get("n", 0))
+            if changed < len(chunk):
+                raise CloudbaseError(
+                    f"CloudBase update acknowledged {changed} of {len(chunk)} documents for {collection}"
+                )
             written += len(chunk)
         return written
 
     def count(self, collection: str, query: dict) -> int:
-        # CloudBase REST's filtered-count endpoint is POST documents:count;
-        # the documents listing endpoint may report a collection total but does
-        # not provide a reliable filtered count.
-        result = self._request("POST", f"/collections/{parse.quote(collection)}/documents:count", {
-            "query": json.dumps(query, ensure_ascii=False, separators=(",", ":"))
-        })
-        data = result.get("data", result)
-        return int(data.get("total", 0))
+        # Keep reads and writes on runCommands.  The gateway's list/count
+        # convenience endpoints differ by API version, while runCommands is
+        # explicitly documented for MongoDB-style count and find commands.
+        rows = self._command_rows(self.run_commands([{"count": collection, "query": query}]))
+        if not rows or not isinstance(rows[0], dict):
+            raise CloudbaseError(f"CloudBase count returned no result for {collection}")
+        value = rows[0].get("n", rows[0].get("total"))
+        if value is None:
+            raise CloudbaseError(f"CloudBase count returned no numeric total for {collection}")
+        return int(value)
 
     def start_transaction(self) -> str:
         return self._request("POST", "/transactions")["transactionId"]
@@ -143,6 +169,39 @@ class HttpCloudbaseClient:
         self._request("PATCH", f"/collections/{parse.quote(collection)}/documents/{parse.quote(document['_id'])}", {
             "data": {"$set": document}, "upsert": True, "returnDoc": False
         }, query={"transactionId": transaction_id}, max_attempts=1)
+
+    def transaction_upsert_many(self, transaction_id: str,
+                                documents: list[tuple[str, dict]]) -> None:
+        """Upsert several documents in one transactional HTTP round trip.
+
+        CloudBase transactions expire after 30 seconds.  Its documented
+        runCommands API accepts multiple commands plus transactionId, avoiding
+        one slow PATCH request per collection before the commit.
+        """
+        commands = []
+        for collection, document in documents:
+            if not document.get("_id"):
+                raise ValueError(f"{collection} transaction document missing _id")
+            commands.append({
+                "update": collection,
+                "updates": [{"q": {"_id": document["_id"]},
+                             "u": {"$set": document}, "upsert": True, "multi": False}],
+            })
+        result = self._request(
+            "POST", "/commands", {"commands": commands, "transactionId": transaction_id},
+            max_attempts=1,
+        )
+        groups = self._command_groups(result)
+        if len(groups) != len(commands):
+            raise CloudbaseError("CloudBase transactional update returned incomplete results")
+        for (collection, _), rows in zip(documents, groups):
+            if not rows or not isinstance(rows[0], dict):
+                raise CloudbaseError(f"CloudBase transactional update returned no result for {collection}")
+            row = rows[0]
+            if row.get("ok") in (0, False) or row.get("code") or int(row.get("n", 0)) < 1:
+                raise CloudbaseError(
+                    f"CloudBase transactional update failed for {collection}: {row.get('message') or row}"
+                )
 
     def commit(self, transaction_id: str) -> None:
         self._request("POST", f"/transactions/{parse.quote(transaction_id)}/commit", max_attempts=1)
@@ -190,6 +249,11 @@ class MemoryCloudbaseClient:
 
     def transaction_upsert(self, transaction_id: str, collection: str, document: dict) -> None:
         self.data.setdefault(collection, {})[document["_id"]] = dict(document)
+
+    def transaction_upsert_many(self, transaction_id: str,
+                                documents: list[tuple[str, dict]]) -> None:
+        for collection, document in documents:
+            self.transaction_upsert(transaction_id, collection, document)
 
     def commit(self, transaction_id: str) -> None:
         return None

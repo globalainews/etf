@@ -78,5 +78,5 @@ def test_video_payload_uses_published_batch(tmp_path: Path):
     assert audit["publishable"] is True
     pages = export_pages(tmp_path / "video", "http://127.0.0.1:5010", content,
                          ("daily-increase", "detail"))
-    assert set(pages) == {"daily-increase", "detail"}
-    assert "capture=1" in (tmp_path / "video" / "daily-increase.html").read_text(encoding="utf-8")
+    assert set(pages) == {"increase", "focus"}
+    assert "ETF份额龙虎榜" in Path(pages["increase"]).read_text(encoding="utf-8")

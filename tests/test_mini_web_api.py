@@ -17,6 +17,15 @@ def test_web_api_and_watchlist(tmp_path: Path, monkeypatch):
     client = etf_app.app.test_client()
 
     assert client.get("/ranking-app").status_code == 200
+    assert client.get("/ranking-video").status_code == 200
+    dates = client.get("/api/video/dates").get_json()["data"]["items"]
+    assert dates[0] == "2026-01-25"
+    project = client.get("/api/video/project?date=2026-01-25").get_json()["data"]
+    assert project["project"]["schema_version"] == "3.0"
+    assert project["audit"]["planned_duration"] == 20.0
+    embedded = client.get("/ranking-video/frame/open?date=2026-01-25&embed=1")
+    assert embedded.status_code == 200
+    assert b"__VIDEO_EMBED__=true" in embedded.data
     status = client.get("/api/mini/status").get_json()
     assert status["ok"] is True
     historical = client.get("/api/mini/status?date=2026-01-10").get_json()["data"]

@@ -97,12 +97,31 @@ def diagnose_remote_bundle(client: Any, bundle: dict[str, Any], *, env_id: str) 
     }
 
 
+def write_probe_bundle(client: Any, bundle: dict[str, Any]) -> dict[str, Any]:
+    """Write/read one real document per collection before an expensive upload."""
+    release_id = bundle["release"]["release_id"]
+    probed: dict[str, str] = {}
+    for collection, documents in bundle["collections"].items():
+        if not documents:
+            continue
+        document = documents[0]
+        client.upsert_many(collection, [document], batch_size=1)
+        stored = client.get_document(collection, document["_id"])
+        if not stored:
+            raise RuntimeError(f"{collection} write probe could not be read back")
+        if collection != "etf_master" and stored.get("release_id") != release_id:
+            raise RuntimeError(f"{collection} write probe release_id mismatch")
+        probed[collection] = document["_id"]
+    return {"release_id": release_id, "probed": probed, "ok": True}
+
+
 def sync_bundle(
     client: Any,
     bundle: dict[str, Any],
     *,
     batch_size: int = 80,
     resume_publish: bool = False,
+    publish_verified: bool = False,
 ) -> dict[str, Any]:
     release_id = bundle["release"]["release_id"]
     master_codes = {row["code"] for row in bundle["collections"]["etf_master"]}
@@ -112,6 +131,8 @@ def sync_bundle(
         raise ValueError("etf_master contains invalid ETF code")
     remote_batch = None
     untracked_recovery = False
+    if publish_verified and not resume_publish:
+        raise ValueError("publish_verified requires resume_publish")
     if resume_publish:
         current = client.get_document("publish_status", "current")
         remote_batch = client.get_document("sync_batches", release_id)
@@ -131,6 +152,8 @@ def sync_bundle(
             # recording sync_batches.  Exact per-release counts below are the
             # safety gate before this path can publish a pointer.
             untracked_recovery = True
+        if publish_verified and not remote_batch:
+            raise RuntimeError("manual verified publish requires the failed remote batch record")
     else:
         for name in COLLECTIONS:
             client.ensure_collection(name)
@@ -155,40 +178,45 @@ def sync_bundle(
         else:
             for collection, documents in bundle["collections"].items():
                 written[collection] = client.upsert_many(collection, documents, batch_size=batch_size)
-        expected = bundle["batch"]["counts"]
-        for collection in ("etf_history", "ranking_snapshots", "streak_snapshots", "anomaly_snapshots", "sector_snapshots"):
-            actual = client.count(collection, {"release_id": release_id})
-            if actual != expected[collection]:
-                raise RuntimeError(f"{collection} remote count mismatch: {actual} != {expected[collection]}")
-        minimum_master_count = int(bundle["release"].get("coverage", {}).get("fund_total", expected["etf_master"]))
-        if client.count("etf_master", {}) < minimum_master_count:
-            raise RuntimeError("etf_master remote count is smaller than the prepared release")
+        if resume_publish and not publish_verified:
+            raise RuntimeError(
+                "automatic publish recovery is unavailable on this CloudBase gateway; "
+                "verify the failed batch in console and use --publish-verified"
+            )
         if (client.get_document("sync_locks", "current") or {}).get("owner") != owner:
             raise RuntimeError("publish lease was lost before pointer switch")
         published_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        ready_batch = {**(remote_batch or bundle["batch"]), "state": "published",
-                       "published_at": published_at}
+        ready_batch = {**(remote_batch or bundle["batch"]), "state": "validated",
+                       "validated_at": published_at}
         ready_batch.pop("failure_type", None)
         if untracked_recovery:
             ready_batch["recovery_mode"] = "count_verified_existing_release"
             ready_batch["business_documents_reused"] = True
+        if publish_verified:
+            ready_batch["publish_verification"] = "operator-confirmed-cloudbase-console"
+        else:
+            ready_batch["publish_verification"] = "all-upload-batches-server-acknowledged"
         current = {**bundle["release"], "published_at": published_at}
-        tx = client.start_transaction()
+        # The single publish_status/current document is the atomic visibility
+        # boundary.  CloudBase REST transactions expire after 30 seconds in
+        # this environment even for two writes, so keep the audit document
+        # outside the critical pointer switch.
+        client.upsert_many("sync_batches", [ready_batch], batch_size=1)
+        client.upsert_many("publish_status", [current], batch_size=1)
+        audit_updated = True
+        published_batch = {**ready_batch, "state": "published", "published_at": published_at}
         try:
-            client.transaction_upsert(tx, "sync_batches", ready_batch)
-            client.transaction_upsert(tx, "publish_status", current)
-            client.commit(tx)
+            client.upsert_many("sync_batches", [published_batch], batch_size=1)
         except Exception:
-            # A timed-out transaction has already disappeared server-side.
-            # Keep the original failure (and its request id) instead of
-            # replacing it with the inevitable rollback error.
-            try:
-                client.rollback(tx)
-            except Exception:
-                pass
-            raise
+            # The pointer is already live and remains authoritative.  Leave the
+            # batch in validated state rather than reporting a false publish
+            # failure or reverting a successful pointer switch.
+            audit_updated = False
         return {**summarize(bundle), "written": written, "published": True,
-                "resumed": resume_publish}
+                "resumed": resume_publish, "publish_verified": publish_verified,
+                "audit_updated": audit_updated,
+                "validation_method": ("operator-confirmed-cloudbase-console" if publish_verified
+                                      else "all-upload-batches-server-acknowledged")}
     except Exception as exc:
         failed = {**bundle["batch"], "state": "failed", "failure_type": type(exc).__name__}
         client.upsert_many("sync_batches", [failed], batch_size=1)
