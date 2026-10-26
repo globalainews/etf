@@ -137,7 +137,7 @@ def pull_members(client: Any, *, db_path: str | None = None) -> dict[str, int]:
                              (now, now, local["member_id"]))
                 _audit(conn, local["member_id"], "pull_missing_remote")
                 missing_remote += 1
-        conn.execute("INSERT INTO web_member_sync_state(id,last_pull_at,last_result_json) VALUES('current',?,?,?) ON CONFLICT(id) DO UPDATE SET last_pull_at=excluded.last_pull_at,last_result_json=excluded.last_result_json",
+        conn.execute("INSERT INTO web_member_sync_state(id,last_pull_at,last_result_json) VALUES('current',?,?) ON CONFLICT(id) DO UPDATE SET last_pull_at=excluded.last_pull_at,last_result_json=excluded.last_result_json",
                      (now, json.dumps({"operation": "pull", "remote": len(remote_rows), "imported": imported,
                                        "updated": updated, "conflicts": conflicts, "missing_remote": missing_remote}, ensure_ascii=False)))
     return {"remote": len(remote_rows), "imported": imported, "updated": updated,
@@ -224,7 +224,7 @@ def save_member(member_id: str | None, payload: dict[str, Any], *, db_path: str 
         nickname = _text(payload.get("nickname", base.get("nickname")), "微信昵称", 32)
         video = _text(payload.get("videoMemberName", base.get("video_member_name")), "视频号会员名称", 40)
         note = _text(payload.get("reviewNote", base.get("review_note")), "审核备注", 200, required=False)
-        status = {"approve": "active", "reject": "rejected", "revoke": "revoked"}.get(action, str(payload.get("status", base.get("status", "pending"))))
+        status = {"approve": "active", "reject": "rejected", "revoke": "revoked", "create": "active"}.get(action, str(payload.get("status", base.get("status", "pending"))))
         if status not in MEMBER_STATES: raise ValueError("会员状态无效")
         start = _date(payload.get("memberStartDate", base.get("member_start_date")), "会员开始日期", required=status == "active")
         end = _date(payload.get("memberEndDate", base.get("member_end_date")), "会员结束日期", required=status == "active")

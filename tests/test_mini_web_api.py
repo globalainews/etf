@@ -53,3 +53,15 @@ def test_web_api_and_watchlist(tmp_path: Path, monkeypatch):
     assert len(items) == 1 and items[0]["code"] == "510001"
     assert client.delete("/api/mini/watchlist/510001").status_code == 200
     assert client.get("/api/mini/watchlist").get_json()["data"]["items"] == []
+    created = client.post("/api/mini/admin/members", json={
+        "memberId": "c" * 64, "openid": "openid_abcdefgh", "nickname": "本地审核用户",
+        "videoMemberName": "视频号会员", "memberStartDate": "2026-01-01", "memberEndDate": "2026-12-31",
+    })
+    assert created.status_code == 201
+    listed = client.get("/api/mini/admin/members?status=dirty").get_json()["data"]
+    assert listed["stats"]["dirty"] == 1 and listed["items"][0]["openid_masked"].startswith("open")
+    approved = client.patch("/api/mini/admin/members/" + "c" * 64, json={
+        "action": "approve", "nickname": "本地审核用户", "videoMemberName": "视频号会员",
+        "memberStartDate": "2026-01-01", "memberEndDate": "2026-12-31",
+    })
+    assert approved.status_code == 200 and approved.get_json()["data"]["status"] == "active"

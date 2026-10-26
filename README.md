@@ -188,6 +188,15 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_cli --list-pending
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_cli --approve REQUEST_ID --start 2026-10-26 --end 2026-11-25 --note "已核验视频号会员"
 ```
 
+也可在本地 ETF Web 的“我的 → 会员管理”审核。它会把 CloudBase 申请拉取到 SQLite、本地编辑并显式推送，Web 不使用管理密钥：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --pull
+F:\anaconda3\python.exe -X utf8 app.py
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --status
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --push
+```
+
 会员身份由云函数可信 OpenID 识别；昵称和视频号会员名称仅供管理员匹配。会员才可搜索ETF和新增/标记自选，非会员仍可浏览榜单、详情、已有自选和删除自选。详见 [小程序部署手册](docs/miniprogram-runbook.md#41-会员申请与人工同步)。
 
 导出每日视频素材数据和7个HTML场景：

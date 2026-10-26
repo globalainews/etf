@@ -10,6 +10,7 @@ from flask import Blueprint, current_app, jsonify, request
 
 import db
 from sync.etf_sync.local_store import LOCAL_USER_ID
+from sync.etf_sync.member_store import adopt_remote, list_members, save_member
 
 
 mini_api = Blueprint("mini_api", __name__, url_prefix="/api/mini")
@@ -387,3 +388,37 @@ def user_status():
                          "membershipActive": row["status"] == "active",
                          "expiresAt": row["expires_at"], "source": "local-sqlite",
                          "plansOpen": bool(row["plans_open"])})
+
+
+@mini_api.get("/admin/members")
+def admin_members():
+    """Local-only membership review inventory; never reaches CloudBase from Web."""
+    try:
+        return _success(list_members(status=request.args.get("status", ""),
+                                     keyword=request.args.get("keyword", "")))
+    except ValueError as exc:
+        raise ApiError("BAD_REQUEST", str(exc)) from exc
+
+
+@mini_api.post("/admin/members")
+def admin_create_member():
+    try:
+        return _success(save_member(None, {**(request.get_json(silent=True) or {}), "action": "create"}), 201)
+    except ValueError as exc:
+        raise ApiError("BAD_REQUEST", str(exc)) from exc
+
+
+@mini_api.patch("/admin/members/<member_id>")
+def admin_update_member(member_id: str):
+    try:
+        return _success(save_member(member_id, request.get_json(silent=True) or {}))
+    except ValueError as exc:
+        raise ApiError("BAD_REQUEST", str(exc)) from exc
+
+
+@mini_api.post("/admin/members/<member_id>/adopt-remote")
+def admin_adopt_remote(member_id: str):
+    try:
+        return _success(adopt_remote(member_id))
+    except ValueError as exc:
+        raise ApiError("BAD_REQUEST", str(exc)) from exc

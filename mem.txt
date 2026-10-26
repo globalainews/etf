@@ -37,3 +37,14 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --correction-from 2026-10-2
 
 
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
+
+
+
+# 从云端拉取小程序会员申请
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --pull
+
+# 查看本地待审核、待推送与冲突
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --status
+
+# 将本地审核结果推送到 CloudBase
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --push

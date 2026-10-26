@@ -65,6 +65,22 @@ F:\anaconda3\python.exe -X utf8 app.py
 
 Web自选保存在 `web_watchlists`，固定用户为 `local-default`，不增加伪微信身份或登录系统。
 
+### 本地会员审核与云端同步
+
+“我的 → 会员管理”是本机 `127.0.0.1` 管理界面。它只写入 `etf.db` 的本地会员审核镜像，浏览器和 Flask 服务均不保存或调用 CloudBase API Key。日常流程是：
+
+```powershell
+# 拉取小程序会员申请到本地SQLite
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --pull
+
+# 在 http://127.0.0.1:5010/ranking-app 的“会员管理”页审核或手工新增
+# 再查看待推送记录并显式推送
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --status
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_sync_cli --push
+```
+
+Web 页面显示脱敏 OpenID、昵称、视频号会员名称、审核状态和同步状态。批准、拒绝、撤销或手工新增都会标为“待推送”；推送前程序读取同一 CloudBase 文档并比较远端版本。若云端已被其他操作更新，记录会标记“同步冲突”而不会覆盖，管理员可在页面选择“采用云端版本”或重新审核后再推送。手工新增必须使用可信 OpenID，普通用户应先在小程序提交申请。
+
 ### 历史龙虎榜
 
 页面顶部的“统计日”控件适用于首页、完整榜单、ETF详情、板块、连续变化和异动观察：
