@@ -31,6 +31,10 @@
 
 ## 批次与修订
 
+本地先把派生值物化到 `etf_derived_daily`和 `etf_sector_daily`，
+`etf_calc_publish_status/current` 是本地唯一发布指针。暂存计算、数量校验和正式表替换
+在指针切换前对Web不可见。CloudBase同步不再独立计算，只从该成功批次建立云端发布包。
+
 派生结果以 `release_id` 整批保存；`publish_status/current` 是唯一当前指针。历史记录是按 `code + date + release_seq` 保存的不可变修订：详情查询只读取 `release_seq <= current.release_seq`，同日期取最高修订序号。失败批次的修订在下一成功批次会重新生成更高序号并覆盖查询结果。
 
 首次同步默认最近90个可用统计日。日常同步只上传最新日；历史更正使用 `--correction-from YYYY-MM-DD` 明确边界，并重算最新连续、异动、板块和榜单快照。

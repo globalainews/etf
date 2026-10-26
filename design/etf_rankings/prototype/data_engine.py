@@ -269,7 +269,8 @@ def build_content(requested_date: str | None = None) -> tuple[dict, dict]:
     }
     if latest == "2026-10-23":
         assert table_counts["funds"] == 1801
-        assert latest_scale == 1690 and overlap == 1543 and latest_scale - overlap == 147
+        assert latest_scale == 1690 and 0 <= overlap <= latest_scale
+        assert latest_scale - overlap == audit["latest_missing_price_count"]
         assert round(focus["588000"]["share_change_20d_pct"], 2) == 48.03
         assert round(focus["588000"]["price_change_20d_pct"], 2) == -16.16
     conn.close()

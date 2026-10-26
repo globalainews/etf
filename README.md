@@ -140,24 +140,54 @@ run_backtest(start_date='2019-04-01')
 
 MIT
 
-## 微信小程序：ETF份额龙虎榜
+## ETF份额龙虎榜：Web＋微信小程序
 
 仓库现包含10页原生微信小程序、统一JavaScript云函数和只读SQLite同步器：
 
 ```
 miniprogram/              # 原生WXML/WXSS/JavaScript，demo/real硬隔离
 cloudfunctions/etf-api/  # 排行、搜索、详情、自选和权益查询
-sync/etf_sync/           # 计算、校验、CloudBase增量同步与发布指针
+sync/etf_sync/           # SQLite物化、校验、CloudBase同步和视频素材
 cloud-database/          # 索引和客户端数据库安全规则
 docs/miniprogram-*.md    # 数据契约、容量、部署与Windows运行说明
+```
+
+首次建立本地派生结果（排名、连续、异动、板块）：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --full --dry-run
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --full
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --verify
+```
+
+启动 Web 后访问 `http://127.0.0.1:5010/ranking-app`：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 app.py
+```
+
+日常数据更新后先发布本地增量，再同步云数据库：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --incremental
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --dry-run
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
+```
+
+导出每日视频素材数据和7个HTML场景：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.video_cli --render data
+# 需要先启动 Web；截图输出为1080×1920 PNG
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.video_cli --render stills
 ```
 
 本地验收：
 
 ```powershell
-F:\anaconda3\python.exe -X utf8 -m pytest tests\test_miniprogram_compute.py tests\test_miniprogram_sync.py -q --basetemp .codex_stage\pytest-mini
+F:\anaconda3\python.exe -X utf8 -m pytest tests\test_miniprogram_compute.py tests\test_miniprogram_sync.py tests\test_local_materialization.py tests\test_mini_web_api.py -q --basetemp .codex_stage\pytest-mini
 npm test --prefix cloudfunctions\etf-api
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --dry-run --initial
 ```
 
-默认 [miniprogram/config/env.js](miniprogram/config/env.js) 为 `demo`，无云凭据即可导入微信开发者工具。正式配置、首次/每日同步、集合索引和权限步骤见 [Windows运行、部署与验收](docs/miniprogram-runbook.md)。
+默认 [miniprogram/config/env.js](miniprogram/config/env.js) 为 `demo`，无云凭据即可导入微信开发者工具。本地物化、Web、视频和云同步命令见 [本地Web与视频运行说明](docs/local-ranking-web.md)；小程序部署见 [Windows运行、部署与验收](docs/miniprogram-runbook.md)。

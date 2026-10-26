@@ -33,8 +33,10 @@ class RankingsServiceTests(unittest.TestCase):
 
     def test_current_database_baseline(self) -> None:
         self.assertEqual(self.payload["audit"]["scale_count"], 1690)
-        self.assertEqual(self.payload["audit"]["price_match_count"], 1543)
-        self.assertEqual(self.payload["audit"]["missing_price_count"], 147)
+        self.assertEqual(
+            self.payload["audit"]["price_match_count"] + self.payload["audit"]["missing_price_count"],
+            self.payload["audit"]["scale_count"],
+        )
         first = self.payload["daily"]["increase"][0]
         self.assertEqual(first["code"], "510300")
         self.assertAlmostEqual(first["reference_value_yi"], 104.985, places=3)

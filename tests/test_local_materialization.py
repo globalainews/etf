@@ -6,6 +6,7 @@ import sqlite3
 import db
 from sync.etf_sync.config import SyncConfig
 from sync.etf_sync.local_store import materialize, verify
+from sync.etf_sync.video_cli import build_payload, export_pages
 
 
 def make_database(path: Path) -> None:
@@ -65,3 +66,17 @@ def test_correction_is_idempotent_and_updates_release(tmp_path: Path):
         "SELECT delta_shares FROM etf_derived_daily WHERE date='2026-01-25' AND code='510001'"
     ).fetchone()[0] == 27
     conn.close()
+
+
+def test_video_payload_uses_published_batch(tmp_path: Path):
+    path = tmp_path / "etf.db"
+    make_database(path)
+    materialize(SyncConfig(db_path=path), full=True)
+    content, audit = build_payload(path)
+    assert content["trade_date"] == "2026-01-25"
+    assert content["batch_id"].startswith("local-")
+    assert audit["publishable"] is True
+    pages = export_pages(tmp_path / "video", "http://127.0.0.1:5010", content,
+                         ("daily-increase", "detail"))
+    assert set(pages) == {"daily-increase", "detail"}
+    assert "capture=1" in (tmp_path / "video" / "daily-increase.html").read_text(encoding="utf-8")

@@ -87,9 +87,10 @@ def build_payload(db_path: Path, requested_date: str | None = None) -> tuple[dic
         conn.close()
 
 
-def export_pages(output: Path, base_url: str, content: dict) -> dict[str, str]:
+def export_pages(output: Path, base_url: str, content: dict,
+                 scenes: tuple[str, ...] = SCENES) -> dict[str, str]:
     result = {}
-    for scene in SCENES:
+    for scene in scenes:
         query = {"capture": "1", "scene": scene, "date": content["trade_date"]}
         if scene == "detail":
             query["code"] = content["focus"]["code"]
@@ -109,17 +110,21 @@ def _agent_browser(args: list[str], session: str) -> None:
         raise RuntimeError("agent-browser CLI 不可用，无法自动截图")
     command = [shell, "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(wrapper),
                "--session", session, *args]
-    result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8",
-                            errors="replace", timeout=45)
+    # The browser daemon can inherit pipe handles on Windows; DEVNULL avoids
+    # communicate() waiting for a long-lived daemon after the CLI has finished.
+    result = subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                            timeout=45)
     if result.returncode:
-        raise RuntimeError(result.stderr[-2000:] or result.stdout[-2000:])
+        raise RuntimeError(f"agent-browser failed with exit code {result.returncode}: {' '.join(args)}")
 
 
-def render_stills(output: Path, base_url: str, content: dict) -> dict[str, str]:
+def render_stills(output: Path, base_url: str, content: dict,
+                  scenes: tuple[str, ...] = SCENES) -> dict[str, str]:
     session = f"etf-video-{content['trade_date'].replace('-', '')}-{os.getpid()}"
     result = {}
     try:
-        for scene in SCENES:
+        for scene in scenes:
+            print(f"rendering scene: {scene}", flush=True)
             query = {"capture": "1", "scene": scene, "date": content["trade_date"]}
             if scene == "detail":
                 query["code"] = content["focus"]["code"]
@@ -168,9 +173,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--base-url", default="http://127.0.0.1:5010")
     parser.add_argument("--output", help="output directory")
     parser.add_argument("--render", choices=("data", "stills", "all"), default="data")
+    parser.add_argument("--scenes", help="comma-separated subset of the seven supported scenes")
     args = parser.parse_args(argv)
     config = SyncConfig.from_env(args.db)
     content, audit = build_payload(config.db_path, args.date)
+    scenes = tuple(item.strip() for item in (args.scenes or ",".join(SCENES)).split(",") if item.strip())
+    unknown = sorted(set(scenes) - set(SCENES))
+    if unknown:
+        parser.error(f"unknown scenes: {', '.join(unknown)}")
     output = Path(args.output) if args.output else Path("output") / "etf-ranking-video" / content["trade_date"].replace("-", "")
     output.mkdir(parents=True, exist_ok=True)
     if not audit["publishable"]:
@@ -179,10 +189,10 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     _json(output / "content.json", content)
     _json(output / "audit.json", audit)
-    pages = export_pages(output, args.base_url, content)
+    pages = export_pages(output, args.base_url, content, scenes)
     narration = write_narration(output, content)
-    stills = render_stills(output, args.base_url, content) if args.render in {"stills", "all"} else {}
-    files = [path for path in output.iterdir() if path.is_file()]
+    stills = render_stills(output, args.base_url, content, scenes) if args.render in {"stills", "all"} else {}
+    files = [path for path in output.iterdir() if path.is_file() and path.name != "manifest.json"]
     manifest = {"schema_version": "2.0", "batch_id": content["batch_id"],
                 "trade_date": content["trade_date"], "base_url": args.base_url,
                 "pages": pages, "stills": stills, "narration": narration,

@@ -182,12 +182,17 @@ def detail(code: str):
         if not master:
             raise ApiError("NO_DATA", "数据库中没有该ETF记录", 404)
         history = [dict(row) for row in conn.execute(
-            """SELECT * FROM (SELECT s.date,s.shares,p.close,
+            """WITH recent_dates AS (
+                   SELECT DISTINCT date FROM fund_scale WHERE date<=? ORDER BY date DESC LIMIT ?
+               )
+               SELECT d.date,s.shares,p.close,
                       CASE WHEN s.shares IS NULL THEN 'MISSING' ELSE 'OK' END AS share_status,
                       CASE WHEN p.close IS NULL THEN 'MISSING' ELSE 'OK' END AS price_status
-               FROM fund_scale s LEFT JOIN fund_price p ON p.date=s.date AND p.code=s.code
-               WHERE s.code=? AND s.date<=? ORDER BY s.date DESC LIMIT ?) ORDER BY date""",
-            (code, day, period),
+               FROM recent_dates d
+               LEFT JOIN fund_scale s ON s.date=d.date AND s.code=?
+               LEFT JOIN fund_price p ON p.date=d.date AND p.code=?
+               ORDER BY d.date""",
+            (day, period, code, code),
         )]
         snapshot = conn.execute(
             "SELECT * FROM etf_derived_daily WHERE date=? AND code=?",
@@ -208,7 +213,7 @@ def streaks():
     with _connect() as conn:
         release = _current(conn)
         day = _date(request.args.get("date"), release)
-        base = "FROM etf_derived_daily WHERE date=? AND streak_direction=? AND streak_status='OK'"
+        base = "FROM etf_derived_daily WHERE date=? AND streak_direction=? AND streak_status='OK' AND streak_days>=2"
         result = _paged(conn, f"SELECT * {base} ORDER BY streak_days DESC,ABS(streak_change_rate) DESC,code",
                         [day, direction], f"SELECT COUNT(*) {base}", [day, direction], page, size)
         result.update({"release": release, "statistic_date": day,

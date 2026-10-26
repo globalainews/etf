@@ -95,7 +95,7 @@ function createService(db, getContext) {
   async function streaks(args) {
     const release = await current();
     const direction = v.oneOf(args.direction, ['increase', 'decrease'], 'increase', '方向');
-    const result = await paged(COLLECTION.streak, { release_id: release.release_id, direction, status: 'OK' }, [['days', 'desc'], ['code', 'asc']], args);
+    const result = await paged(COLLECTION.streak, { release_id: release.release_id, direction, status: 'OK', days: _.gte(2) }, [['days', 'desc'], ['code', 'asc']], args);
     return { ...result, release, rule: '按连续有效统计日计数；份额不变或缺失均中断。' };
   }
 

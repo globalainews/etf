@@ -61,6 +61,14 @@ module.exports = {
 
 ## 5. 同步命令
 
+云同步现在只读取SQLite已发布派生批次。首次使用先执行：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --full --dry-run
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --full
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --verify
+```
+
 只计算和校验，不写云端：
 
 ```powershell
@@ -76,12 +84,14 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial
 日常增量（最新统计日 + 全部最新派生快照）：
 
 ```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --incremental
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
 ```
 
 历史更正并重算派生结果：
 
 ```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --correction-from 2026-10-01
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --correction-from 2026-10-01
 ```
 

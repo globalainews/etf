@@ -29,6 +29,7 @@ backups/
 
 # Temporary
 tmp/
+.codex_stage/
 D:claude/
 
 # IDE
