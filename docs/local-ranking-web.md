@@ -80,6 +80,15 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
 
 真实云写入仍需要 `.env.example` 中列出的CloudBase环境变量。不会从Web页面或小程序包内读取服务端密钥。
 
+如果首次上传已完成全部集合，但只在最终发布指针事务处失败，不要重新上传14万条历史。
+使用恢复模式校验云端各集合计数，并只重试发布指针：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --resume-publish
+```
+
+恢复模式不会写入ETF业务集合；任何集合计数不匹配时会拒绝发布，届时才需要重新执行完整同步。
+
 ## 6. 视频素材
 
 先启动Web，然后执行：

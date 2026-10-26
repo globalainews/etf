@@ -113,7 +113,9 @@ def build_published_bundle(config: SyncConfig, *, release_seq: int, initial: boo
             "coverage": coverage, "quality_status": local["quality_status"],
             "disclaimer": DISCLAIMER, "share_unit": "份", "display_share_unit": "亿份",
             "price_currency": "CNY", "price_adjustment": "前复权",
-            "source": "etf.db/etf_calc_publish_status", "master_hash": _hash(master),
+            "source": "etf.db/etf_calc_publish_status",
+            "master_hash": _hash([{key: value for key, value in row.items()
+                                    if key != "updated_at"} for row in master]),
             "date_basis": "fund_scale.date (source statistic date, never collection clock)",
             "disclosure_date_verification": "SOURCE_DATE_ONLY",
             "known_limitations": ["no corporate-action adjustment source",

@@ -33,15 +33,36 @@ def summarize(bundle: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def sync_bundle(client: Any, bundle: dict[str, Any], *, batch_size: int = 80) -> dict[str, Any]:
+def sync_bundle(
+    client: Any,
+    bundle: dict[str, Any],
+    *,
+    batch_size: int = 80,
+    resume_publish: bool = False,
+) -> dict[str, Any]:
     release_id = bundle["release"]["release_id"]
     master_codes = {row["code"] for row in bundle["collections"]["etf_master"]}
     if master_codes and any(row.get("code") not in master_codes for row in bundle["collections"]["ranking_snapshots"]):
         raise ValueError("ranking snapshot contains code missing from etf_master")
     if any(len(row.get("code", "")) != 6 or not row["code"].isdigit() for row in bundle["collections"]["etf_master"]):
         raise ValueError("etf_master contains invalid ETF code")
-    for name in COLLECTIONS:
-        client.ensure_collection(name)
+    remote_batch = None
+    if resume_publish:
+        current = client.get_document("publish_status", "current")
+        remote_batch = client.get_document("sync_batches", release_id)
+        if (current and current.get("release_id") == release_id and remote_batch
+                and remote_batch.get("state") == "published"):
+            return {**summarize(bundle), "written": {}, "published": True,
+                    "resumed": True, "already_published": True}
+        if not remote_batch or remote_batch.get("state") not in {"failed", "uploading"}:
+            raise RuntimeError("no failed upload batch is available for publish-only recovery")
+        if int(remote_batch.get("release_seq", -1)) != int(bundle["release"]["release_seq"]):
+            raise RuntimeError("remote failed batch release sequence does not match the recovery bundle")
+        if remote_batch.get("counts") != bundle["batch"]["counts"]:
+            raise RuntimeError("remote failed batch counts do not match the local recovery bundle")
+    else:
+        for name in COLLECTIONS:
+            client.ensure_collection(name)
     owner = f"{release_id}:{uuid.uuid4().hex}"
     now = datetime.now(timezone.utc)
     existing_lock = client.get_document("sync_locks", "current")
@@ -53,12 +74,16 @@ def sync_bundle(client: Any, bundle: dict[str, Any], *, batch_size: int = 80) ->
     client.upsert_many("sync_locks", [lock], batch_size=1)
     if (client.get_document("sync_locks", "current") or {}).get("owner") != owner:
         raise RuntimeError("failed to acquire publish lease")
-    batch = {**bundle["batch"], "state": "uploading"}
-    client.upsert_many("sync_batches", [batch], batch_size=batch_size)
+    if not resume_publish:
+        batch = {**bundle["batch"], "state": "uploading"}
+        client.upsert_many("sync_batches", [batch], batch_size=batch_size)
     written: dict[str, int] = {}
     try:
-        for collection, documents in bundle["collections"].items():
-            written[collection] = client.upsert_many(collection, documents, batch_size=batch_size)
+        if resume_publish:
+            written = {collection: 0 for collection in bundle["collections"]}
+        else:
+            for collection, documents in bundle["collections"].items():
+                written[collection] = client.upsert_many(collection, documents, batch_size=batch_size)
         expected = bundle["batch"]["counts"]
         for collection in ("etf_history", "ranking_snapshots", "streak_snapshots", "anomaly_snapshots", "sector_snapshots"):
             actual = client.count(collection, {"release_id": release_id})
@@ -70,7 +95,9 @@ def sync_bundle(client: Any, bundle: dict[str, Any], *, batch_size: int = 80) ->
         if (client.get_document("sync_locks", "current") or {}).get("owner") != owner:
             raise RuntimeError("publish lease was lost before pointer switch")
         published_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        ready_batch = {**bundle["batch"], "state": "published", "published_at": published_at}
+        ready_batch = {**(remote_batch or bundle["batch"]), "state": "published",
+                       "published_at": published_at}
+        ready_batch.pop("failure_type", None)
         current = {**bundle["release"], "published_at": published_at}
         tx = client.start_transaction()
         try:
@@ -86,7 +113,8 @@ def sync_bundle(client: Any, bundle: dict[str, Any], *, batch_size: int = 80) ->
             except Exception:
                 pass
             raise
-        return {**summarize(bundle), "written": written, "published": True}
+        return {**summarize(bundle), "written": written, "published": True,
+                "resumed": resume_publish}
     except Exception as exc:
         failed = {**bundle["batch"], "state": "failed", "failure_type": type(exc).__name__}
         client.upsert_many("sync_batches", [failed], batch_size=1)
@@ -98,8 +126,29 @@ def sync_bundle(client: Any, bundle: dict[str, Any], *, batch_size: int = 80) ->
                 "released_at": datetime.now(timezone.utc).isoformat(timespec="seconds")}], batch_size=1)
 
 
-def prepare_bundle(config: SyncConfig, client: Any | None, *, initial: bool, correction_from: str | None) -> dict[str, Any]:
+def prepare_bundle(
+    config: SyncConfig,
+    client: Any | None,
+    *,
+    initial: bool,
+    correction_from: str | None,
+    resume_publish: bool = False,
+) -> dict[str, Any]:
     current = client.get_document("publish_status", "current") if client else None
+    if resume_publish:
+        if client is None:
+            raise ValueError("publish-only recovery requires a real CloudBase client")
+        probe = build_published_bundle(config, release_seq=0, initial=initial,
+                                       correction_from=correction_from)
+        remote_batch = client.get_document("sync_batches", probe["release"]["release_id"])
+        if not remote_batch or "release_seq" not in remote_batch:
+            raise RuntimeError("failed remote batch was not found; full synchronization is required")
+        return build_published_bundle(
+            config,
+            release_seq=int(remote_batch["release_seq"]),
+            initial=initial,
+            correction_from=correction_from,
+        )
     release_seq = max(int((current or {}).get("release_seq", 0)) + 1, int(time.time() * 1000))
     bundle = build_published_bundle(config, release_seq=release_seq, initial=initial, correction_from=correction_from)
     if current and current.get("release_id") == bundle["release"]["release_id"]:

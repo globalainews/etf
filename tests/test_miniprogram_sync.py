@@ -19,7 +19,8 @@ def bundle() -> dict:
     }
     return {
         "release": release,
-        "batch": {"_id": "r1", "release_id": "r1", "counts": {name: len(rows) for name, rows in collections.items()}},
+        "batch": {"_id": "r1", "release_id": "r1", "release_seq": 1,
+                  "counts": {name: len(rows) for name, rows in collections.items()}},
         "collections": collections,
     }
 
@@ -87,4 +88,45 @@ def test_rollback_failure_does_not_hide_publish_failure():
 
     with pytest.raises(CloudbaseError, match="commit failed"):
         sync_bundle(BrokenTransactionClient(), bundle())
+
+
+def test_resume_publish_validates_counts_without_reuploading_business_data():
+    class TrackingClient(MemoryCloudbaseClient):
+        def __init__(self):
+            super().__init__()
+            self.writes = []
+
+        def upsert_many(self, collection, documents, *, batch_size=80):
+            docs = list(documents)
+            self.writes.append((collection, len(docs)))
+            return super().upsert_many(collection, docs, batch_size=batch_size)
+
+    payload = bundle()
+    client = TrackingClient()
+    for collection, documents in payload["collections"].items():
+        MemoryCloudbaseClient.upsert_many(client, collection, documents)
+    MemoryCloudbaseClient.upsert_many(
+        client, "sync_batches", [{**payload["batch"], "state": "failed"}]
+    )
+
+    result = sync_bundle(client, payload, resume_publish=True)
+
+    assert result["published"] is True
+    assert result["resumed"] is True
+    assert all(result["written"][name] == 0 for name in payload["collections"])
+    assert not any(name in payload["collections"] for name, _ in client.writes)
+    assert client.data["publish_status"]["current"]["release_id"] == "r1"
+
+
+def test_resume_publish_refuses_incomplete_remote_batch():
+    payload = bundle()
+    client = MemoryCloudbaseClient()
+    for collection, documents in payload["collections"].items():
+        if collection != "etf_history":
+            client.upsert_many(collection, documents)
+    client.upsert_many("sync_batches", [{**payload["batch"], "state": "failed"}])
+
+    with pytest.raises(RuntimeError, match="remote count mismatch"):
+        sync_bundle(client, payload, resume_publish=True)
+    assert "current" not in client.data.get("publish_status", {})
 

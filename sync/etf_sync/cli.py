@@ -15,18 +15,36 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--initial", action="store_true", help="include the latest 90 available share dates")
     result.add_argument("--correction-from", help="re-export revisions from YYYY-MM-DD")
     result.add_argument("--dry-run", action="store_true", help="validate and summarize without cloud writes")
+    result.add_argument(
+        "--resume-publish",
+        action="store_true",
+        help="validate a previously uploaded failed batch and only retry the publish pointer",
+    )
     result.add_argument("--output", help="optional JSON bundle output path")
     return result
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    if args.resume_publish and args.dry_run:
+        parser().error("--resume-publish cannot be combined with --dry-run")
     config = SyncConfig.from_env(args.db)
     client = None if args.dry_run else make_real_client(config)
-    bundle = prepare_bundle(config, client, initial=args.initial, correction_from=args.correction_from)
+    bundle = prepare_bundle(
+        config,
+        client,
+        initial=args.initial,
+        correction_from=args.correction_from,
+        resume_publish=args.resume_publish,
+    )
     if args.output:
         export_bundle(bundle, Path(args.output))
-    result = summarize(bundle) if args.dry_run else sync_bundle(client, bundle, batch_size=config.batch_size)
+    result = summarize(bundle) if args.dry_run else sync_bundle(
+        client,
+        bundle,
+        batch_size=config.batch_size,
+        resume_publish=args.resume_publish,
+    )
     result["mode"] = "dry-run" if args.dry_run else "real"
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
