@@ -17,6 +17,7 @@
 | `sync_locks` | 单文档；`_id=current` | 同步租约、过期时间 | 禁止直读写 |
 | `user_watchlists` | 每用户/ETF；哈希 `_id` | `openid`、代码、观察标记 | 禁止直读写，仅云函数按当前用户访问 |
 | `user_entitlements` | 每用户；哈希 `_id` | 等级、状态、有效期预留 | 禁止直读写，仅可信管理端维护 |
+| `user_members` | 每用户；哈希 `_id` | `openid`、微信昵称、视频号会员名称、审核状态、实际会员起止日、审核记录 | 禁止直读写；用户仅能经云函数提交本人申请，管理员仅用服务端CLI审核 |
 
 小程序只调用 `etf-api` 云函数。所有集合应用 [database-security-rules.json](../cloud-database/database-security-rules.json) 的 `read:false/write:false`，云函数和管理端不受客户端规则替代。云函数调用权限使用 [security-rules.json](../cloudfunctions/security-rules.json)，函数内部再按 `getWXContext().OPENID` 限定自选；事件参数中的 `openid` 会被忽略。
 
@@ -27,6 +28,8 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.bootstrap
 ```
 
 这会通过官方 NoSQL HTTP API 创建集合和索引。正式执行前必须配置仓库外的 `CLOUDBASE_ENV_ID` 和服务端 `CLOUDBASE_API_KEY`。
+
+`user_members` 的 `openid_unique` 索引保证一位微信用户只有一条会员记录；`status_applied` 支持管理员读取待核验队列。`is_member`、状态和日期绝不接受小程序入参，只有管理员命令可以写入。云函数按中国日期判断起止日是否仍有效；过期会员自动失去搜索和新增自选权限，但不会删除其已有自选。
 
 ## 发布一致性
 

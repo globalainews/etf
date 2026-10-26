@@ -1,8 +1,8 @@
 <view class="page"><view class="hero"><text wx:if="{{isDemo}}" class="demo-badge">演示模式</text><view class="hero-title">搜索ETF</view><text class="hero-sub">按6位代码或基金名称前缀查询</text></view>
- <input class="input" value="{{keyword}}" maxlength="24" placeholder="例如：510300 或 沪深300" confirm-type="search" bindinput="onInput" bindconfirm="search" />
+ <view wx:if="{{memberLoading}}" class="loading">读取会员状态…</view><view wx:elif="{{!user.membershipActive}}" class="card empty"><text class="empty-icon">☆</text><view>搜索为会员功能</view><text class="muted">请先成为视频号：Global速览的会员，再提交会员名称供管理员核验。</text><button class="primary search" bindtap="openMembership">去提交核验</button></view><block wx:else><input class="input" value="{{keyword}}" maxlength="24" placeholder="例如：510300 或 沪深300" confirm-type="search" bindinput="onInput" bindconfirm="search" />
  <view wx:if="{{loading}}" class="loading">搜索中…</view><view wx:if="{{error}}" class="notice error">{{error}}<button class="secondary retry" bindtap="search">重试</button></view>
  <view wx:if="{{items.length}}" class="card results"><view wx:for="{{items}}" wx:key="code" class="row"><view class="row-main" data-code="{{item.code}}" bindtap="openDetail"><view class="name">{{item.name}}</view><view class="code">{{item.code}} · {{item.market || '市场缺失'}} · {{item.sector || '分类缺失'}}</view></view><button class="add {{item.watched?'done':''}}" data-code="{{item.code}}" bindtap="add">{{item.watched?'已自选':'加自选'}}</button></view></view>
  <view wx:elif="{{searched && !loading && !error}}" class="card empty"><text class="empty-icon">⌕</text><view>没有匹配记录</view><text class="muted">{{note}}</text></view>
- <view wx:else class="card hint"><view class="card-title">搜索说明</view><text class="muted">搜索词会被长度和字符集校验，并匹配预计算索引，不会直接拼接为数据库正则。简称或拼音字段尚无可靠数据源，首版不启用。</text></view>
+ <view wx:else class="card hint"><view class="card-title">搜索说明</view><text class="muted">搜索词会被长度和字符集校验，并匹配预计算索引，不会直接拼接为数据库正则。简称或拼音字段尚无可靠数据源，首版不启用。</text></view></block>
 </view>
 

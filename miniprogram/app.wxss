@@ -46,5 +46,8 @@ view, text, button, input { box-sizing: border-box; }
 .pill { display:inline-block; margin:4rpx 8rpx 4rpx 0; padding:6rpx 13rpx; border-radius:999rpx; background:#eef4f6; color:#526979; font-size:22rpx; }
 .footer-note { padding:24rpx 10rpx; color:#788793; font-size:23rpx; line-height:1.6; text-align:center; }
 .input { width:100%; height:82rpx; padding:0 24rpx; border:2rpx solid #dce5ea; border-radius:16rpx; background:#fff; font-size:30rpx; }
+.field-label { display:block; margin:24rpx 0 10rpx; color:#516475; font-size:26rpx; font-weight:650; }
+.submit { width:100%; margin-top:28rpx; }
+.block { display:block; margin-top:14rpx; }
 .load-more { margin:20rpx auto 4rpx; color:#087f77; text-align:center; }
 

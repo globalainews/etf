@@ -1,7 +1,13 @@
-<view class="page"><view class="hero gold"><view class="hero-title">会员权益方案</view><text class="hero-sub">功能路线预览 · 暂未开放购买或激活</text></view>
- <view class="notice warning">核心日榜、基础查询与自选保持可用。额度和历史长度等商业限制未正式确定，当前不强制限制核心体验。</view>
- <view wx:for="{{plans}}" wx:key="name" class="card plan"><view class="section-head"><text class="card-title">{{item.name}}</text><text class="tag">{{item.tag}}</text></view><view wx:for="{{item.items}}" wx:for-item="feature" wx:key="*this" class="feature">✓ {{feature}}</view></view>
- <view class="card"><view class="card-title">上线前待核实</view><text class="muted block">个人主体与服务类目、金融数据展示合规、支付资质、会员协议和隐私政策。当前版本不包含支付、收益承诺、荐股或自动交易。</text></view>
- <view class="actions"><button class="secondary" bindtap="close">关闭并返回</button><button class="primary" bindtap="continue">继续基础功能</button></view>
+<view class="page"><view class="hero gold"><text wx:if="{{isDemo}}" class="demo-badge">演示模式</text><view class="hero-title">会员同步</view><text class="hero-sub">先成为视频号：Global速览的会员，再提交名称供管理员核验</text></view>
+ <view class="notice warning">本页不接支付，不会模拟购买成功。视频号会员资格由管理员人工核验并同步，小程序不会自动读取视频号会员信息。</view>
+ <view wx:if="{{error}}" class="notice error">{{error}}<button class="secondary retry" bindtap="load">重试</button></view><view wx:elif="{{loading}}" class="loading">读取会员状态…</view>
+ <block wx:else><view class="card"><view class="section-head"><text class="card-title">当前资格</text><text class="tier">{{user.membershipActive?'已生效':user.applicationStatus==='pending'?'核验中':'未开通'}}</text></view>
+  <view wx:if="{{user.membershipActive}}"><text class="muted block">会员已同步{{user.memberStartDate?'：'+user.memberStartDate+' 至 '+user.memberEndDate:''}}。现在可以搜索ETF并新增自选。</text></view>
+  <view wx:elif="{{user.applicationStatus==='pending'}}"><text class="muted block">申请已提交，管理员将按视频号会员名称核验。核验完成后会同步搜索和新增自选权益。</text></view>
+  <view wx:elif="{{user.applicationStatus==='expired'}}"><text class="muted block">会员有效期已结束。如已续费视频号会员，请重新提交核验信息。</text></view>
+  <view wx:else><text class="muted block">搜索ETF和新增自选需要会员。浏览榜单、详情、已有自选及删除自选仍可使用。</text></view></view>
+ <view wx:if="{{!user.membershipActive}}" class="card"><view class="card-title">提交视频号会员核验</view><text class="muted block">请填写当前微信昵称和视频号内显示的会员名称。微信用户身份仅由云端 OpenID 识别；昵称用于管理员匹配，不会获取或展示你的微信号。</text><text class="field-label">微信昵称</text><input class="input" type="nickname" value="{{nickname}}" maxlength="32" placeholder="填写或确认当前微信昵称" bindinput="inputNickname"/><text class="field-label">视频号会员名称</text><input class="input" value="{{videoMemberName}}" maxlength="40" placeholder="填写视频号内的会员名称" bindinput="inputVideoName"/><button class="primary submit" loading="{{submitting}}" bindtap="submit">提交核验申请</button></view>
+ <view class="card"><view class="card-title">权益说明</view><text class="muted block">已同步会员可使用ETF搜索和新增自选。基础榜单、ETF详情、历史趋势、已有自选查看和删除均保持可用。首版不接支付、授权码或自动激活。</text></view>
+ <view class="actions"><button class="secondary" bindtap="close">关闭并返回</button><button class="primary" bindtap="continue">继续浏览榜单</button></view></block>
 </view>
 

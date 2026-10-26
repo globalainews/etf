@@ -59,6 +59,30 @@ module.exports = {
 
 `real`调用失败会显示错误和重试，不会静默读取demo。
 
+## 4.1 会员申请与人工同步
+
+部署本次版本前，先再次执行集合/索引初始化，使 `user_members` 及其索引存在：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.bootstrap
+```
+
+用户在小程序“我的 → 视频号会员同步”填写微信昵称与视频号会员名称。小程序不获取微信号，也不能自动读取视频号会员；云函数只从可信上下文取得 OpenID，用于隔离记录。管理员在确认用户确为“Global速览”视频号会员后，在设置了 `CLOUDBASE_ENV_ID`、`CLOUDBASE_API_KEY` 的电脑上执行：
+
+```powershell
+# 查看待核验申请。输出不显示 OpenID；复制 request_id。
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_cli --list-pending
+
+# 用视频号真实会员起止日期批准申请。
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_cli --approve REQUEST_ID --start 2026-10-26 --end 2026-11-25 --note "已核验视频号会员"
+
+# 名称未匹配时拒绝；到期或退款时撤销。
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_cli --reject REQUEST_ID --note "未匹配到有效会员"
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_cli --revoke REQUEST_ID --note "会员已失效"
+```
+
+审核后用户重新进入小程序或下拉刷新页面即可读取新状态。搜索与新增/观察自选在云函数中二次校验会员资格，前端不能绕过；已有自选的查看和删除保持可用。不要用 CloudBase 控制台直接改 OpenID 或把 API Key 置入小程序。
+
 ## 5. 同步命令
 
 云同步现在只读取SQLite已发布派生批次。首次使用先执行：

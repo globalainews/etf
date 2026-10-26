@@ -181,6 +181,15 @@ Windows日常操作也可直接双击项目根目录的批处理文件：
 
 第二个脚本从当前系统环境变量读取 `CLOUDBASE_ENV_ID` 与 `CLOUDBASE_API_KEY`；若未设置，则读取仓库外的 `%USERPROFILE%\.etf-cloudbase.env`。该文件每行一个 `KEY=VALUE`，不得提交到仓库。
 
+视频号会员采用“申请后人工核验同步”，不接支付也不自动读取视频号会员信息。部署云函数并重新运行一次 `bootstrap` 创建 `user_members` 后，管理员可用：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_cli --list-pending
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.member_cli --approve REQUEST_ID --start 2026-10-26 --end 2026-11-25 --note "已核验视频号会员"
+```
+
+会员身份由云函数可信 OpenID 识别；昵称和视频号会员名称仅供管理员匹配。会员才可搜索ETF和新增/标记自选，非会员仍可浏览榜单、详情、已有自选和删除自选。详见 [小程序部署手册](docs/miniprogram-runbook.md#41-会员申请与人工同步)。
+
 导出每日视频素材数据和7个HTML场景：
 
 ```powershell

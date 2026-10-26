@@ -33,8 +33,10 @@ function createService(db, getContext) {
   }
 
   function chinaDate() {
-    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' })
-      .format(new Date());
+    const fields = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date()).reduce((result, part) => ({ ...result, [part.type]: part.value }), {});
+    return `${fields.year}-${fields.month}-${fields.day}`;
   }
 
   function publicMember(stored) {

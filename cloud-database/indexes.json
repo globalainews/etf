@@ -15,7 +15,8 @@
     "streak_snapshots": ["release_id ASC, direction ASC, status ASC, days DESC, code ASC", "UNIQUE release_id ASC, code ASC"],
     "anomaly_snapshots": ["release_id ASC, qualified ASC, anomaly_ratio DESC, code ASC", "UNIQUE release_id ASC, code ASC"],
     "sector_snapshots": ["release_id ASC, median_change_rate DESC, sector ASC"],
-    "user_watchlists": ["openid ASC, created_at DESC", "UNIQUE openid ASC, code ASC"]
+    "user_watchlists": ["openid ASC, created_at DESC", "UNIQUE openid ASC, code ASC"],
+    "user_members": ["UNIQUE openid ASC", "status ASC, applied_at ASC"]
   }
 }
 
