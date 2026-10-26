@@ -22,24 +22,37 @@ class HttpCloudbaseClient:
         self.timeout = timeout
         self.max_retries = max_retries
 
-    def _request(self, method: str, path: str, payload: dict | None = None, query: dict | None = None) -> Any:
+    def _request(
+        self,
+        method: str,
+        path: str,
+        payload: dict | None = None,
+        query: dict | None = None,
+        *,
+        max_attempts: int | None = None,
+    ) -> Any:
         url = self.base + path
         if query:
             url += "?" + parse.urlencode(query)
         body = None if payload is None else json.dumps(payload, ensure_ascii=False, allow_nan=False).encode("utf-8")
         headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
         retryable = {408, 422, 429, 500, 502, 503, 504}
-        for attempt in range(self.max_retries):
+        # A transaction is short lived on CloudBase (30 seconds).  Retrying a
+        # commit or rollback after a transport/server error can turn a useful
+        # error into a misleading "transaction does not exist" response, so
+        # callers may explicitly make those requests single-attempt.
+        attempts = max(1, max_attempts if max_attempts is not None else self.max_retries)
+        for attempt in range(attempts):
             try:
                 with request.urlopen(request.Request(url, data=body, headers=headers, method=method), timeout=self.timeout) as response:
                     raw = response.read()
                     return json.loads(raw.decode("utf-8")) if raw else {}
             except error.HTTPError as exc:
                 safe_body = exc.read(2048).decode("utf-8", "replace")
-                if exc.code not in retryable or attempt + 1 >= self.max_retries:
+                if exc.code not in retryable or attempt + 1 >= attempts:
                     raise CloudbaseError(f"CloudBase HTTP {exc.code}: {safe_body}") from exc
             except (error.URLError, TimeoutError) as exc:
-                if attempt + 1 >= self.max_retries:
+                if attempt + 1 >= attempts:
                     raise CloudbaseError(f"CloudBase network error: {type(exc).__name__}") from exc
             time.sleep(min(8, 2 ** attempt) + random.random() * 0.25)
         raise CloudbaseError("CloudBase request failed")
@@ -87,14 +100,14 @@ class HttpCloudbaseClient:
 
     def transaction_upsert(self, transaction_id: str, collection: str, document: dict) -> None:
         self._request("PATCH", f"/collections/{parse.quote(collection)}/documents/{parse.quote(document['_id'])}", {
-            "data": {"$set": document}, "upsert": True, "returnDoc": False, "transactionId": transaction_id
-        })
+            "data": {"$set": document}, "upsert": True, "returnDoc": False
+        }, query={"transactionId": transaction_id}, max_attempts=1)
 
     def commit(self, transaction_id: str) -> None:
-        self._request("POST", f"/transactions/{parse.quote(transaction_id)}/commit")
+        self._request("POST", f"/transactions/{parse.quote(transaction_id)}/commit", max_attempts=1)
 
     def rollback(self, transaction_id: str) -> None:
-        self._request("POST", f"/transactions/{parse.quote(transaction_id)}/rollback")
+        self._request("POST", f"/transactions/{parse.quote(transaction_id)}/rollback", max_attempts=1)
 
 
 class MemoryCloudbaseClient:

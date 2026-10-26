@@ -78,7 +78,13 @@ def sync_bundle(client: Any, bundle: dict[str, Any], *, batch_size: int = 80) ->
             client.transaction_upsert(tx, "publish_status", current)
             client.commit(tx)
         except Exception:
-            client.rollback(tx)
+            # A timed-out transaction has already disappeared server-side.
+            # Keep the original failure (and its request id) instead of
+            # replacing it with the inevitable rollback error.
+            try:
+                client.rollback(tx)
+            except Exception:
+                pass
             raise
         return {**summarize(bundle), "written": written, "published": True}
     except Exception as exc:

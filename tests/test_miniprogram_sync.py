@@ -55,3 +55,36 @@ def test_network_retry_is_finite(monkeypatch):
     assert len(attempts) == 3
     assert "secret-not-logged" not in str(exc.value)
 
+
+def test_transaction_id_is_query_parameter_and_transaction_calls_do_not_retry(monkeypatch):
+    calls = []
+
+    def capture(*args, **kwargs):
+        calls.append((args, kwargs))
+        return {}
+
+    client = HttpCloudbaseClient("env-test", "secret-not-logged", max_retries=3)
+    monkeypatch.setattr(client, "_request", capture)
+    client.transaction_upsert("tx-1", "publish_status", {"_id": "current"})
+    client.commit("tx-1")
+    client.rollback("tx-1")
+
+    upsert = calls[0]
+    assert upsert[1]["query"] == {"transactionId": "tx-1"}
+    assert upsert[1]["max_attempts"] == 1
+    assert "transactionId" not in upsert[0][2]
+    assert calls[1][1]["max_attempts"] == 1
+    assert calls[2][1]["max_attempts"] == 1
+
+
+def test_rollback_failure_does_not_hide_publish_failure():
+    class BrokenTransactionClient(MemoryCloudbaseClient):
+        def commit(self, transaction_id: str) -> None:
+            raise CloudbaseError("commit failed")
+
+        def rollback(self, transaction_id: str) -> None:
+            raise CloudbaseError("rollback expired")
+
+    with pytest.raises(CloudbaseError, match="commit failed"):
+        sync_bundle(BrokenTransactionClient(), bundle())
+
