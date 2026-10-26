@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>ETF份额龙虎榜</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='ranking-app.css') }}">
+  <script defer src="{{ url_for('static', filename='vendor/echarts.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='ranking-app.js') }}"></script>
+</head>
+<body>
+<div class="mini-app" id="miniApp">
+  <aside class="app-sidebar">
+    <a class="back-home" href="/">← 返回基金分析</a>
+    <div class="brand"><span class="brand-mark">龙</span><div><strong>ETF份额龙虎榜</strong><small>自制份额统计榜</small></div></div>
+    <nav class="side-nav" aria-label="主要功能">
+      <button data-view="home" class="active">龙虎榜</button>
+      <button data-view="ranking">完整榜单</button>
+      <button data-view="watchlist">我的自选</button>
+      <button data-view="search">搜索ETF</button>
+      <button data-view="sectors">板块对比</button>
+      <button data-view="streaks">连续变化</button>
+      <button data-view="anomalies">异动观察</button>
+      <button data-view="profile">我的</button>
+    </nav>
+    <div class="side-foot">份额变化不代表未来涨跌<br>不等同资金净流入</div>
+  </aside>
+  <section class="app-stage">
+    <header class="app-topbar">
+      <div><span id="pageEyebrow">本地数据</span><h1 id="pageTitle">ETF份额龙虎榜</h1></div>
+      <div class="top-status" id="topStatus">正在读取发布批次…</div>
+    </header>
+    <main id="appContent" class="app-content" aria-live="polite"><div class="loading-card">正在加载…</div></main>
+  </section>
+  <nav class="bottom-nav" aria-label="手机导航">
+    <button data-view="home" class="active"><span>榜</span>龙虎榜</button>
+    <button data-view="watchlist"><span>☆</span>自选</button>
+    <button data-view="search"><span>⌕</span>搜索</button>
+    <button data-view="profile"><span>○</span>我的</button>
+  </nav>
+</div>
+</body>
+</html>

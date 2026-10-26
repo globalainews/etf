@@ -14,8 +14,10 @@ from src.etf_rankings.ranking_service import (
     RankingNotFoundError,
     build_rankings,
 )
+from src.etf_rankings.web_api import mini_api
 
 app = Flask(__name__)
+app.register_blueprint(mini_api)
 
 def load_data():
     """从 etf.db 加载份额数据 + 基金属性（列名与旧 xlsx 保持一致）"""
@@ -131,6 +133,12 @@ def _filter_trades(scheme):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/ranking-app')
+def ranking_app():
+    """Responsive local-web counterpart of the native mini program."""
+    return render_template('ranking_app.html')
 
 
 @app.route('/api/themes')

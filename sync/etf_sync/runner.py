@@ -8,8 +8,8 @@ import time
 import uuid
 
 from .client import HttpCloudbaseClient
-from .compute import build_release_bundle
 from .config import SyncConfig
+from .published_bundle import build_published_bundle
 
 
 COLLECTIONS = (
@@ -95,9 +95,9 @@ def sync_bundle(client: Any, bundle: dict[str, Any], *, batch_size: int = 80) ->
 def prepare_bundle(config: SyncConfig, client: Any | None, *, initial: bool, correction_from: str | None) -> dict[str, Any]:
     current = client.get_document("publish_status", "current") if client else None
     release_seq = max(int((current or {}).get("release_seq", 0)) + 1, int(time.time() * 1000))
-    bundle = build_release_bundle(config, release_seq=release_seq, initial=initial, correction_from=correction_from)
+    bundle = build_published_bundle(config, release_seq=release_seq, initial=initial, correction_from=correction_from)
     if current and current.get("release_id") == bundle["release"]["release_id"]:
-        bundle = build_release_bundle(config, release_seq=int(current["release_seq"]), initial=initial, correction_from=correction_from)
+        bundle = build_published_bundle(config, release_seq=int(current["release_seq"]), initial=initial, correction_from=correction_from)
     if current and not initial and current.get("master_hash") == bundle["release"].get("master_hash"):
         bundle["collections"]["etf_master"] = []
         bundle["batch"]["counts"]["etf_master"] = 0

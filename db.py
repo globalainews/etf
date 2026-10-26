@@ -79,6 +79,129 @@ CREATE TABLE IF NOT EXISTS backtest_trades (
 CREATE INDEX IF NOT EXISTS idx_marker_signal_code_date ON signal_events(code, date);
 CREATE INDEX IF NOT EXISTS idx_trade_code_scheme ON backtest_trades(code, scheme);
 
+-- ETF龙虎榜本地物化结果。原始表仍是唯一数据源；以下表均可由原始表重建。
+CREATE TABLE IF NOT EXISTS etf_derived_daily (
+    date TEXT NOT NULL,
+    code TEXT NOT NULL,
+    name TEXT NOT NULL DEFAULT '',
+    market TEXT NOT NULL DEFAULT '',
+    sector TEXT,
+    baseline_date TEXT,
+    shares REAL,
+    baseline_shares REAL,
+    delta_shares REAL,
+    change_rate REAL,
+    change_status TEXT NOT NULL,
+    price_close REAL,
+    baseline_price_close REAL,
+    price_change_rate REAL,
+    price_status TEXT NOT NULL,
+    direction TEXT NOT NULL,
+    delta_rank INTEGER,
+    rate_rank INTEGER,
+    streak_direction TEXT,
+    streak_days INTEGER NOT NULL DEFAULT 0,
+    streak_start_date TEXT,
+    streak_change_rate REAL,
+    streak_status TEXT NOT NULL,
+    anomaly_median_abs_rate REAL,
+    anomaly_ratio REAL,
+    anomaly_status TEXT NOT NULL,
+    anomaly_qualified INTEGER NOT NULL DEFAULT 0,
+    special_event TEXT,
+    special_event_status TEXT NOT NULL DEFAULT 'NO_RELIABLE_SOURCE',
+    quality_status TEXT NOT NULL,
+    calc_version TEXT NOT NULL,
+    batch_id TEXT NOT NULL,
+    PRIMARY KEY (date, code)
+) WITHOUT ROWID;
+
+CREATE INDEX IF NOT EXISTS idx_derived_date_direction_delta
+    ON etf_derived_daily(date, direction, delta_shares, code);
+CREATE INDEX IF NOT EXISTS idx_derived_date_direction_rate
+    ON etf_derived_daily(date, direction, change_rate, code);
+CREATE INDEX IF NOT EXISTS idx_derived_date_streak
+    ON etf_derived_daily(date, streak_direction, streak_days, code);
+CREATE INDEX IF NOT EXISTS idx_derived_date_anomaly
+    ON etf_derived_daily(date, anomaly_qualified, anomaly_ratio, code);
+CREATE INDEX IF NOT EXISTS idx_derived_code_date
+    ON etf_derived_daily(code, date);
+CREATE INDEX IF NOT EXISTS idx_derived_date_sector
+    ON etf_derived_daily(date, sector, change_rate, code);
+
+CREATE TABLE IF NOT EXISTS etf_sector_daily (
+    date TEXT NOT NULL,
+    sector TEXT NOT NULL,
+    median_change_rate REAL,
+    valid_sample_count INTEGER NOT NULL,
+    missing_sample_count INTEGER NOT NULL,
+    sample_count INTEGER NOT NULL,
+    rank INTEGER,
+    classification_source TEXT NOT NULL DEFAULT 'funds.theme',
+    classification_overlaps INTEGER NOT NULL DEFAULT 0,
+    calc_version TEXT NOT NULL,
+    batch_id TEXT NOT NULL,
+    PRIMARY KEY (date, sector)
+) WITHOUT ROWID;
+
+CREATE INDEX IF NOT EXISTS idx_sector_date_rank ON etf_sector_daily(date, rank, sector);
+
+CREATE TABLE IF NOT EXISTS etf_calc_batches (
+    batch_id TEXT PRIMARY KEY,
+    state TEXT NOT NULL,
+    mode TEXT NOT NULL,
+    requested_from TEXT,
+    effective_from TEXT,
+    statistic_date TEXT,
+    baseline_date TEXT,
+    source_signature TEXT NOT NULL DEFAULT '',
+    config_json TEXT NOT NULL DEFAULT '{}',
+    derived_count INTEGER NOT NULL DEFAULT 0,
+    sector_count INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    completed_at TEXT,
+    error_type TEXT,
+    error_message TEXT
+);
+
+CREATE TABLE IF NOT EXISTS etf_calc_publish_status (
+    id TEXT PRIMARY KEY CHECK (id = 'current'),
+    batch_id TEXT NOT NULL,
+    statistic_date TEXT NOT NULL,
+    baseline_date TEXT,
+    effective_from TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    quality_status TEXT NOT NULL,
+    coverage_json TEXT NOT NULL,
+    calc_version TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS web_watchlists (
+    user_id TEXT NOT NULL,
+    code TEXT NOT NULL,
+    observation INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    PRIMARY KEY (user_id, code),
+    FOREIGN KEY (code) REFERENCES funds(code)
+) WITHOUT ROWID;
+
+CREATE INDEX IF NOT EXISTS idx_web_watchlists_user_updated
+    ON web_watchlists(user_id, updated_at DESC, code);
+
+CREATE TABLE IF NOT EXISTS web_user_entitlements (
+    user_id TEXT PRIMARY KEY,
+    tier TEXT NOT NULL DEFAULT 'basic',
+    status TEXT NOT NULL DEFAULT 'inactive',
+    expires_at TEXT,
+    plans_open INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL
+);
+
+-- 长时间计算使用的持久化暂存区，只有发布事务才会合并到正式表。
+CREATE TABLE IF NOT EXISTS etf_derived_daily_stage AS SELECT * FROM etf_derived_daily WHERE 0;
+CREATE TABLE IF NOT EXISTS etf_sector_daily_stage AS SELECT * FROM etf_sector_daily WHERE 0;
+
 CREATE VIEW IF NOT EXISTS v_total_scale AS
 SELECT d.date,
        d.total_shares_yi,
