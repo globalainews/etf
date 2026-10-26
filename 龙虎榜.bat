@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
 
-rem Produce the daily ETF share-ranking material package only (JSON + 4 HTML pages).
+rem Produce the published Mini Program signal package only (JSON + 6 HTML pages).
 rem Optional date: YYYYMMDD, YYYY-MM-DD, or --date YYYYMMDD / YYYY-MM-DD.
 set "PYTHON=F:\anaconda3\python.exe"
 set "PRODUCER_ROOT=D:\antigravity"
@@ -29,13 +29,15 @@ echo.
 echo ================================================
 echo ETF daily share-ranking material: starting build
 echo Output folder: %OUTPUT_ROOT%
-echo Package: JSON + 4 HTML pages (no video rendering)
+echo Package: JSON + 6 HTML pages (no video rendering)
+echo Prerequisite: run daily_update then sync.etf_sync.local_cli --incremental --verify successfully
+echo Mode: read-only published batch, --skip-refresh
 echo ================================================
 
 if not defined DATE_ARG (
-    "%PYTHON%" -X utf8 -m etf_longhubang.cli --output-root "%OUTPUT_ROOT%"
+    "%PYTHON%" -X utf8 -m etf_longhubang.cli --skip-refresh --output-root "%OUTPUT_ROOT%"
 ) else (
-    "%PYTHON%" -X utf8 -m etf_longhubang.cli --date "%DATE_ARG%" --output-root "%OUTPUT_ROOT%"
+    "%PYTHON%" -X utf8 -m etf_longhubang.cli --date "%DATE_ARG%" --skip-refresh --output-root "%OUTPUT_ROOT%"
 )
 
 set "EXIT_CODE=%ERRORLEVEL%"

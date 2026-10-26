@@ -198,6 +198,57 @@ CREATE TABLE IF NOT EXISTS web_user_entitlements (
     updated_at TEXT NOT NULL
 );
 
+-- CloudBase user_members 的本地审核镜像。Web 只操作此表；云端读写由
+-- member_sync_cli 显式完成，避免把服务端 API Key 暴露给本地浏览器。
+CREATE TABLE IF NOT EXISTS web_member_records (
+    member_id TEXT PRIMARY KEY,
+    openid TEXT NOT NULL UNIQUE,
+    nickname TEXT NOT NULL DEFAULT '',
+    video_member_name TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL CHECK (status IN ('pending','active','rejected','revoked')),
+    is_member INTEGER NOT NULL DEFAULT 0 CHECK (is_member IN (0,1)),
+    member_start_date TEXT,
+    member_end_date TEXT,
+    applied_at TEXT,
+    reviewed_at TEXT,
+    review_note TEXT NOT NULL DEFAULT '',
+    review_source TEXT NOT NULL DEFAULT '',
+    remote_fingerprint TEXT,
+    remote_json TEXT,
+    dirty INTEGER NOT NULL DEFAULT 0 CHECK (dirty IN (0,1)),
+    conflict INTEGER NOT NULL DEFAULT 0 CHECK (conflict IN (0,1)),
+    is_manual INTEGER NOT NULL DEFAULT 0 CHECK (is_manual IN (0,1)),
+    last_pulled_at TEXT,
+    last_pushed_at TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_web_member_records_status_updated
+    ON web_member_records(status, updated_at DESC, member_id);
+CREATE INDEX IF NOT EXISTS idx_web_member_records_dirty_conflict
+    ON web_member_records(dirty, conflict, updated_at DESC);
+CREATE INDEX IF NOT EXISTS idx_web_member_records_member_name
+    ON web_member_records(video_member_name, nickname);
+
+CREATE TABLE IF NOT EXISTS web_member_audit (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    member_id TEXT NOT NULL,
+    action TEXT NOT NULL,
+    detail_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_web_member_audit_member_created
+    ON web_member_audit(member_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS web_member_sync_state (
+    id TEXT PRIMARY KEY CHECK (id = 'current'),
+    last_pull_at TEXT,
+    last_push_at TEXT,
+    last_result_json TEXT NOT NULL DEFAULT '{}'
+);
+
 -- 长时间计算使用的持久化暂存区，只有发布事务才会合并到正式表。
 CREATE TABLE IF NOT EXISTS etf_derived_daily_stage AS SELECT * FROM etf_derived_daily WHERE 0;
 CREATE TABLE IF NOT EXISTS etf_sector_daily_stage AS SELECT * FROM etf_sector_daily WHERE 0;
