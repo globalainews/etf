@@ -1,0 +1,16 @@
+{
+  "name": "ETF份额异动龙虎榜",
+  "subtitle": "自制ETF份额统计榜",
+  "colors": {
+    "background": "#07101D",
+    "panel": "#0D1929",
+    "brand": "#19D3C5",
+    "increase": "#FF665F",
+    "decrease": "#2ED28B",
+    "price_accent": "#FF9D4D",
+    "text": "#F4F7FB",
+    "muted": "#91A0B4",
+    "grid": "#23344A"
+  },
+  "font_stack": "Microsoft YaHei UI, Microsoft YaHei, PingFang SC, sans-serif"
+}

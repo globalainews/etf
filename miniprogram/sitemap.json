@@ -1,0 +1,5 @@
+{
+  "desc": "ETF查询工具页面",
+  "rules": [{ "action": "allow", "page": "*" }]
+}
+

@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/watchlist/watchlist",
+    "pages/search/search",
+    "pages/profile/profile",
+    "pages/ranking/ranking",
+    "pages/detail/detail",
+    "pages/sectors/sectors",
+    "pages/streaks/streaks",
+    "pages/anomalies/anomalies",
+    "pages/membership/membership"
+  ],
+  "window": {
+    "navigationBarTitleText": "ETF份额龙虎榜",
+    "navigationBarBackgroundColor": "#071c32",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f3f6f8",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#718096",
+    "selectedColor": "#087f77",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "龙虎榜" },
+      { "pagePath": "pages/watchlist/watchlist", "text": "自选" },
+      { "pagePath": "pages/search/search", "text": "搜索" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
+

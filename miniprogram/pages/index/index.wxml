@@ -1,0 +1,34 @@
+<view class="page">
+  <view class="hero">
+    <text wx:if="{{isDemo}}" class="demo-badge">演示模式 · 非真实行情</text>
+    <view class="hero-title">ETF份额龙虎榜</view>
+    <text class="hero-sub">自制份额统计榜 · 统计日 {{status.statistic_date || '--'}}\n更新时间 {{status.updated_at || '--'}}</text>
+  </view>
+  <view wx:if="{{error}}" class="notice error">{{error}}<button class="secondary retry" bindtap="load">重试</button></view>
+  <view wx:elif="{{loading}}" class="loading">正在读取已发布批次…</view>
+  <block wx:else>
+    <view class="notice {{status.quality_status==='DEMO'?'warning':''}}">{{status.disclaimer}}</view>
+    <view wx:if="{{status.is_stale}}" class="notice warning">当前发布数据可能陈旧，请以实际统计日 {{status.statistic_date}} 为准，并检查同步状态。</view>
+    <view class="card">
+      <view class="section-head"><text class="card-title">今日数据观察</text><text class="link" bindtap="openSectors">板块对比 ›</text></view>
+      <view class="status-grid">
+        <view class="status-cell"><text class="status-value">{{status.coverage.latest_share_count}}</text><text class="status-label">当日份额样本</text></view>
+        <view class="status-cell"><text class="status-value">{{status.coverage.comparable_count}}</text><text class="status-label">可比较样本</text></view>
+        <view class="status-cell"><text class="status-value">{{status.coverage.latest_price_count}}</text><text class="status-label">同期价格样本</text></view>
+        <view class="status-cell"><text class="status-value">{{status.coverage.classification_count}}</text><text class="status-label">已有可信分类</text></view>
+      </view>
+      <text class="muted">覆盖 {{status.coverage.latest_share_count}} / {{status.coverage.fund_total}} 条基础资料记录；仅代表本地数据库覆盖范围，不声称全市场完整。</text>
+    </view>
+    <view class="card">
+      <view class="tabs"><view wx:for="{{tabs}}" wx:key="0" class="tab {{tab===item[0]?'active':''}}" data-tab="{{item[0]}}" bindtap="changeTab">{{item[1]}}</view></view>
+      <view wx:if="{{!items.length}}" class="empty">当前批次没有可靠结果</view>
+      <view wx:for="{{items}}" wx:key="code" class="row" data-code="{{item.code}}" bindtap="openDetail">
+        <text class="rank">{{item.rank || index+1}}</text><view class="row-main"><view class="name">{{item.name}}</view><view class="code">{{item.code}} · {{item.sector || '分类缺失'}}</view></view>
+        <view class="metrics"><text class="metric-main {{item.tone}}">{{item.mainText}}</text><text class="metric-sub">份额 {{item.rateText}} · 价格 {{item.priceText}}</text></view>
+      </view>
+      <view class="load-more" bindtap="openFull">查看完整榜单 ›</view>
+    </view>
+    <view class="footer-note">数据实际统计日以页面显示为准。采集日、自然日与交易统计日不混用。</view>
+  </block>
+</view>
+

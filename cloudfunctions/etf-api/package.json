@@ -1,0 +1,14 @@
+{
+  "name": "etf-api",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "wx-server-sdk": "4.0.2"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}
+

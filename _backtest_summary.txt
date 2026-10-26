@@ -1,0 +1,79 @@
+=== Backtest Summary ===
+
+Benchmark:
+  Total Return: 2.8192%
+  Annualized: 0.2474%
+  Sharpe: 0.1031
+  MDD: -13.26%
+
+Scheme 1: Fixed 40D:
+  name: Scheme 1: Fixed 40D
+  n_trades: 53
+  n_wins: 29
+  n_losses: 24
+  win_rate: 0.5472
+  avg_return: -0.3498%
+  avg_win: 0.0182
+  avg_loss: -0.0297
+  profit_loss_ratio: 0.6126
+  avg_hold_days: 1018.0566
+  total_return: -24.5921%
+  annualized_return: -0.0248
+  final_equity: 754079.4184
+  sharpe: -0.0363
+  sortino: -0.0141
+  mdd: -0.5174
+  mdd_pct: -51.7447
+  mdd_duration_days: 1824
+  calmar: -0.0479
+  per_etf:
+    159228: {'n': 1, 'win_rate': 1.0, 'avg_return': 0.002132733878641506}
+    159307: {'n': 11, 'win_rate': 0.6363636363636364, 'avg_return': 0.0011845713336088492}
+    159525: {'n': 9, 'win_rate': 0.5555555555555556, 'avg_return': 0.0005222034487502082}
+    159547: {'n': 4, 'win_rate': 0.0, 'avg_return': -0.007730833650619811}
+    159549: {'n': 8, 'win_rate': 0.625, 'avg_return': 0.0009279646732330655}
+    512890: {'n': 10, 'win_rate': 0.8, 'avg_return': -0.015069222422983409}
+    563020: {'n': 10, 'win_rate': 0.3, 'avg_return': -0.0031082971449916024}
+
+Scheme 2: MA20 Early:
+  name: Scheme 2: MA20 Early
+  n_trades: 53
+  n_wins: 26
+  n_losses: 27
+  win_rate: 0.4906
+  avg_return: -0.6055%
+  avg_win: 0.0158
+  avg_loss: -0.0271
+  profit_loss_ratio: 0.5836
+  avg_hold_days: 1014.8113
+  total_return: -38.7898%
+  annualized_return: -0.0427
+  final_equity: 612101.9033
+  sharpe: -0.1346
+  sortino: -0.0419
+  mdd: -0.5647
+  mdd_pct: -56.4701
+  mdd_duration_days: 2102
+  calmar: -0.0756
+  per_etf:
+    159228: {'n': 1, 'win_rate': 1.0, 'avg_return': 0.002132733878641506}
+    159307: {'n': 11, 'win_rate': 0.6363636363636364, 'avg_return': 0.0011845713336088492}
+    159525: {'n': 9, 'win_rate': 0.5555555555555556, 'avg_return': 0.0005222034487502082}
+    159547: {'n': 4, 'win_rate': 0.0, 'avg_return': -0.007730833650619796}
+    159549: {'n': 8, 'win_rate': 0.625, 'avg_return': 0.0009279646732330581}
+    512890: {'n': 10, 'win_rate': 0.5, 'avg_return': -0.028617346356536382}
+    563020: {'n': 10, 'win_rate': 0.3, 'avg_return': -0.003108297144991573}
+
+
+=== Scheme 2 Exit Reasons ===
+  fixed_40: 43
+  ma20_revert: 10
+
+=== Per-ETF Trade Count ===
+  159228 红利低波ETF长城: S1=1, S2=1, A=0
+  159307 红利低波100ETF博时: S1=11, S2=11, A=0
+  159525 红利低波ETF富国: S1=9, S2=9, A=0
+  159547 红利低波ETF华夏: S1=4, S2=4, A=0
+  159549 红利低波ETF天弘: S1=8, S2=8, A=0
+  512890 红利低波: S1=10, S2=10, A=0
+  563020 低波红利: S1=10, S2=10, A=0

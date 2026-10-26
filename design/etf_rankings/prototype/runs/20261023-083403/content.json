@@ -1,0 +1,5419 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "run_id": "20261023-083403",
+    "trade_date": "2026-10-23",
+    "previous_trade_date": "2026-10-22",
+    "week_start": "2026-10-16",
+    "window_20_start": "2026-09-17",
+    "generated_at": "2026-10-25T08:34:03+08:00",
+    "db_sha256": "eeaf4b5151425cb5769719240ac44688f6ed278d101d05b8777bac404b67a7df",
+    "source": "项目本地 etf.db；份额源于交易所数据，价格源于本地通达信日线",
+    "disclaimer": "份额变化×当日收盘价为收盘参考市值，不等于真实资金净流入或基金资产净值变化。"
+  },
+  "audit_summary": {
+    "latest_scale_count": 1690,
+    "latest_price_count": 1543,
+    "latest_missing_price_count": 147,
+    "quality_coefficient": 0.95
+  },
+  "rankings": {
+    "counts": {
+      "increase": 584,
+      "decrease": 427,
+      "flat": 679
+    },
+    "daily_reference_increase": [
+      {
+        "code": "510300",
+        "name": "300ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 352.427,
+        "previous_shares_yi": 327.299,
+        "delta_shares_yi": 25.128,
+        "share_change_pct": 7.677,
+        "close": 4.178,
+        "price_change_pct": 1.729,
+        "reference_value_yi": 104.985,
+        "previous_reference_size_yi": 1344.216,
+        "robust_z_60": 6.53,
+        "delta_5d_shares_yi": 66.897,
+        "share_change_5d_pct": 23.429,
+        "reference_5d_yi": 279.496,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 285.53
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 291.956
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 294.008
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 301.991
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 327.299
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 352.427
+          }
+        ],
+        "delta_20d_shares_yi": 115.416,
+        "share_change_20d_pct": 48.696,
+        "price_change_20d_pct": -7.811,
+        "reference_20d_yi": 482.208,
+        "start_reference_20d_yi": 1074.133
+      },
+      {
+        "code": "159915",
+        "name": "创业板ETF易方达",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 337.575,
+        "previous_shares_yi": 313.055,
+        "delta_shares_yi": 24.52,
+        "share_change_pct": 7.833,
+        "close": 2.702,
+        "price_change_pct": 4.244,
+        "reference_value_yi": 66.253,
+        "previous_reference_size_yi": 811.437,
+        "robust_z_60": 4.66,
+        "delta_5d_shares_yi": 78.21,
+        "share_change_5d_pct": 30.154,
+        "reference_5d_yi": 211.323,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 259.365
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 267.365
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 273.435
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 292.045
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 313.055
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 337.575
+          }
+        ],
+        "delta_20d_shares_yi": 137.62,
+        "share_change_20d_pct": 68.826,
+        "price_change_20d_pct": -18.59,
+        "reference_20d_yi": 371.849,
+        "start_reference_20d_yi": 663.649
+      },
+      {
+        "code": "510330",
+        "name": "华夏300",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 119.081,
+        "previous_shares_yi": 105.329,
+        "delta_shares_yi": 13.752,
+        "share_change_pct": 13.056,
+        "close": 4.353,
+        "price_change_pct": 1.516,
+        "reference_value_yi": 59.862,
+        "previous_reference_size_yi": 451.653,
+        "robust_z_60": 35.5,
+        "delta_5d_shares_yi": 32.193,
+        "share_change_5d_pct": 37.051,
+        "reference_5d_yi": 140.136,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 86.888
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 87.194
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 96.239
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 97.022
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 105.329
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 119.081
+          }
+        ],
+        "delta_20d_shares_yi": 35.973,
+        "share_change_20d_pct": 43.284,
+        "price_change_20d_pct": -7.912,
+        "reference_20d_yi": 156.59,
+        "start_reference_20d_yi": 392.854
+      },
+      {
+        "code": "510500",
+        "name": "500ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 73.014,
+        "previous_shares_yi": 64.482,
+        "delta_shares_yi": 8.532,
+        "share_change_pct": 13.232,
+        "close": 6.857,
+        "price_change_pct": 2.588,
+        "reference_value_yi": 58.504,
+        "previous_reference_size_yi": 430.996,
+        "robust_z_60": 5.16,
+        "delta_5d_shares_yi": 15.272,
+        "share_change_5d_pct": 26.449,
+        "reference_5d_yi": 104.72,
+        "positive_days_5": 3,
+        "negative_days_5": 2,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 57.742
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 63.814
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 61.106
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 60.998
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 64.482
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 73.014
+          }
+        ],
+        "delta_20d_shares_yi": 16.112,
+        "share_change_20d_pct": 28.316,
+        "price_change_20d_pct": -10.728,
+        "reference_20d_yi": 110.48,
+        "start_reference_20d_yi": 437.062
+      },
+      {
+        "code": "510310",
+        "name": "HS300ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 183.597,
+        "previous_shares_yi": 171.15,
+        "delta_shares_yi": 12.447,
+        "share_change_pct": 7.273,
+        "close": 4.058,
+        "price_change_pct": 1.73,
+        "reference_value_yi": 50.51,
+        "previous_reference_size_yi": 682.719,
+        "robust_z_60": 16.69,
+        "delta_5d_shares_yi": 14.805,
+        "share_change_5d_pct": 8.771,
+        "reference_5d_yi": 60.079,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 168.792
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 169.485
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 170.286
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 170.628
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 171.15
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 183.597
+          }
+        ],
+        "delta_20d_shares_yi": 70.155,
+        "share_change_20d_pct": 61.842,
+        "price_change_20d_pct": -7.856,
+        "reference_20d_yi": 284.689,
+        "start_reference_20d_yi": 499.601
+      },
+      {
+        "code": "588000",
+        "name": "科创50",
+        "theme": "科技/TMT",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 822.927,
+        "previous_shares_yi": 795.327,
+        "delta_shares_yi": 27.6,
+        "share_change_pct": 3.47,
+        "close": 1.422,
+        "price_change_pct": 3.268,
+        "reference_value_yi": 39.247,
+        "previous_reference_size_yi": 1095.165,
+        "robust_z_60": 1.85,
+        "delta_5d_shares_yi": 120.96,
+        "share_change_5d_pct": 17.232,
+        "reference_5d_yi": 172.005,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 701.967
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 715.917
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 737.187
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 747.657
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 795.327
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 822.927
+          }
+        ],
+        "delta_20d_shares_yi": 267.0,
+        "share_change_20d_pct": 48.028,
+        "price_change_20d_pct": -16.156,
+        "reference_20d_yi": 379.674,
+        "start_reference_20d_yi": 942.852
+      },
+      {
+        "code": "512100",
+        "name": "1000ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 108.772,
+        "previous_shares_yi": 96.812,
+        "delta_shares_yi": 11.96,
+        "share_change_pct": 12.354,
+        "close": 2.742,
+        "price_change_pct": 2.62,
+        "reference_value_yi": 32.794,
+        "previous_reference_size_yi": 258.682,
+        "robust_z_60": 4.02,
+        "delta_5d_shares_yi": 27.96,
+        "share_change_5d_pct": 34.599,
+        "reference_5d_yi": 76.666,
+        "positive_days_5": 4,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 80.812
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 88.212
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 83.332
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 84.572
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 96.812
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 108.772
+          }
+        ],
+        "delta_20d_shares_yi": 44.86,
+        "share_change_20d_pct": 70.19,
+        "price_change_20d_pct": -10.568,
+        "reference_20d_yi": 123.006,
+        "start_reference_20d_yi": 195.955
+      },
+      {
+        "code": "159949",
+        "name": "创业板50ETF华安",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 209.838,
+        "previous_shares_yi": 199.478,
+        "delta_shares_yi": 10.36,
+        "share_change_pct": 5.194,
+        "close": 1.227,
+        "price_change_pct": 3.983,
+        "reference_value_yi": 12.712,
+        "previous_reference_size_yi": 235.384,
+        "robust_z_60": 5.81,
+        "delta_5d_shares_yi": 31.81,
+        "share_change_5d_pct": 17.868,
+        "reference_5d_yi": 39.031,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 178.028
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 180.548
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 182.498
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 187.938
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 199.478
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 209.838
+          }
+        ],
+        "delta_20d_shares_yi": 49.33,
+        "share_change_20d_pct": 30.734,
+        "price_change_20d_pct": -20.48,
+        "reference_20d_yi": 60.528,
+        "start_reference_20d_yi": 247.664
+      },
+      {
+        "code": "511360",
+        "name": "短融ETF",
+        "theme": "债券/货币",
+        "market": "上海",
+        "asset_class": "bond",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 8.149,
+        "previous_shares_yi": 8.051,
+        "delta_shares_yi": 0.098,
+        "share_change_pct": 1.218,
+        "close": 114.094,
+        "price_change_pct": 0.001,
+        "reference_value_yi": 11.186,
+        "previous_reference_size_yi": 918.589,
+        "robust_z_60": 4.4,
+        "delta_5d_shares_yi": 0.178,
+        "share_change_5d_pct": 2.227,
+        "reference_5d_yi": 20.259,
+        "positive_days_5": 2,
+        "negative_days_5": 3,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 7.972
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 7.956
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 7.916
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 7.906
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 8.051
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 8.149
+          }
+        ],
+        "delta_20d_shares_yi": 0.408,
+        "share_change_20d_pct": 5.267,
+        "price_change_20d_pct": 0.155,
+        "reference_20d_yi": 46.523,
+        "start_reference_20d_yi": 881.889
+      },
+      {
+        "code": "159845",
+        "name": "中证1000ETF华夏",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 31.504,
+        "previous_shares_yi": 27.964,
+        "delta_shares_yi": 3.54,
+        "share_change_pct": 12.659,
+        "close": 2.814,
+        "price_change_pct": 2.701,
+        "reference_value_yi": 9.962,
+        "previous_reference_size_yi": 76.622,
+        "robust_z_60": 1.96,
+        "delta_5d_shares_yi": 3.36,
+        "share_change_5d_pct": 11.938,
+        "reference_5d_yi": 9.455,
+        "positive_days_5": 2,
+        "negative_days_5": 3,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 28.144
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 31.894
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 29.194
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 28.834
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 27.964
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 31.504
+          }
+        ],
+        "delta_20d_shares_yi": 6.6,
+        "share_change_20d_pct": 26.501,
+        "price_change_20d_pct": -10.553,
+        "reference_20d_yi": 18.572,
+        "start_reference_20d_yi": 78.349
+      }
+    ],
+    "daily_reference_decrease": [
+      {
+        "code": "159516",
+        "name": "半导体设备ETF国泰",
+        "theme": "科技/TMT",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 589.584,
+        "previous_shares_yi": 605.334,
+        "delta_shares_yi": -15.75,
+        "share_change_pct": -2.602,
+        "close": 0.54,
+        "price_change_pct": 1.504,
+        "reference_value_yi": -8.505,
+        "previous_reference_size_yi": 322.037,
+        "robust_z_60": -2.0,
+        "delta_5d_shares_yi": -25.2,
+        "share_change_5d_pct": -4.099,
+        "reference_5d_yi": -13.608,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 614.784
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 627.804
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 624.834
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 621.924
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 605.334
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 589.584
+          }
+        ],
+        "delta_20d_shares_yi": -23.16,
+        "share_change_20d_pct": -3.78,
+        "price_change_20d_pct": -23.186,
+        "reference_20d_yi": -12.506,
+        "start_reference_20d_yi": 430.759
+      },
+      {
+        "code": "518880",
+        "name": "黄金ETF",
+        "theme": "商品",
+        "market": "上海",
+        "asset_class": "commodity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 121.5,
+        "previous_shares_yi": 122.143,
+        "delta_shares_yi": -0.643,
+        "share_change_pct": -0.526,
+        "close": 8.199,
+        "price_change_pct": -1.926,
+        "reference_value_yi": -5.272,
+        "previous_reference_size_yi": 1021.119,
+        "robust_z_60": -2.2,
+        "delta_5d_shares_yi": 0.017,
+        "share_change_5d_pct": 0.014,
+        "reference_5d_yi": 0.139,
+        "positive_days_5": 4,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 121.483
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 121.665
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 121.823
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 122.094
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 122.143
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 121.5
+          }
+        ],
+        "delta_20d_shares_yi": 1.467,
+        "share_change_20d_pct": 1.222,
+        "price_change_20d_pct": -7.419,
+        "reference_20d_yi": 12.028,
+        "start_reference_20d_yi": 1063.016
+      },
+      {
+        "code": "515220",
+        "name": "煤炭ETF",
+        "theme": "周期/资源",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 77.127,
+        "previous_shares_yi": 81.422,
+        "delta_shares_yi": -4.295,
+        "share_change_pct": -5.275,
+        "close": 1.205,
+        "price_change_pct": 0.25,
+        "reference_value_yi": -5.175,
+        "previous_reference_size_yi": 97.869,
+        "robust_z_60": -2.98,
+        "delta_5d_shares_yi": -9.34,
+        "share_change_5d_pct": -10.802,
+        "reference_5d_yi": -11.255,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 86.467
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 86.727
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 85.897
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 84.747
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 81.422
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 77.127
+          }
+        ],
+        "delta_20d_shares_yi": -2.515,
+        "share_change_20d_pct": -3.158,
+        "price_change_20d_pct": -4.213,
+        "reference_20d_yi": -3.031,
+        "start_reference_20d_yi": 100.189
+      },
+      {
+        "code": "588090",
+        "name": "科创板",
+        "theme": "科技/TMT",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 30.961,
+        "previous_shares_yi": 34.291,
+        "delta_shares_yi": -3.33,
+        "share_change_pct": -9.711,
+        "close": 1.387,
+        "price_change_pct": 3.199,
+        "reference_value_yi": -4.619,
+        "previous_reference_size_yi": 46.087,
+        "robust_z_60": -10.98,
+        "delta_5d_shares_yi": -3.03,
+        "share_change_5d_pct": -8.914,
+        "reference_5d_yi": -4.203,
+        "positive_days_5": 2,
+        "negative_days_5": 3,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 33.991
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 34.231
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 34.171
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 34.141
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 34.291
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 30.961
+          }
+        ],
+        "delta_20d_shares_yi": -0.78,
+        "share_change_20d_pct": -2.457,
+        "price_change_20d_pct": -16.143,
+        "reference_20d_yi": -1.082,
+        "start_reference_20d_yi": 52.499
+      },
+      {
+        "code": "159994",
+        "name": "通信ETF银华",
+        "theme": "科技/TMT",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 33.58,
+        "previous_shares_yi": 36.61,
+        "delta_shares_yi": -3.03,
+        "share_change_pct": -8.276,
+        "close": 0.978,
+        "price_change_pct": 2.623,
+        "reference_value_yi": -2.963,
+        "previous_reference_size_yi": 34.889,
+        "robust_z_60": -8.09,
+        "delta_5d_shares_yi": -5.11,
+        "share_change_5d_pct": -13.208,
+        "reference_5d_yi": -4.998,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 38.69
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 38.57
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 38.28
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 36.51
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 36.61
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 33.58
+          }
+        ],
+        "delta_20d_shares_yi": -3.93,
+        "share_change_20d_pct": -10.477,
+        "price_change_20d_pct": -23.653,
+        "reference_20d_yi": -3.844,
+        "start_reference_20d_yi": 48.05
+      },
+      {
+        "code": "159001",
+        "name": "货币ETF易方达",
+        "theme": "债券/货币",
+        "market": "深圳",
+        "asset_class": "money",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 0.411,
+        "previous_shares_yi": 0.44,
+        "delta_shares_yi": -0.029,
+        "share_change_pct": -6.681,
+        "close": 100.001,
+        "price_change_pct": 0.0,
+        "reference_value_yi": -2.941,
+        "previous_reference_size_yi": 44.023,
+        "robust_z_60": -1.09,
+        "delta_5d_shares_yi": -0.029,
+        "share_change_5d_pct": -6.69,
+        "reference_5d_yi": -2.946,
+        "positive_days_5": 2,
+        "negative_days_5": 3,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 0.44
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 0.43
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 0.4
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 0.404
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 0.44
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 0.411
+          }
+        ],
+        "delta_20d_shares_yi": 0.083,
+        "share_change_20d_pct": 25.486,
+        "price_change_20d_pct": 0.001,
+        "reference_20d_yi": 8.344,
+        "start_reference_20d_yi": 32.738
+      },
+      {
+        "code": "513630",
+        "name": "香港红利",
+        "theme": "跨境/海外",
+        "market": "上海",
+        "asset_class": "cross_border",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 65.694,
+        "previous_shares_yi": 67.604,
+        "delta_shares_yi": -1.91,
+        "share_change_pct": -2.825,
+        "close": 1.518,
+        "price_change_pct": 0.132,
+        "reference_value_yi": -2.899,
+        "previous_reference_size_yi": 102.487,
+        "robust_z_60": -16.68,
+        "delta_5d_shares_yi": -3.1,
+        "share_change_5d_pct": -4.506,
+        "reference_5d_yi": -4.706,
+        "positive_days_5": 0,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 68.794
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 68.794
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 68.704
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 68.464
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 67.604
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 65.694
+          }
+        ],
+        "delta_20d_shares_yi": -7.41,
+        "share_change_20d_pct": -10.136,
+        "price_change_20d_pct": -1.811,
+        "reference_20d_yi": -11.248,
+        "start_reference_20d_yi": 113.018
+      },
+      {
+        "code": "518800",
+        "name": "黄金基金",
+        "theme": "商品",
+        "market": "上海",
+        "asset_class": "commodity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 40.607,
+        "previous_shares_yi": 40.934,
+        "delta_shares_yi": -0.327,
+        "share_change_pct": -0.799,
+        "close": 8.594,
+        "price_change_pct": -2.018,
+        "reference_value_yi": -2.81,
+        "previous_reference_size_yi": 359.03,
+        "robust_z_60": -5.44,
+        "delta_5d_shares_yi": -0.137,
+        "share_change_5d_pct": -0.336,
+        "reference_5d_yi": -1.177,
+        "positive_days_5": 4,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 40.744
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 40.815
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 40.858
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 40.9
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 40.934
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 40.607
+          }
+        ],
+        "delta_20d_shares_yi": 0.948,
+        "share_change_20d_pct": 2.39,
+        "price_change_20d_pct": -7.452,
+        "reference_20d_yi": 8.147,
+        "start_reference_20d_yi": 368.272
+      },
+      {
+        "code": "159558",
+        "name": "半导体设备ETF易方达",
+        "theme": "科技/TMT",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 185.936,
+        "previous_shares_yi": 188.846,
+        "delta_shares_yi": -2.91,
+        "share_change_pct": -1.541,
+        "close": 0.845,
+        "price_change_pct": 1.198,
+        "reference_value_yi": -2.459,
+        "previous_reference_size_yi": 157.686,
+        "robust_z_60": -1.18,
+        "delta_5d_shares_yi": -5.04,
+        "share_change_5d_pct": -2.639,
+        "reference_5d_yi": -4.259,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 190.976
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 193.976
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 191.786
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 191.396
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 188.846
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 185.936
+          }
+        ],
+        "delta_20d_shares_yi": 0.45,
+        "share_change_20d_pct": 0.243,
+        "price_change_20d_pct": -23.529,
+        "reference_20d_yi": 0.38,
+        "start_reference_20d_yi": 204.962
+      },
+      {
+        "code": "517520",
+        "name": "黄金股",
+        "theme": "商品",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 71.869,
+        "previous_shares_yi": 73.069,
+        "delta_shares_yi": -1.2,
+        "share_change_pct": -1.642,
+        "close": 1.734,
+        "price_change_pct": 0.755,
+        "reference_value_yi": -2.081,
+        "previous_reference_size_yi": 125.752,
+        "robust_z_60": -1.24,
+        "delta_5d_shares_yi": 0.025,
+        "share_change_5d_pct": 0.035,
+        "reference_5d_yi": 0.043,
+        "positive_days_5": 2,
+        "negative_days_5": 2,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 71.844
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 71.844
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 75.599
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 75.709
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 73.069
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 71.869
+          }
+        ],
+        "delta_20d_shares_yi": 2.845,
+        "share_change_20d_pct": 4.122,
+        "price_change_20d_pct": -15.0,
+        "reference_20d_yi": 4.933,
+        "start_reference_20d_yi": 140.809
+      }
+    ],
+    "daily_growth_rate": [
+      {
+        "code": "510150",
+        "name": "消费ETF",
+        "theme": "消费",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 33.872,
+        "previous_shares_yi": 27.992,
+        "delta_shares_yi": 5.88,
+        "share_change_pct": 21.006,
+        "close": 0.485,
+        "price_change_pct": 2.754,
+        "reference_value_yi": 2.852,
+        "previous_reference_size_yi": 13.212,
+        "robust_z_60": 99.49,
+        "delta_5d_shares_yi": 6.02,
+        "share_change_5d_pct": 21.614,
+        "reference_5d_yi": 2.92,
+        "positive_days_5": 4,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 27.852
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 27.872
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 27.852
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 27.892
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 27.992
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 33.872
+          }
+        ],
+        "delta_20d_shares_yi": 5.62,
+        "share_change_20d_pct": 19.893,
+        "price_change_20d_pct": -0.206,
+        "reference_20d_yi": 2.726,
+        "start_reference_20d_yi": 13.73
+      },
+      {
+        "code": "515650",
+        "name": "消费50",
+        "theme": "消费",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 34.552,
+        "previous_shares_yi": 29.592,
+        "delta_shares_yi": 4.96,
+        "share_change_pct": 16.761,
+        "close": 1.058,
+        "price_change_pct": 1.147,
+        "reference_value_yi": 5.248,
+        "previous_reference_size_yi": 30.953,
+        "robust_z_60": 42.16,
+        "delta_5d_shares_yi": 5.26,
+        "share_change_5d_pct": 17.957,
+        "reference_5d_yi": 5.565,
+        "positive_days_5": 4,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 29.292
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 29.532
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 29.592
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 29.512
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 29.592
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 34.552
+          }
+        ],
+        "delta_20d_shares_yi": 3.44,
+        "share_change_20d_pct": 11.057,
+        "price_change_20d_pct": 1.051,
+        "reference_20d_yi": 3.64,
+        "start_reference_20d_yi": 32.574
+      },
+      {
+        "code": "510500",
+        "name": "500ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 73.014,
+        "previous_shares_yi": 64.482,
+        "delta_shares_yi": 8.532,
+        "share_change_pct": 13.232,
+        "close": 6.857,
+        "price_change_pct": 2.588,
+        "reference_value_yi": 58.504,
+        "previous_reference_size_yi": 430.996,
+        "robust_z_60": 5.16,
+        "delta_5d_shares_yi": 15.272,
+        "share_change_5d_pct": 26.449,
+        "reference_5d_yi": 104.72,
+        "positive_days_5": 3,
+        "negative_days_5": 2,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 57.742
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 63.814
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 61.106
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 60.998
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 64.482
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 73.014
+          }
+        ],
+        "delta_20d_shares_yi": 16.112,
+        "share_change_20d_pct": 28.316,
+        "price_change_20d_pct": -10.728,
+        "reference_20d_yi": 110.48,
+        "start_reference_20d_yi": 437.062
+      },
+      {
+        "code": "510330",
+        "name": "华夏300",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 119.081,
+        "previous_shares_yi": 105.329,
+        "delta_shares_yi": 13.752,
+        "share_change_pct": 13.056,
+        "close": 4.353,
+        "price_change_pct": 1.516,
+        "reference_value_yi": 59.862,
+        "previous_reference_size_yi": 451.653,
+        "robust_z_60": 35.5,
+        "delta_5d_shares_yi": 32.193,
+        "share_change_5d_pct": 37.051,
+        "reference_5d_yi": 140.136,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 86.888
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 87.194
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 96.239
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 97.022
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 105.329
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 119.081
+          }
+        ],
+        "delta_20d_shares_yi": 35.973,
+        "share_change_20d_pct": 43.284,
+        "price_change_20d_pct": -7.912,
+        "reference_20d_yi": 156.59,
+        "start_reference_20d_yi": 392.854
+      },
+      {
+        "code": "159845",
+        "name": "中证1000ETF华夏",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 31.504,
+        "previous_shares_yi": 27.964,
+        "delta_shares_yi": 3.54,
+        "share_change_pct": 12.659,
+        "close": 2.814,
+        "price_change_pct": 2.701,
+        "reference_value_yi": 9.962,
+        "previous_reference_size_yi": 76.622,
+        "robust_z_60": 1.96,
+        "delta_5d_shares_yi": 3.36,
+        "share_change_5d_pct": 11.938,
+        "reference_5d_yi": 9.455,
+        "positive_days_5": 2,
+        "negative_days_5": 3,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 28.144
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 31.894
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 29.194
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 28.834
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 27.964
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 31.504
+          }
+        ],
+        "delta_20d_shares_yi": 6.6,
+        "share_change_20d_pct": 26.501,
+        "price_change_20d_pct": -10.553,
+        "reference_20d_yi": 18.572,
+        "start_reference_20d_yi": 78.349
+      },
+      {
+        "code": "510360",
+        "name": "广发300",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 24.594,
+        "previous_shares_yi": 21.864,
+        "delta_shares_yi": 2.73,
+        "share_change_pct": 12.486,
+        "close": 1.597,
+        "price_change_pct": 1.655,
+        "reference_value_yi": 4.36,
+        "previous_reference_size_yi": 34.348,
+        "robust_z_60": 15.34,
+        "delta_5d_shares_yi": 2.91,
+        "share_change_5d_pct": 13.42,
+        "reference_5d_yi": 4.647,
+        "positive_days_5": 3,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 21.684
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 21.684
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 21.864
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 21.834
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 21.864
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 24.594
+          }
+        ],
+        "delta_20d_shares_yi": 6.33,
+        "share_change_20d_pct": 34.659,
+        "price_change_20d_pct": -7.901,
+        "reference_20d_yi": 10.109,
+        "start_reference_20d_yi": 31.669
+      },
+      {
+        "code": "510320",
+        "name": "300中金",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 7.331,
+        "previous_shares_yi": 6.521,
+        "delta_shares_yi": 0.81,
+        "share_change_pct": 12.422,
+        "close": 1.124,
+        "price_change_pct": 1.353,
+        "reference_value_yi": 0.91,
+        "previous_reference_size_yi": 7.231,
+        "robust_z_60": null,
+        "delta_5d_shares_yi": 0.81,
+        "share_change_5d_pct": 12.422,
+        "reference_5d_yi": 0.91,
+        "positive_days_5": 1,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 6.521
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 6.521
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 6.521
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 6.521
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 6.521
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 7.331
+          }
+        ],
+        "delta_20d_shares_yi": 0.96,
+        "share_change_20d_pct": 15.069,
+        "price_change_20d_pct": -7.793,
+        "reference_20d_yi": 1.079,
+        "start_reference_20d_yi": 7.766
+      },
+      {
+        "code": "512100",
+        "name": "1000ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 108.772,
+        "previous_shares_yi": 96.812,
+        "delta_shares_yi": 11.96,
+        "share_change_pct": 12.354,
+        "close": 2.742,
+        "price_change_pct": 2.62,
+        "reference_value_yi": 32.794,
+        "previous_reference_size_yi": 258.682,
+        "robust_z_60": 4.02,
+        "delta_5d_shares_yi": 27.96,
+        "share_change_5d_pct": 34.599,
+        "reference_5d_yi": 76.666,
+        "positive_days_5": 4,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 80.812
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 88.212
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 83.332
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 84.572
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 96.812
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 108.772
+          }
+        ],
+        "delta_20d_shares_yi": 44.86,
+        "share_change_20d_pct": 70.19,
+        "price_change_20d_pct": -10.568,
+        "reference_20d_yi": 123.006,
+        "start_reference_20d_yi": 195.955
+      },
+      {
+        "code": "159330",
+        "name": "沪深300ETF东财",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 6.928,
+        "previous_shares_yi": 6.178,
+        "delta_shares_yi": 0.75,
+        "share_change_pct": 12.14,
+        "close": 1.297,
+        "price_change_pct": 1.965,
+        "reference_value_yi": 0.973,
+        "previous_reference_size_yi": 7.858,
+        "robust_z_60": 16.86,
+        "delta_5d_shares_yi": 1.59,
+        "share_change_5d_pct": 29.786,
+        "reference_5d_yi": 2.062,
+        "positive_days_5": 3,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 5.338
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 6.208
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 6.118
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 6.178
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 6.178
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 6.928
+          }
+        ],
+        "delta_20d_shares_yi": 2.46,
+        "share_change_20d_pct": 55.058,
+        "price_change_20d_pct": -7.489,
+        "reference_20d_yi": 3.191,
+        "start_reference_20d_yi": 6.264
+      },
+      {
+        "code": "515390",
+        "name": "HS300",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 27.547,
+        "previous_shares_yi": 24.707,
+        "delta_shares_yi": 2.84,
+        "share_change_pct": 11.495,
+        "close": 1.219,
+        "price_change_pct": 1.668,
+        "reference_value_yi": 3.462,
+        "previous_reference_size_yi": 29.623,
+        "robust_z_60": 23.94,
+        "delta_5d_shares_yi": 2.72,
+        "share_change_5d_pct": 10.956,
+        "reference_5d_yi": 3.316,
+        "positive_days_5": 1,
+        "negative_days_5": 2,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 24.827
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 24.747
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 24.747
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 24.747
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 24.707
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 27.547
+          }
+        ],
+        "delta_20d_shares_yi": 8.48,
+        "share_change_20d_pct": 44.475,
+        "price_change_20d_pct": -7.721,
+        "reference_20d_yi": 10.337,
+        "start_reference_20d_yi": 25.187
+      }
+    ],
+    "continuous_increase_5d": [
+      {
+        "code": "510300",
+        "name": "300ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 352.427,
+        "previous_shares_yi": 327.299,
+        "delta_shares_yi": 25.128,
+        "share_change_pct": 7.677,
+        "close": 4.178,
+        "price_change_pct": 1.729,
+        "reference_value_yi": 104.985,
+        "previous_reference_size_yi": 1344.216,
+        "robust_z_60": 6.53,
+        "delta_5d_shares_yi": 66.897,
+        "share_change_5d_pct": 23.429,
+        "reference_5d_yi": 279.496,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 285.53
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 291.956
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 294.008
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 301.991
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 327.299
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 352.427
+          }
+        ],
+        "delta_20d_shares_yi": 115.416,
+        "share_change_20d_pct": 48.696,
+        "price_change_20d_pct": -7.811,
+        "reference_20d_yi": 482.208,
+        "start_reference_20d_yi": 1074.133
+      },
+      {
+        "code": "159915",
+        "name": "创业板ETF易方达",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 337.575,
+        "previous_shares_yi": 313.055,
+        "delta_shares_yi": 24.52,
+        "share_change_pct": 7.833,
+        "close": 2.702,
+        "price_change_pct": 4.244,
+        "reference_value_yi": 66.253,
+        "previous_reference_size_yi": 811.437,
+        "robust_z_60": 4.66,
+        "delta_5d_shares_yi": 78.21,
+        "share_change_5d_pct": 30.154,
+        "reference_5d_yi": 211.323,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 259.365
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 267.365
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 273.435
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 292.045
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 313.055
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 337.575
+          }
+        ],
+        "delta_20d_shares_yi": 137.62,
+        "share_change_20d_pct": 68.826,
+        "price_change_20d_pct": -18.59,
+        "reference_20d_yi": 371.849,
+        "start_reference_20d_yi": 663.649
+      },
+      {
+        "code": "588000",
+        "name": "科创50",
+        "theme": "科技/TMT",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 822.927,
+        "previous_shares_yi": 795.327,
+        "delta_shares_yi": 27.6,
+        "share_change_pct": 3.47,
+        "close": 1.422,
+        "price_change_pct": 3.268,
+        "reference_value_yi": 39.247,
+        "previous_reference_size_yi": 1095.165,
+        "robust_z_60": 1.85,
+        "delta_5d_shares_yi": 120.96,
+        "share_change_5d_pct": 17.232,
+        "reference_5d_yi": 172.005,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 701.967
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 715.917
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 737.187
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 747.657
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 795.327
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 822.927
+          }
+        ],
+        "delta_20d_shares_yi": 267.0,
+        "share_change_20d_pct": 48.028,
+        "price_change_20d_pct": -16.156,
+        "reference_20d_yi": 379.674,
+        "start_reference_20d_yi": 942.852
+      },
+      {
+        "code": "510330",
+        "name": "华夏300",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 119.081,
+        "previous_shares_yi": 105.329,
+        "delta_shares_yi": 13.752,
+        "share_change_pct": 13.056,
+        "close": 4.353,
+        "price_change_pct": 1.516,
+        "reference_value_yi": 59.862,
+        "previous_reference_size_yi": 451.653,
+        "robust_z_60": 35.5,
+        "delta_5d_shares_yi": 32.193,
+        "share_change_5d_pct": 37.051,
+        "reference_5d_yi": 140.136,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 86.888
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 87.194
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 96.239
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 97.022
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 105.329
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 119.081
+          }
+        ],
+        "delta_20d_shares_yi": 35.973,
+        "share_change_20d_pct": 43.284,
+        "price_change_20d_pct": -7.912,
+        "reference_20d_yi": 156.59,
+        "start_reference_20d_yi": 392.854
+      },
+      {
+        "code": "159919",
+        "name": "沪深300ETF嘉实",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 99.875,
+        "previous_shares_yi": 97.679,
+        "delta_shares_yi": 2.196,
+        "share_change_pct": 2.248,
+        "close": 4.359,
+        "price_change_pct": 1.632,
+        "reference_value_yi": 9.572,
+        "previous_reference_size_yi": 418.946,
+        "robust_z_60": 3.94,
+        "delta_5d_shares_yi": 30.582,
+        "share_change_5d_pct": 44.134,
+        "reference_5d_yi": 133.307,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 69.293
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 69.86
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 73.424
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 75.656
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 97.679
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 99.875
+          }
+        ],
+        "delta_20d_shares_yi": 36.468,
+        "share_change_20d_pct": 57.514,
+        "price_change_20d_pct": -7.902,
+        "reference_20d_yi": 158.964,
+        "start_reference_20d_yi": 300.106
+      },
+      {
+        "code": "510050",
+        "name": "50ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 129.931,
+        "previous_shares_yi": 129.832,
+        "delta_shares_yi": 0.099,
+        "share_change_pct": 0.076,
+        "close": 2.869,
+        "price_change_pct": 1.164,
+        "reference_value_yi": 0.284,
+        "previous_reference_size_yi": 368.203,
+        "robust_z_60": 0.01,
+        "delta_5d_shares_yi": 40.77,
+        "share_change_5d_pct": 45.726,
+        "reference_5d_yi": 116.969,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 89.161
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 96.199
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 111.607
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 113.902
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 129.832
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 129.931
+          }
+        ],
+        "delta_20d_shares_yi": 52.029,
+        "share_change_20d_pct": 66.788,
+        "price_change_20d_pct": -3.009,
+        "reference_20d_yi": 149.271,
+        "start_reference_20d_yi": 230.433
+      },
+      {
+        "code": "510310",
+        "name": "HS300ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 183.597,
+        "previous_shares_yi": 171.15,
+        "delta_shares_yi": 12.447,
+        "share_change_pct": 7.273,
+        "close": 4.058,
+        "price_change_pct": 1.73,
+        "reference_value_yi": 50.51,
+        "previous_reference_size_yi": 682.719,
+        "robust_z_60": 16.69,
+        "delta_5d_shares_yi": 14.805,
+        "share_change_5d_pct": 8.771,
+        "reference_5d_yi": 60.079,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 168.792
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 169.485
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 170.286
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 170.628
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 171.15
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 183.597
+          }
+        ],
+        "delta_20d_shares_yi": 70.155,
+        "share_change_20d_pct": 61.842,
+        "price_change_20d_pct": -7.856,
+        "reference_20d_yi": 284.689,
+        "start_reference_20d_yi": 499.601
+      },
+      {
+        "code": "159949",
+        "name": "创业板50ETF华安",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 209.838,
+        "previous_shares_yi": 199.478,
+        "delta_shares_yi": 10.36,
+        "share_change_pct": 5.194,
+        "close": 1.227,
+        "price_change_pct": 3.983,
+        "reference_value_yi": 12.712,
+        "previous_reference_size_yi": 235.384,
+        "robust_z_60": 5.81,
+        "delta_5d_shares_yi": 31.81,
+        "share_change_5d_pct": 17.868,
+        "reference_5d_yi": 39.031,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 178.028
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 180.548
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 182.498
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 187.938
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 199.478
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 209.838
+          }
+        ],
+        "delta_20d_shares_yi": 49.33,
+        "share_change_20d_pct": 30.734,
+        "price_change_20d_pct": -20.48,
+        "reference_20d_yi": 60.528,
+        "start_reference_20d_yi": 247.664
+      },
+      {
+        "code": "159781",
+        "name": "科创创业ETF易方达",
+        "theme": "科技/TMT",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 186.319,
+        "previous_shares_yi": 176.719,
+        "delta_shares_yi": 9.6,
+        "share_change_pct": 5.432,
+        "close": 0.824,
+        "price_change_pct": 4.172,
+        "reference_value_yi": 7.91,
+        "previous_reference_size_yi": 139.784,
+        "robust_z_60": 9.13,
+        "delta_5d_shares_yi": 14.7,
+        "share_change_5d_pct": 8.566,
+        "reference_5d_yi": 12.113,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 171.619
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 171.889
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 173.659
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 174.859
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 176.719
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 186.319
+          }
+        ],
+        "delta_20d_shares_yi": 27.36,
+        "share_change_20d_pct": 17.212,
+        "price_change_20d_pct": -20.617,
+        "reference_20d_yi": 22.545,
+        "start_reference_20d_yi": 164.999
+      },
+      {
+        "code": "159967",
+        "name": "创业板成长ETF华夏",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 95.065,
+        "previous_shares_yi": 88.333,
+        "delta_shares_yi": 6.732,
+        "share_change_pct": 7.621,
+        "close": 0.57,
+        "price_change_pct": 3.074,
+        "reference_value_yi": 3.837,
+        "previous_reference_size_yi": 48.848,
+        "robust_z_60": 6.24,
+        "delta_5d_shares_yi": 14.96,
+        "share_change_5d_pct": 18.675,
+        "reference_5d_yi": 8.527,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 80.105
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 83.709
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 84.389
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 85.137
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 88.333
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 95.065
+          }
+        ],
+        "delta_20d_shares_yi": 21.114,
+        "share_change_20d_pct": 28.551,
+        "price_change_20d_pct": -26.166,
+        "reference_20d_yi": 12.035,
+        "start_reference_20d_yi": 57.09
+      }
+    ],
+    "weekly_decrease_5d": [
+      {
+        "code": "159516",
+        "name": "半导体设备ETF国泰",
+        "theme": "科技/TMT",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 589.584,
+        "previous_shares_yi": 605.334,
+        "delta_shares_yi": -15.75,
+        "share_change_pct": -2.602,
+        "close": 0.54,
+        "price_change_pct": 1.504,
+        "reference_value_yi": -8.505,
+        "previous_reference_size_yi": 322.037,
+        "robust_z_60": -2.0,
+        "delta_5d_shares_yi": -25.2,
+        "share_change_5d_pct": -4.099,
+        "reference_5d_yi": -13.608,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 614.784
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 627.804
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 624.834
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 621.924
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 605.334
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 589.584
+          }
+        ],
+        "delta_20d_shares_yi": -23.16,
+        "share_change_20d_pct": -3.78,
+        "price_change_20d_pct": -23.186,
+        "reference_20d_yi": -12.506,
+        "start_reference_20d_yi": 430.759
+      },
+      {
+        "code": "515220",
+        "name": "煤炭ETF",
+        "theme": "周期/资源",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 77.127,
+        "previous_shares_yi": 81.422,
+        "delta_shares_yi": -4.295,
+        "share_change_pct": -5.275,
+        "close": 1.205,
+        "price_change_pct": 0.25,
+        "reference_value_yi": -5.175,
+        "previous_reference_size_yi": 97.869,
+        "robust_z_60": -2.98,
+        "delta_5d_shares_yi": -9.34,
+        "share_change_5d_pct": -10.802,
+        "reference_5d_yi": -11.255,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 86.467
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 86.727
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 85.897
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 84.747
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 81.422
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 77.127
+          }
+        ],
+        "delta_20d_shares_yi": -2.515,
+        "share_change_20d_pct": -3.158,
+        "price_change_20d_pct": -4.213,
+        "reference_20d_yi": -3.031,
+        "start_reference_20d_yi": 100.189
+      },
+      {
+        "code": "512400",
+        "name": "有色ETF",
+        "theme": "周期/资源",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 135.045,
+        "previous_shares_yi": 136.075,
+        "delta_shares_yi": -1.03,
+        "share_change_pct": -0.757,
+        "close": 1.487,
+        "price_change_pct": 2.129,
+        "reference_value_yi": -1.532,
+        "previous_reference_size_yi": 198.126,
+        "robust_z_60": -0.97,
+        "delta_5d_shares_yi": -4.06,
+        "share_change_5d_pct": -2.919,
+        "reference_5d_yi": -6.037,
+        "positive_days_5": 0,
+        "negative_days_5": 5,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 139.105
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 138.58
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 138.07
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 137.5
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 136.075
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 135.045
+          }
+        ],
+        "delta_20d_shares_yi": -7.16,
+        "share_change_20d_pct": -5.035,
+        "price_change_20d_pct": -12.939,
+        "reference_20d_yi": -10.647,
+        "start_reference_20d_yi": 242.887
+      },
+      {
+        "code": "159326",
+        "name": "电网设备ETF华夏",
+        "theme": "新能源",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 103.743,
+        "previous_shares_yi": 104.403,
+        "delta_shares_yi": -0.66,
+        "share_change_pct": -0.632,
+        "close": 1.469,
+        "price_change_pct": 1.802,
+        "reference_value_yi": -0.97,
+        "previous_reference_size_yi": 150.653,
+        "robust_z_60": -0.6,
+        "delta_5d_shares_yi": -3.92,
+        "share_change_5d_pct": -3.641,
+        "reference_5d_yi": -5.758,
+        "positive_days_5": 0,
+        "negative_days_5": 5,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 107.663
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 106.903
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 106.533
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 105.693
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 104.403
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 103.743
+          }
+        ],
+        "delta_20d_shares_yi": -9.2,
+        "share_change_20d_pct": -8.146,
+        "price_change_20d_pct": -10.645,
+        "reference_20d_yi": -13.515,
+        "start_reference_20d_yi": 185.678
+      },
+      {
+        "code": "159611",
+        "name": "电力ETF广发",
+        "theme": "债券/货币",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 79.032,
+        "previous_shares_yi": 79.832,
+        "delta_shares_yi": -0.8,
+        "share_change_pct": -1.002,
+        "close": 1.02,
+        "price_change_pct": -0.585,
+        "reference_value_yi": -0.816,
+        "previous_reference_size_yi": 81.907,
+        "robust_z_60": -0.62,
+        "delta_5d_shares_yi": -5.416,
+        "share_change_5d_pct": -6.413,
+        "reference_5d_yi": -5.524,
+        "positive_days_5": 0,
+        "negative_days_5": 5,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 84.448
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 82.208
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 81.328
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 80.648
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 79.832
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 79.032
+          }
+        ],
+        "delta_20d_shares_yi": -10.752,
+        "share_change_20d_pct": -11.975,
+        "price_change_20d_pct": -1.639,
+        "reference_20d_yi": -10.967,
+        "start_reference_20d_yi": 93.106
+      },
+      {
+        "code": "159994",
+        "name": "通信ETF银华",
+        "theme": "科技/TMT",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 33.58,
+        "previous_shares_yi": 36.61,
+        "delta_shares_yi": -3.03,
+        "share_change_pct": -8.276,
+        "close": 0.978,
+        "price_change_pct": 2.623,
+        "reference_value_yi": -2.963,
+        "previous_reference_size_yi": 34.889,
+        "robust_z_60": -8.09,
+        "delta_5d_shares_yi": -5.11,
+        "share_change_5d_pct": -13.208,
+        "reference_5d_yi": -4.998,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 38.69
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 38.57
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 38.28
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 36.51
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 36.61
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 33.58
+          }
+        ],
+        "delta_20d_shares_yi": -3.93,
+        "share_change_20d_pct": -10.477,
+        "price_change_20d_pct": -23.653,
+        "reference_20d_yi": -3.844,
+        "start_reference_20d_yi": 48.05
+      },
+      {
+        "code": "159558",
+        "name": "半导体设备ETF易方达",
+        "theme": "科技/TMT",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 185.936,
+        "previous_shares_yi": 188.846,
+        "delta_shares_yi": -2.91,
+        "share_change_pct": -1.541,
+        "close": 0.845,
+        "price_change_pct": 1.198,
+        "reference_value_yi": -2.459,
+        "previous_reference_size_yi": 157.686,
+        "robust_z_60": -1.18,
+        "delta_5d_shares_yi": -5.04,
+        "share_change_5d_pct": -2.639,
+        "reference_5d_yi": -4.259,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 190.976
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 193.976
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 191.786
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 191.396
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 188.846
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 185.936
+          }
+        ],
+        "delta_20d_shares_yi": 0.45,
+        "share_change_20d_pct": 0.243,
+        "price_change_20d_pct": -23.529,
+        "reference_20d_yi": 0.38,
+        "start_reference_20d_yi": 204.962
+      },
+      {
+        "code": "588090",
+        "name": "科创板",
+        "theme": "科技/TMT",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 30.961,
+        "previous_shares_yi": 34.291,
+        "delta_shares_yi": -3.33,
+        "share_change_pct": -9.711,
+        "close": 1.387,
+        "price_change_pct": 3.199,
+        "reference_value_yi": -4.619,
+        "previous_reference_size_yi": 46.087,
+        "robust_z_60": -10.98,
+        "delta_5d_shares_yi": -3.03,
+        "share_change_5d_pct": -8.914,
+        "reference_5d_yi": -4.203,
+        "positive_days_5": 2,
+        "negative_days_5": 3,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 33.991
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 34.231
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 34.171
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 34.141
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 34.291
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 30.961
+          }
+        ],
+        "delta_20d_shares_yi": -0.78,
+        "share_change_20d_pct": -2.457,
+        "price_change_20d_pct": -16.143,
+        "reference_20d_yi": -1.082,
+        "start_reference_20d_yi": 52.499
+      },
+      {
+        "code": "512170",
+        "name": "医疗ETF",
+        "theme": "医药/医疗",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 697.658,
+        "previous_shares_yi": 699.598,
+        "delta_shares_yi": -1.94,
+        "share_change_pct": -0.277,
+        "close": 0.334,
+        "price_change_pct": 2.454,
+        "reference_value_yi": -0.648,
+        "previous_reference_size_yi": 228.069,
+        "robust_z_60": -0.52,
+        "delta_5d_shares_yi": -10.88,
+        "share_change_5d_pct": -1.536,
+        "reference_5d_yi": -3.634,
+        "positive_days_5": 0,
+        "negative_days_5": 5,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 708.538
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 705.738
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 701.748
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 700.288
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 699.598
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 697.658
+          }
+        ],
+        "delta_20d_shares_yi": -15.6,
+        "share_change_20d_pct": -2.187,
+        "price_change_20d_pct": -0.89,
+        "reference_20d_yi": -5.21,
+        "start_reference_20d_yi": 240.368
+      },
+      {
+        "code": "512880",
+        "name": "证券ETF",
+        "theme": "金融",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 566.673,
+        "previous_shares_yi": 568.433,
+        "delta_shares_yi": -1.76,
+        "share_change_pct": -0.31,
+        "close": 1.013,
+        "price_change_pct": 1.3,
+        "reference_value_yi": -1.783,
+        "previous_reference_size_yi": 568.433,
+        "robust_z_60": -0.56,
+        "delta_5d_shares_yi": -3.56,
+        "share_change_5d_pct": -0.624,
+        "reference_5d_yi": -3.606,
+        "positive_days_5": 1,
+        "negative_days_5": 4,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 570.233
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 567.723
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 572.173
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 571.613
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 568.433
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 566.673
+          }
+        ],
+        "delta_20d_shares_yi": -2.09,
+        "share_change_20d_pct": -0.367,
+        "price_change_20d_pct": -2.783,
+        "reference_20d_yi": -2.117,
+        "start_reference_20d_yi": 592.651
+      }
+    ],
+    "cumulative_20d": [
+      {
+        "code": "510300",
+        "name": "300ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 352.427,
+        "previous_shares_yi": 327.299,
+        "delta_shares_yi": 25.128,
+        "share_change_pct": 7.677,
+        "close": 4.178,
+        "price_change_pct": 1.729,
+        "reference_value_yi": 104.985,
+        "previous_reference_size_yi": 1344.216,
+        "robust_z_60": 6.53,
+        "delta_5d_shares_yi": 66.897,
+        "share_change_5d_pct": 23.429,
+        "reference_5d_yi": 279.496,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 285.53
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 291.956
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 294.008
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 301.991
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 327.299
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 352.427
+          }
+        ],
+        "delta_20d_shares_yi": 115.416,
+        "share_change_20d_pct": 48.696,
+        "price_change_20d_pct": -7.811,
+        "reference_20d_yi": 482.208,
+        "start_reference_20d_yi": 1074.133
+      },
+      {
+        "code": "588000",
+        "name": "科创50",
+        "theme": "科技/TMT",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 822.927,
+        "previous_shares_yi": 795.327,
+        "delta_shares_yi": 27.6,
+        "share_change_pct": 3.47,
+        "close": 1.422,
+        "price_change_pct": 3.268,
+        "reference_value_yi": 39.247,
+        "previous_reference_size_yi": 1095.165,
+        "robust_z_60": 1.85,
+        "delta_5d_shares_yi": 120.96,
+        "share_change_5d_pct": 17.232,
+        "reference_5d_yi": 172.005,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 701.967
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 715.917
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 737.187
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 747.657
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 795.327
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 822.927
+          }
+        ],
+        "delta_20d_shares_yi": 267.0,
+        "share_change_20d_pct": 48.028,
+        "price_change_20d_pct": -16.156,
+        "reference_20d_yi": 379.674,
+        "start_reference_20d_yi": 942.852
+      },
+      {
+        "code": "159915",
+        "name": "创业板ETF易方达",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 337.575,
+        "previous_shares_yi": 313.055,
+        "delta_shares_yi": 24.52,
+        "share_change_pct": 7.833,
+        "close": 2.702,
+        "price_change_pct": 4.244,
+        "reference_value_yi": 66.253,
+        "previous_reference_size_yi": 811.437,
+        "robust_z_60": 4.66,
+        "delta_5d_shares_yi": 78.21,
+        "share_change_5d_pct": 30.154,
+        "reference_5d_yi": 211.323,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 259.365
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 267.365
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 273.435
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 292.045
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 313.055
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 337.575
+          }
+        ],
+        "delta_20d_shares_yi": 137.62,
+        "share_change_20d_pct": 68.826,
+        "price_change_20d_pct": -18.59,
+        "reference_20d_yi": 371.849,
+        "start_reference_20d_yi": 663.649
+      },
+      {
+        "code": "510310",
+        "name": "HS300ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 183.597,
+        "previous_shares_yi": 171.15,
+        "delta_shares_yi": 12.447,
+        "share_change_pct": 7.273,
+        "close": 4.058,
+        "price_change_pct": 1.73,
+        "reference_value_yi": 50.51,
+        "previous_reference_size_yi": 682.719,
+        "robust_z_60": 16.69,
+        "delta_5d_shares_yi": 14.805,
+        "share_change_5d_pct": 8.771,
+        "reference_5d_yi": 60.079,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 168.792
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 169.485
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 170.286
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 170.628
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 171.15
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 183.597
+          }
+        ],
+        "delta_20d_shares_yi": 70.155,
+        "share_change_20d_pct": 61.842,
+        "price_change_20d_pct": -7.856,
+        "reference_20d_yi": 284.689,
+        "start_reference_20d_yi": 499.601
+      },
+      {
+        "code": "159919",
+        "name": "沪深300ETF嘉实",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 99.875,
+        "previous_shares_yi": 97.679,
+        "delta_shares_yi": 2.196,
+        "share_change_pct": 2.248,
+        "close": 4.359,
+        "price_change_pct": 1.632,
+        "reference_value_yi": 9.572,
+        "previous_reference_size_yi": 418.946,
+        "robust_z_60": 3.94,
+        "delta_5d_shares_yi": 30.582,
+        "share_change_5d_pct": 44.134,
+        "reference_5d_yi": 133.307,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 69.293
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 69.86
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 73.424
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 75.656
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 97.679
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 99.875
+          }
+        ],
+        "delta_20d_shares_yi": 36.468,
+        "share_change_20d_pct": 57.514,
+        "price_change_20d_pct": -7.902,
+        "reference_20d_yi": 158.964,
+        "start_reference_20d_yi": 300.106
+      },
+      {
+        "code": "510330",
+        "name": "华夏300",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 119.081,
+        "previous_shares_yi": 105.329,
+        "delta_shares_yi": 13.752,
+        "share_change_pct": 13.056,
+        "close": 4.353,
+        "price_change_pct": 1.516,
+        "reference_value_yi": 59.862,
+        "previous_reference_size_yi": 451.653,
+        "robust_z_60": 35.5,
+        "delta_5d_shares_yi": 32.193,
+        "share_change_5d_pct": 37.051,
+        "reference_5d_yi": 140.136,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 86.888
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 87.194
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 96.239
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 97.022
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 105.329
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 119.081
+          }
+        ],
+        "delta_20d_shares_yi": 35.973,
+        "share_change_20d_pct": 43.284,
+        "price_change_20d_pct": -7.912,
+        "reference_20d_yi": 156.59,
+        "start_reference_20d_yi": 392.854
+      },
+      {
+        "code": "510050",
+        "name": "50ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 129.931,
+        "previous_shares_yi": 129.832,
+        "delta_shares_yi": 0.099,
+        "share_change_pct": 0.076,
+        "close": 2.869,
+        "price_change_pct": 1.164,
+        "reference_value_yi": 0.284,
+        "previous_reference_size_yi": 368.203,
+        "robust_z_60": 0.01,
+        "delta_5d_shares_yi": 40.77,
+        "share_change_5d_pct": 45.726,
+        "reference_5d_yi": 116.969,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 89.161
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 96.199
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 111.607
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 113.902
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 129.832
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 129.931
+          }
+        ],
+        "delta_20d_shares_yi": 52.029,
+        "share_change_20d_pct": 66.788,
+        "price_change_20d_pct": -3.009,
+        "reference_20d_yi": 149.271,
+        "start_reference_20d_yi": 230.433
+      },
+      {
+        "code": "512100",
+        "name": "1000ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 108.772,
+        "previous_shares_yi": 96.812,
+        "delta_shares_yi": 11.96,
+        "share_change_pct": 12.354,
+        "close": 2.742,
+        "price_change_pct": 2.62,
+        "reference_value_yi": 32.794,
+        "previous_reference_size_yi": 258.682,
+        "robust_z_60": 4.02,
+        "delta_5d_shares_yi": 27.96,
+        "share_change_5d_pct": 34.599,
+        "reference_5d_yi": 76.666,
+        "positive_days_5": 4,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 80.812
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 88.212
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 83.332
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 84.572
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 96.812
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 108.772
+          }
+        ],
+        "delta_20d_shares_yi": 44.86,
+        "share_change_20d_pct": 70.19,
+        "price_change_20d_pct": -10.568,
+        "reference_20d_yi": 123.006,
+        "start_reference_20d_yi": 195.955
+      },
+      {
+        "code": "511190",
+        "name": "信用债",
+        "theme": "债券/货币",
+        "market": "上海",
+        "asset_class": "bond",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 2.77,
+        "previous_shares_yi": 2.723,
+        "delta_shares_yi": 0.047,
+        "share_change_pct": 1.726,
+        "close": 103.568,
+        "price_change_pct": 0.026,
+        "reference_value_yi": 4.868,
+        "previous_reference_size_yi": 281.947,
+        "robust_z_60": 1.78,
+        "delta_5d_shares_yi": 0.334,
+        "share_change_5d_pct": 13.711,
+        "reference_5d_yi": 34.592,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 2.436
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 2.491
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 2.558
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 2.638
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 2.723
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 2.77
+          }
+        ],
+        "delta_20d_shares_yi": 1.085,
+        "share_change_20d_pct": 64.361,
+        "price_change_20d_pct": 0.619,
+        "reference_20d_yi": 112.34,
+        "start_reference_20d_yi": 173.474
+      },
+      {
+        "code": "510500",
+        "name": "500ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 73.014,
+        "previous_shares_yi": 64.482,
+        "delta_shares_yi": 8.532,
+        "share_change_pct": 13.232,
+        "close": 6.857,
+        "price_change_pct": 2.588,
+        "reference_value_yi": 58.504,
+        "previous_reference_size_yi": 430.996,
+        "robust_z_60": 5.16,
+        "delta_5d_shares_yi": 15.272,
+        "share_change_5d_pct": 26.449,
+        "reference_5d_yi": 104.72,
+        "positive_days_5": 3,
+        "negative_days_5": 2,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 57.742
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 63.814
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 61.106
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 60.998
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 64.482
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 73.014
+          }
+        ],
+        "delta_20d_shares_yi": 16.112,
+        "share_change_20d_pct": 28.316,
+        "price_change_20d_pct": -10.728,
+        "reference_20d_yi": 110.48,
+        "start_reference_20d_yi": 437.062
+      }
+    ],
+    "divergence_20d": [
+      {
+        "code": "510300",
+        "name": "300ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 352.427,
+        "previous_shares_yi": 327.299,
+        "delta_shares_yi": 25.128,
+        "share_change_pct": 7.677,
+        "close": 4.178,
+        "price_change_pct": 1.729,
+        "reference_value_yi": 104.985,
+        "previous_reference_size_yi": 1344.216,
+        "robust_z_60": 6.53,
+        "delta_5d_shares_yi": 66.897,
+        "share_change_5d_pct": 23.429,
+        "reference_5d_yi": 279.496,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 285.53
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 291.956
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 294.008
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 301.991
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 327.299
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 352.427
+          }
+        ],
+        "delta_20d_shares_yi": 115.416,
+        "share_change_20d_pct": 48.696,
+        "price_change_20d_pct": -7.811,
+        "reference_20d_yi": 482.208,
+        "start_reference_20d_yi": 1074.133
+      },
+      {
+        "code": "588000",
+        "name": "科创50",
+        "theme": "科技/TMT",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 822.927,
+        "previous_shares_yi": 795.327,
+        "delta_shares_yi": 27.6,
+        "share_change_pct": 3.47,
+        "close": 1.422,
+        "price_change_pct": 3.268,
+        "reference_value_yi": 39.247,
+        "previous_reference_size_yi": 1095.165,
+        "robust_z_60": 1.85,
+        "delta_5d_shares_yi": 120.96,
+        "share_change_5d_pct": 17.232,
+        "reference_5d_yi": 172.005,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 701.967
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 715.917
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 737.187
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 747.657
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 795.327
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 822.927
+          }
+        ],
+        "delta_20d_shares_yi": 267.0,
+        "share_change_20d_pct": 48.028,
+        "price_change_20d_pct": -16.156,
+        "reference_20d_yi": 379.674,
+        "start_reference_20d_yi": 942.852
+      },
+      {
+        "code": "159915",
+        "name": "创业板ETF易方达",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": true,
+        "observations_60": 62,
+        "current_shares_yi": 337.575,
+        "previous_shares_yi": 313.055,
+        "delta_shares_yi": 24.52,
+        "share_change_pct": 7.833,
+        "close": 2.702,
+        "price_change_pct": 4.244,
+        "reference_value_yi": 66.253,
+        "previous_reference_size_yi": 811.437,
+        "robust_z_60": 4.66,
+        "delta_5d_shares_yi": 78.21,
+        "share_change_5d_pct": 30.154,
+        "reference_5d_yi": 211.323,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 259.365
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 267.365
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 273.435
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 292.045
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 313.055
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 337.575
+          }
+        ],
+        "delta_20d_shares_yi": 137.62,
+        "share_change_20d_pct": 68.826,
+        "price_change_20d_pct": -18.59,
+        "reference_20d_yi": 371.849,
+        "start_reference_20d_yi": 663.649
+      },
+      {
+        "code": "510310",
+        "name": "HS300ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 183.597,
+        "previous_shares_yi": 171.15,
+        "delta_shares_yi": 12.447,
+        "share_change_pct": 7.273,
+        "close": 4.058,
+        "price_change_pct": 1.73,
+        "reference_value_yi": 50.51,
+        "previous_reference_size_yi": 682.719,
+        "robust_z_60": 16.69,
+        "delta_5d_shares_yi": 14.805,
+        "share_change_5d_pct": 8.771,
+        "reference_5d_yi": 60.079,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 168.792
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 169.485
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 170.286
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 170.628
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 171.15
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 183.597
+          }
+        ],
+        "delta_20d_shares_yi": 70.155,
+        "share_change_20d_pct": 61.842,
+        "price_change_20d_pct": -7.856,
+        "reference_20d_yi": 284.689,
+        "start_reference_20d_yi": 499.601
+      },
+      {
+        "code": "159919",
+        "name": "沪深300ETF嘉实",
+        "theme": "宽基指数",
+        "market": "深圳",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 99.875,
+        "previous_shares_yi": 97.679,
+        "delta_shares_yi": 2.196,
+        "share_change_pct": 2.248,
+        "close": 4.359,
+        "price_change_pct": 1.632,
+        "reference_value_yi": 9.572,
+        "previous_reference_size_yi": 418.946,
+        "robust_z_60": 3.94,
+        "delta_5d_shares_yi": 30.582,
+        "share_change_5d_pct": 44.134,
+        "reference_5d_yi": 133.307,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 69.293
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 69.86
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 73.424
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 75.656
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 97.679
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 99.875
+          }
+        ],
+        "delta_20d_shares_yi": 36.468,
+        "share_change_20d_pct": 57.514,
+        "price_change_20d_pct": -7.902,
+        "reference_20d_yi": 158.964,
+        "start_reference_20d_yi": 300.106
+      },
+      {
+        "code": "510330",
+        "name": "华夏300",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 119.081,
+        "previous_shares_yi": 105.329,
+        "delta_shares_yi": 13.752,
+        "share_change_pct": 13.056,
+        "close": 4.353,
+        "price_change_pct": 1.516,
+        "reference_value_yi": 59.862,
+        "previous_reference_size_yi": 451.653,
+        "robust_z_60": 35.5,
+        "delta_5d_shares_yi": 32.193,
+        "share_change_5d_pct": 37.051,
+        "reference_5d_yi": 140.136,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 86.888
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 87.194
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 96.239
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 97.022
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 105.329
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 119.081
+          }
+        ],
+        "delta_20d_shares_yi": 35.973,
+        "share_change_20d_pct": 43.284,
+        "price_change_20d_pct": -7.912,
+        "reference_20d_yi": 156.59,
+        "start_reference_20d_yi": 392.854
+      },
+      {
+        "code": "510050",
+        "name": "50ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 129.931,
+        "previous_shares_yi": 129.832,
+        "delta_shares_yi": 0.099,
+        "share_change_pct": 0.076,
+        "close": 2.869,
+        "price_change_pct": 1.164,
+        "reference_value_yi": 0.284,
+        "previous_reference_size_yi": 368.203,
+        "robust_z_60": 0.01,
+        "delta_5d_shares_yi": 40.77,
+        "share_change_5d_pct": 45.726,
+        "reference_5d_yi": 116.969,
+        "positive_days_5": 5,
+        "negative_days_5": 0,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 89.161
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 96.199
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 111.607
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 113.902
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 129.832
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 129.931
+          }
+        ],
+        "delta_20d_shares_yi": 52.029,
+        "share_change_20d_pct": 66.788,
+        "price_change_20d_pct": -3.009,
+        "reference_20d_yi": 149.271,
+        "start_reference_20d_yi": 230.433
+      },
+      {
+        "code": "512100",
+        "name": "1000ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 108.772,
+        "previous_shares_yi": 96.812,
+        "delta_shares_yi": 11.96,
+        "share_change_pct": 12.354,
+        "close": 2.742,
+        "price_change_pct": 2.62,
+        "reference_value_yi": 32.794,
+        "previous_reference_size_yi": 258.682,
+        "robust_z_60": 4.02,
+        "delta_5d_shares_yi": 27.96,
+        "share_change_5d_pct": 34.599,
+        "reference_5d_yi": 76.666,
+        "positive_days_5": 4,
+        "negative_days_5": 1,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 80.812
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 88.212
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 83.332
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 84.572
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 96.812
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 108.772
+          }
+        ],
+        "delta_20d_shares_yi": 44.86,
+        "share_change_20d_pct": 70.19,
+        "price_change_20d_pct": -10.568,
+        "reference_20d_yi": 123.006,
+        "start_reference_20d_yi": 195.955
+      },
+      {
+        "code": "510500",
+        "name": "500ETF",
+        "theme": "宽基指数",
+        "market": "上海",
+        "asset_class": "equity",
+        "classification_verified": false,
+        "observations_60": 62,
+        "current_shares_yi": 73.014,
+        "previous_shares_yi": 64.482,
+        "delta_shares_yi": 8.532,
+        "share_change_pct": 13.232,
+        "close": 6.857,
+        "price_change_pct": 2.588,
+        "reference_value_yi": 58.504,
+        "previous_reference_size_yi": 430.996,
+        "robust_z_60": 5.16,
+        "delta_5d_shares_yi": 15.272,
+        "share_change_5d_pct": 26.449,
+        "reference_5d_yi": 104.72,
+        "positive_days_5": 3,
+        "negative_days_5": 2,
+        "series_5": [
+          {
+            "date": "2026-10-16",
+            "shares_yi": 57.742
+          },
+          {
+            "date": "2026-10-19",
+            "shares_yi": 63.814
+          },
+          {
+            "date": "2026-10-20",
+            "shares_yi": 61.106
+          },
+          {
+            "date": "2026-10-21",
+            "shares_yi": 60.998
+          },
+          {
+            "date": "2026-10-22",
+            "shares_yi": 64.482
+          },
+          {
+            "date": "2026-10-23",
+            "shares_yi": 73.014
+          }
+        ],
+        "delta_20d_shares_yi": 16.112,
+        "share_change_20d_pct": 28.316,
+        "price_change_20d_pct": -10.728,
+        "reference_20d_yi": 110.48,
+        "start_reference_20d_yi": 437.062
+      }
+    ],
+    "theme": {
+      "status": "blocked",
+      "reason": "现有主题字段存在明显错标；完成权威分类核验前不自动发布主题榜。"
+    }
+  },
+  "topic": {
+    "publish": true,
+    "threshold": 65,
+    "selected": {
+      "code": "510300",
+      "name": "300ETF",
+      "score": 95.0,
+      "quality": 0.95,
+      "components": {
+        "daily_change_percentile": 0.999,
+        "reference_value": 1.0,
+        "robust_z_60": 1,
+        "continuity": 1.0,
+        "divergence": 1,
+        "peer_sync": 1,
+        "representativeness": 1.0,
+        "novelty": 1.0
+      }
+    },
+    "candidates": [
+      {
+        "code": "510300",
+        "name": "300ETF",
+        "score": 95.0,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.999,
+          "reference_value": 1.0,
+          "robust_z_60": 1,
+          "continuity": 1.0,
+          "divergence": 1,
+          "peer_sync": 1,
+          "representativeness": 1.0,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "510330",
+        "name": "华夏300",
+        "score": 94.9,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.997,
+          "reference_value": 0.999,
+          "robust_z_60": 1,
+          "continuity": 1.0,
+          "divergence": 1,
+          "peer_sync": 1,
+          "representativeness": 0.992,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "510310",
+        "name": "HS300ETF",
+        "score": 94.9,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.996,
+          "reference_value": 0.997,
+          "robust_z_60": 1,
+          "continuity": 1.0,
+          "divergence": 1,
+          "peer_sync": 1,
+          "representativeness": 0.997,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "159949",
+        "name": "创业板50ETF华安",
+        "score": 94.6,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.995,
+          "reference_value": 0.995,
+          "robust_z_60": 1,
+          "continuity": 1.0,
+          "divergence": 1,
+          "peer_sync": 1,
+          "representativeness": 0.971,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "159915",
+        "name": "创业板ETF易方达",
+        "score": 93.7,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.999,
+          "reference_value": 0.999,
+          "robust_z_60": 0.932,
+          "continuity": 1.0,
+          "divergence": 1,
+          "peer_sync": 1,
+          "representativeness": 0.997,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "159781",
+        "name": "科创创业ETF易方达",
+        "score": 91.9,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.995,
+          "reference_value": 0.99,
+          "robust_z_60": 1,
+          "continuity": 1.0,
+          "divergence": 0.757,
+          "peer_sync": 1,
+          "representativeness": 0.948,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "510760",
+        "name": "上证ETF",
+        "score": 91.7,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.987,
+          "reference_value": 0.987,
+          "robust_z_60": 1,
+          "continuity": 0.8,
+          "divergence": 1,
+          "peer_sync": 1,
+          "representativeness": 0.897,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "159919",
+        "name": "沪深300ETF嘉实",
+        "score": 90.4,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.973,
+          "reference_value": 0.994,
+          "robust_z_60": 0.788,
+          "continuity": 1.0,
+          "divergence": 1,
+          "peer_sync": 1,
+          "representativeness": 0.99,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "512100",
+        "name": "1000ETF",
+        "score": 89.0,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.996,
+          "reference_value": 0.996,
+          "robust_z_60": 0.804,
+          "continuity": 0.8,
+          "divergence": 1,
+          "peer_sync": 1,
+          "representativeness": 0.973,
+          "novelty": 1.0
+        }
+      },
+      {
+        "code": "510500",
+        "name": "500ETF",
+        "score": 88.9,
+        "quality": 0.95,
+        "components": {
+          "daily_change_percentile": 0.994,
+          "reference_value": 0.998,
+          "robust_z_60": 1,
+          "continuity": 0.6,
+          "divergence": 0.781,
+          "peer_sync": 1,
+          "representativeness": 0.991,
+          "novelty": 1.0
+        }
+      }
+    ],
+    "headline": "宽基ETF占据日榜前五，300ETF收盘参考市值居首",
+    "evidence": [
+      "300ETF当日份额增加25.13亿份",
+      "对应收盘参考市值104.98亿元",
+      "过去20日份额增加48.70%、价格下跌7.81%"
+    ],
+    "caveat": "只能描述份额和价格的统计事实，不能据此识别投资者身份或断言资金抄底。"
+  },
+  "focus": {
+    "588000": {
+      "code": "588000",
+      "name": "科创50",
+      "theme": "科技/TMT",
+      "market": "上海",
+      "asset_class": "equity",
+      "classification_verified": true,
+      "observations_60": 62,
+      "current_shares_yi": 822.927,
+      "previous_shares_yi": 795.327,
+      "delta_shares_yi": 27.6,
+      "share_change_pct": 3.47,
+      "close": 1.422,
+      "price_change_pct": 3.268,
+      "reference_value_yi": 39.247,
+      "previous_reference_size_yi": 1095.165,
+      "robust_z_60": 1.85,
+      "delta_5d_shares_yi": 120.96,
+      "share_change_5d_pct": 17.232,
+      "reference_5d_yi": 172.005,
+      "positive_days_5": 5,
+      "negative_days_5": 0,
+      "series_5": [
+        {
+          "date": "2026-10-16",
+          "shares_yi": 701.967
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 715.917
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 737.187
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 747.657
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 795.327
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 822.927
+        }
+      ],
+      "delta_20d_shares_yi": 267.0,
+      "share_change_20d_pct": 48.028,
+      "price_change_20d_pct": -16.156,
+      "reference_20d_yi": 379.674,
+      "start_reference_20d_yi": 942.852,
+      "series_20": [
+        {
+          "date": "2026-09-17",
+          "shares_yi": 555.927,
+          "close": 1.696,
+          "shares_index": 100.0,
+          "price_index": 100.0
+        },
+        {
+          "date": "2026-09-18",
+          "shares_yi": 549.987,
+          "close": 1.744,
+          "shares_index": 98.93,
+          "price_index": 102.83
+        },
+        {
+          "date": "2026-09-21",
+          "shares_yi": 552.777,
+          "close": 1.749,
+          "shares_index": 99.43,
+          "price_index": 103.12
+        },
+        {
+          "date": "2026-09-22",
+          "shares_yi": 543.747,
+          "close": 1.758,
+          "shares_index": 97.81,
+          "price_index": 103.66
+        },
+        {
+          "date": "2026-09-23",
+          "shares_yi": 542.907,
+          "close": 1.755,
+          "shares_index": 97.66,
+          "price_index": 103.48
+        },
+        {
+          "date": "2026-09-24",
+          "shares_yi": 550.527,
+          "close": 1.713,
+          "shares_index": 99.03,
+          "price_index": 101.0
+        },
+        {
+          "date": "2026-09-28",
+          "shares_yi": 563.757,
+          "close": 1.643,
+          "shares_index": 101.41,
+          "price_index": 96.88
+        },
+        {
+          "date": "2026-09-29",
+          "shares_yi": 565.557,
+          "close": 1.657,
+          "shares_index": 101.73,
+          "price_index": 97.7
+        },
+        {
+          "date": "2026-09-30",
+          "shares_yi": 582.387,
+          "close": 1.616,
+          "shares_index": 104.76,
+          "price_index": 95.28
+        },
+        {
+          "date": "2026-10-08",
+          "shares_yi": 605.427,
+          "close": 1.537,
+          "shares_index": 108.9,
+          "price_index": 90.62
+        },
+        {
+          "date": "2026-10-09",
+          "shares_yi": 629.787,
+          "close": 1.541,
+          "shares_index": 113.29,
+          "price_index": 90.86
+        },
+        {
+          "date": "2026-10-12",
+          "shares_yi": 632.337,
+          "close": 1.506,
+          "shares_index": 113.74,
+          "price_index": 88.8
+        },
+        {
+          "date": "2026-10-13",
+          "shares_yi": 639.627,
+          "close": 1.507,
+          "shares_index": 115.06,
+          "price_index": 88.86
+        },
+        {
+          "date": "2026-10-14",
+          "shares_yi": 649.587,
+          "close": 1.458,
+          "shares_index": 116.85,
+          "price_index": 85.97
+        },
+        {
+          "date": "2026-10-15",
+          "shares_yi": 695.727,
+          "close": 1.438,
+          "shares_index": 125.15,
+          "price_index": 84.79
+        },
+        {
+          "date": "2026-10-16",
+          "shares_yi": 701.967,
+          "close": 1.43,
+          "shares_index": 126.27,
+          "price_index": 84.32
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 715.917,
+          "close": 1.405,
+          "shares_index": 128.78,
+          "price_index": 82.84
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 737.187,
+          "close": 1.417,
+          "shares_index": 132.61,
+          "price_index": 83.55
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 747.657,
+          "close": 1.418,
+          "shares_index": 134.49,
+          "price_index": 83.61
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 795.327,
+          "close": 1.377,
+          "shares_index": 143.06,
+          "price_index": 81.19
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 822.927,
+          "close": 1.422,
+          "shares_index": 148.03,
+          "price_index": 83.84
+        }
+      ]
+    },
+    "510300": {
+      "code": "510300",
+      "name": "300ETF",
+      "theme": "宽基指数",
+      "market": "上海",
+      "asset_class": "equity",
+      "classification_verified": true,
+      "observations_60": 62,
+      "current_shares_yi": 352.427,
+      "previous_shares_yi": 327.299,
+      "delta_shares_yi": 25.128,
+      "share_change_pct": 7.677,
+      "close": 4.178,
+      "price_change_pct": 1.729,
+      "reference_value_yi": 104.985,
+      "previous_reference_size_yi": 1344.216,
+      "robust_z_60": 6.53,
+      "delta_5d_shares_yi": 66.897,
+      "share_change_5d_pct": 23.429,
+      "reference_5d_yi": 279.496,
+      "positive_days_5": 5,
+      "negative_days_5": 0,
+      "series_5": [
+        {
+          "date": "2026-10-16",
+          "shares_yi": 285.53
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 291.956
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 294.008
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 301.991
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 327.299
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 352.427
+        }
+      ],
+      "delta_20d_shares_yi": 115.416,
+      "share_change_20d_pct": 48.696,
+      "price_change_20d_pct": -7.811,
+      "reference_20d_yi": 482.208,
+      "start_reference_20d_yi": 1074.133,
+      "series_20": [
+        {
+          "date": "2026-09-17",
+          "shares_yi": 237.011,
+          "close": 4.532,
+          "shares_index": 100.0,
+          "price_index": 100.0
+        },
+        {
+          "date": "2026-09-18",
+          "shares_yi": 236.597,
+          "close": 4.582,
+          "shares_index": 99.83,
+          "price_index": 101.1
+        },
+        {
+          "date": "2026-09-21",
+          "shares_yi": 237.137,
+          "close": 4.608,
+          "shares_index": 100.05,
+          "price_index": 101.68
+        },
+        {
+          "date": "2026-09-22",
+          "shares_yi": 237.38,
+          "close": 4.613,
+          "shares_index": 100.16,
+          "price_index": 101.79
+        },
+        {
+          "date": "2026-09-23",
+          "shares_yi": 240.053,
+          "close": 4.59,
+          "shares_index": 101.28,
+          "price_index": 101.28
+        },
+        {
+          "date": "2026-09-24",
+          "shares_yi": 239.045,
+          "close": 4.515,
+          "shares_index": 100.86,
+          "price_index": 99.62
+        },
+        {
+          "date": "2026-09-28",
+          "shares_yi": 241.781,
+          "close": 4.417,
+          "shares_index": 102.01,
+          "price_index": 97.46
+        },
+        {
+          "date": "2026-09-29",
+          "shares_yi": 241.646,
+          "close": 4.416,
+          "shares_index": 101.96,
+          "price_index": 97.44
+        },
+        {
+          "date": "2026-09-30",
+          "shares_yi": 241.196,
+          "close": 4.432,
+          "shares_index": 101.77,
+          "price_index": 97.79
+        },
+        {
+          "date": "2026-10-08",
+          "shares_yi": 240.638,
+          "close": 4.389,
+          "shares_index": 101.53,
+          "price_index": 96.84
+        },
+        {
+          "date": "2026-10-09",
+          "shares_yi": 243.923,
+          "close": 4.385,
+          "shares_index": 102.92,
+          "price_index": 96.76
+        },
+        {
+          "date": "2026-10-12",
+          "shares_yi": 245.3,
+          "close": 4.36,
+          "shares_index": 103.5,
+          "price_index": 96.2
+        },
+        {
+          "date": "2026-10-13",
+          "shares_yi": 248.972,
+          "close": 4.345,
+          "shares_index": 105.05,
+          "price_index": 95.87
+        },
+        {
+          "date": "2026-10-14",
+          "shares_yi": 246.902,
+          "close": 4.294,
+          "shares_index": 104.17,
+          "price_index": 94.75
+        },
+        {
+          "date": "2026-10-15",
+          "shares_yi": 254.849,
+          "close": 4.242,
+          "shares_index": 107.53,
+          "price_index": 93.6
+        },
+        {
+          "date": "2026-10-16",
+          "shares_yi": 285.53,
+          "close": 4.236,
+          "shares_index": 120.47,
+          "price_index": 93.47
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 291.956,
+          "close": 4.24,
+          "shares_index": 123.18,
+          "price_index": 93.56
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 294.008,
+          "close": 4.22,
+          "shares_index": 124.05,
+          "price_index": 93.12
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 301.991,
+          "close": 4.185,
+          "shares_index": 127.42,
+          "price_index": 92.34
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 327.299,
+          "close": 4.107,
+          "shares_index": 138.09,
+          "price_index": 90.62
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 352.427,
+          "close": 4.178,
+          "shares_index": 148.7,
+          "price_index": 92.19
+        }
+      ]
+    },
+    "159915": {
+      "code": "159915",
+      "name": "创业板ETF易方达",
+      "theme": "宽基指数",
+      "market": "深圳",
+      "asset_class": "equity",
+      "classification_verified": true,
+      "observations_60": 62,
+      "current_shares_yi": 337.575,
+      "previous_shares_yi": 313.055,
+      "delta_shares_yi": 24.52,
+      "share_change_pct": 7.833,
+      "close": 2.702,
+      "price_change_pct": 4.244,
+      "reference_value_yi": 66.253,
+      "previous_reference_size_yi": 811.437,
+      "robust_z_60": 4.66,
+      "delta_5d_shares_yi": 78.21,
+      "share_change_5d_pct": 30.154,
+      "reference_5d_yi": 211.323,
+      "positive_days_5": 5,
+      "negative_days_5": 0,
+      "series_5": [
+        {
+          "date": "2026-10-16",
+          "shares_yi": 259.365
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 267.365
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 273.435
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 292.045
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 313.055
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 337.575
+        }
+      ],
+      "delta_20d_shares_yi": 137.62,
+      "share_change_20d_pct": 68.826,
+      "price_change_20d_pct": -18.59,
+      "reference_20d_yi": 371.849,
+      "start_reference_20d_yi": 663.649,
+      "series_20": [
+        {
+          "date": "2026-09-17",
+          "shares_yi": 199.955,
+          "close": 3.319,
+          "shares_index": 100.0,
+          "price_index": 100.0
+        },
+        {
+          "date": "2026-09-18",
+          "shares_yi": 198.595,
+          "close": 3.391,
+          "shares_index": 99.32,
+          "price_index": 102.17
+        },
+        {
+          "date": "2026-09-21",
+          "shares_yi": 196.305,
+          "close": 3.418,
+          "shares_index": 98.17,
+          "price_index": 102.98
+        },
+        {
+          "date": "2026-09-22",
+          "shares_yi": 196.275,
+          "close": 3.42,
+          "shares_index": 98.16,
+          "price_index": 103.04
+        },
+        {
+          "date": "2026-09-23",
+          "shares_yi": 196.485,
+          "close": 3.399,
+          "shares_index": 98.26,
+          "price_index": 102.41
+        },
+        {
+          "date": "2026-09-24",
+          "shares_yi": 199.635,
+          "close": 3.312,
+          "shares_index": 99.84,
+          "price_index": 99.79
+        },
+        {
+          "date": "2026-09-28",
+          "shares_yi": 208.645,
+          "close": 3.159,
+          "shares_index": 104.35,
+          "price_index": 95.18
+        },
+        {
+          "date": "2026-09-29",
+          "shares_yi": 207.305,
+          "close": 3.162,
+          "shares_index": 103.68,
+          "price_index": 95.27
+        },
+        {
+          "date": "2026-09-30",
+          "shares_yi": 206.095,
+          "close": 3.154,
+          "shares_index": 103.07,
+          "price_index": 95.03
+        },
+        {
+          "date": "2026-10-08",
+          "shares_yi": 213.085,
+          "close": 3.053,
+          "shares_index": 106.57,
+          "price_index": 91.99
+        },
+        {
+          "date": "2026-10-09",
+          "shares_yi": 220.225,
+          "close": 3.064,
+          "shares_index": 110.14,
+          "price_index": 92.32
+        },
+        {
+          "date": "2026-10-12",
+          "shares_yi": 222.265,
+          "close": 2.983,
+          "shares_index": 111.16,
+          "price_index": 89.88
+        },
+        {
+          "date": "2026-10-13",
+          "shares_yi": 229.595,
+          "close": 2.974,
+          "shares_index": 114.82,
+          "price_index": 89.61
+        },
+        {
+          "date": "2026-10-14",
+          "shares_yi": 234.975,
+          "close": 2.891,
+          "shares_index": 117.51,
+          "price_index": 87.1
+        },
+        {
+          "date": "2026-10-15",
+          "shares_yi": 254.705,
+          "close": 2.806,
+          "shares_index": 127.38,
+          "price_index": 84.54
+        },
+        {
+          "date": "2026-10-16",
+          "shares_yi": 259.365,
+          "close": 2.789,
+          "shares_index": 129.71,
+          "price_index": 84.03
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 267.365,
+          "close": 2.762,
+          "shares_index": 133.71,
+          "price_index": 83.22
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 273.435,
+          "close": 2.756,
+          "shares_index": 136.75,
+          "price_index": 83.04
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 292.045,
+          "close": 2.713,
+          "shares_index": 146.06,
+          "price_index": 81.74
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 313.055,
+          "close": 2.592,
+          "shares_index": 156.56,
+          "price_index": 78.1
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 337.575,
+          "close": 2.702,
+          "shares_index": 168.83,
+          "price_index": 81.41
+        }
+      ]
+    },
+    "159516": {
+      "code": "159516",
+      "name": "半导体设备ETF国泰",
+      "theme": "科技/TMT",
+      "market": "深圳",
+      "asset_class": "equity",
+      "classification_verified": true,
+      "observations_60": 62,
+      "current_shares_yi": 589.584,
+      "previous_shares_yi": 605.334,
+      "delta_shares_yi": -15.75,
+      "share_change_pct": -2.602,
+      "close": 0.54,
+      "price_change_pct": 1.504,
+      "reference_value_yi": -8.505,
+      "previous_reference_size_yi": 322.037,
+      "robust_z_60": -2.0,
+      "delta_5d_shares_yi": -25.2,
+      "share_change_5d_pct": -4.099,
+      "reference_5d_yi": -13.608,
+      "positive_days_5": 1,
+      "negative_days_5": 4,
+      "series_5": [
+        {
+          "date": "2026-10-16",
+          "shares_yi": 614.784
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 627.804
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 624.834
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 621.924
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 605.334
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 589.584
+        }
+      ],
+      "delta_20d_shares_yi": -23.16,
+      "share_change_20d_pct": -3.78,
+      "price_change_20d_pct": -23.186,
+      "reference_20d_yi": -12.506,
+      "start_reference_20d_yi": 430.759,
+      "series_20": [
+        {
+          "date": "2026-09-17",
+          "shares_yi": 612.744,
+          "close": 0.703,
+          "shares_index": 100.0,
+          "price_index": 100.0
+        },
+        {
+          "date": "2026-09-18",
+          "shares_yi": 610.434,
+          "close": 0.729,
+          "shares_index": 99.62,
+          "price_index": 103.7
+        },
+        {
+          "date": "2026-09-21",
+          "shares_yi": 615.594,
+          "close": 0.724,
+          "shares_index": 100.47,
+          "price_index": 102.99
+        },
+        {
+          "date": "2026-09-22",
+          "shares_yi": 614.994,
+          "close": 0.714,
+          "shares_index": 100.37,
+          "price_index": 101.56
+        },
+        {
+          "date": "2026-09-23",
+          "shares_yi": 614.724,
+          "close": 0.718,
+          "shares_index": 100.32,
+          "price_index": 102.13
+        },
+        {
+          "date": "2026-09-24",
+          "shares_yi": 613.884,
+          "close": 0.701,
+          "shares_index": 100.19,
+          "price_index": 99.72
+        },
+        {
+          "date": "2026-09-28",
+          "shares_yi": 608.574,
+          "close": 0.67,
+          "shares_index": 99.32,
+          "price_index": 95.31
+        },
+        {
+          "date": "2026-09-29",
+          "shares_yi": 609.594,
+          "close": 0.671,
+          "shares_index": 99.49,
+          "price_index": 95.45
+        },
+        {
+          "date": "2026-09-30",
+          "shares_yi": 606.294,
+          "close": 0.651,
+          "shares_index": 98.95,
+          "price_index": 92.6
+        },
+        {
+          "date": "2026-10-08",
+          "shares_yi": 604.974,
+          "close": 0.627,
+          "shares_index": 98.73,
+          "price_index": 89.19
+        },
+        {
+          "date": "2026-10-09",
+          "shares_yi": 614.004,
+          "close": 0.622,
+          "shares_index": 100.21,
+          "price_index": 88.48
+        },
+        {
+          "date": "2026-10-12",
+          "shares_yi": 613.944,
+          "close": 0.617,
+          "shares_index": 100.2,
+          "price_index": 87.77
+        },
+        {
+          "date": "2026-10-13",
+          "shares_yi": 608.694,
+          "close": 0.62,
+          "shares_index": 99.34,
+          "price_index": 88.19
+        },
+        {
+          "date": "2026-10-14",
+          "shares_yi": 613.014,
+          "close": 0.599,
+          "shares_index": 100.04,
+          "price_index": 85.21
+        },
+        {
+          "date": "2026-10-15",
+          "shares_yi": 605.364,
+          "close": 0.601,
+          "shares_index": 98.8,
+          "price_index": 85.49
+        },
+        {
+          "date": "2026-10-16",
+          "shares_yi": 614.784,
+          "close": 0.596,
+          "shares_index": 100.33,
+          "price_index": 84.78
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 627.804,
+          "close": 0.566,
+          "shares_index": 102.46,
+          "price_index": 80.51
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 624.834,
+          "close": 0.562,
+          "shares_index": 101.97,
+          "price_index": 79.94
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 621.924,
+          "close": 0.556,
+          "shares_index": 101.5,
+          "price_index": 79.09
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 605.334,
+          "close": 0.532,
+          "shares_index": 98.79,
+          "price_index": 75.68
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 589.584,
+          "close": 0.54,
+          "shares_index": 96.22,
+          "price_index": 76.81
+        }
+      ]
+    }
+  },
+  "divergence_cases": [
+    {
+      "code": "510300",
+      "name": "300ETF",
+      "theme": "宽基指数",
+      "market": "上海",
+      "asset_class": "equity",
+      "classification_verified": true,
+      "observations_60": 62,
+      "current_shares_yi": 352.427,
+      "previous_shares_yi": 327.299,
+      "delta_shares_yi": 25.128,
+      "share_change_pct": 7.677,
+      "close": 4.178,
+      "price_change_pct": 1.729,
+      "reference_value_yi": 104.985,
+      "previous_reference_size_yi": 1344.216,
+      "robust_z_60": 6.53,
+      "delta_5d_shares_yi": 66.897,
+      "share_change_5d_pct": 23.429,
+      "reference_5d_yi": 279.496,
+      "positive_days_5": 5,
+      "negative_days_5": 0,
+      "series_5": [
+        {
+          "date": "2026-10-16",
+          "shares_yi": 285.53
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 291.956
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 294.008
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 301.991
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 327.299
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 352.427
+        }
+      ],
+      "delta_20d_shares_yi": 115.416,
+      "share_change_20d_pct": 48.696,
+      "price_change_20d_pct": -7.811,
+      "reference_20d_yi": 482.208,
+      "start_reference_20d_yi": 1074.133,
+      "series_20": [
+        {
+          "date": "2026-09-17",
+          "shares_yi": 237.011,
+          "close": 4.532,
+          "shares_index": 100.0,
+          "price_index": 100.0
+        },
+        {
+          "date": "2026-09-18",
+          "shares_yi": 236.597,
+          "close": 4.582,
+          "shares_index": 99.83,
+          "price_index": 101.1
+        },
+        {
+          "date": "2026-09-21",
+          "shares_yi": 237.137,
+          "close": 4.608,
+          "shares_index": 100.05,
+          "price_index": 101.68
+        },
+        {
+          "date": "2026-09-22",
+          "shares_yi": 237.38,
+          "close": 4.613,
+          "shares_index": 100.16,
+          "price_index": 101.79
+        },
+        {
+          "date": "2026-09-23",
+          "shares_yi": 240.053,
+          "close": 4.59,
+          "shares_index": 101.28,
+          "price_index": 101.28
+        },
+        {
+          "date": "2026-09-24",
+          "shares_yi": 239.045,
+          "close": 4.515,
+          "shares_index": 100.86,
+          "price_index": 99.62
+        },
+        {
+          "date": "2026-09-28",
+          "shares_yi": 241.781,
+          "close": 4.417,
+          "shares_index": 102.01,
+          "price_index": 97.46
+        },
+        {
+          "date": "2026-09-29",
+          "shares_yi": 241.646,
+          "close": 4.416,
+          "shares_index": 101.96,
+          "price_index": 97.44
+        },
+        {
+          "date": "2026-09-30",
+          "shares_yi": 241.196,
+          "close": 4.432,
+          "shares_index": 101.77,
+          "price_index": 97.79
+        },
+        {
+          "date": "2026-10-08",
+          "shares_yi": 240.638,
+          "close": 4.389,
+          "shares_index": 101.53,
+          "price_index": 96.84
+        },
+        {
+          "date": "2026-10-09",
+          "shares_yi": 243.923,
+          "close": 4.385,
+          "shares_index": 102.92,
+          "price_index": 96.76
+        },
+        {
+          "date": "2026-10-12",
+          "shares_yi": 245.3,
+          "close": 4.36,
+          "shares_index": 103.5,
+          "price_index": 96.2
+        },
+        {
+          "date": "2026-10-13",
+          "shares_yi": 248.972,
+          "close": 4.345,
+          "shares_index": 105.05,
+          "price_index": 95.87
+        },
+        {
+          "date": "2026-10-14",
+          "shares_yi": 246.902,
+          "close": 4.294,
+          "shares_index": 104.17,
+          "price_index": 94.75
+        },
+        {
+          "date": "2026-10-15",
+          "shares_yi": 254.849,
+          "close": 4.242,
+          "shares_index": 107.53,
+          "price_index": 93.6
+        },
+        {
+          "date": "2026-10-16",
+          "shares_yi": 285.53,
+          "close": 4.236,
+          "shares_index": 120.47,
+          "price_index": 93.47
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 291.956,
+          "close": 4.24,
+          "shares_index": 123.18,
+          "price_index": 93.56
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 294.008,
+          "close": 4.22,
+          "shares_index": 124.05,
+          "price_index": 93.12
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 301.991,
+          "close": 4.185,
+          "shares_index": 127.42,
+          "price_index": 92.34
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 327.299,
+          "close": 4.107,
+          "shares_index": 138.09,
+          "price_index": 90.62
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 352.427,
+          "close": 4.178,
+          "shares_index": 148.7,
+          "price_index": 92.19
+        }
+      ]
+    },
+    {
+      "code": "588000",
+      "name": "科创50",
+      "theme": "科技/TMT",
+      "market": "上海",
+      "asset_class": "equity",
+      "classification_verified": true,
+      "observations_60": 62,
+      "current_shares_yi": 822.927,
+      "previous_shares_yi": 795.327,
+      "delta_shares_yi": 27.6,
+      "share_change_pct": 3.47,
+      "close": 1.422,
+      "price_change_pct": 3.268,
+      "reference_value_yi": 39.247,
+      "previous_reference_size_yi": 1095.165,
+      "robust_z_60": 1.85,
+      "delta_5d_shares_yi": 120.96,
+      "share_change_5d_pct": 17.232,
+      "reference_5d_yi": 172.005,
+      "positive_days_5": 5,
+      "negative_days_5": 0,
+      "series_5": [
+        {
+          "date": "2026-10-16",
+          "shares_yi": 701.967
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 715.917
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 737.187
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 747.657
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 795.327
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 822.927
+        }
+      ],
+      "delta_20d_shares_yi": 267.0,
+      "share_change_20d_pct": 48.028,
+      "price_change_20d_pct": -16.156,
+      "reference_20d_yi": 379.674,
+      "start_reference_20d_yi": 942.852,
+      "series_20": [
+        {
+          "date": "2026-09-17",
+          "shares_yi": 555.927,
+          "close": 1.696,
+          "shares_index": 100.0,
+          "price_index": 100.0
+        },
+        {
+          "date": "2026-09-18",
+          "shares_yi": 549.987,
+          "close": 1.744,
+          "shares_index": 98.93,
+          "price_index": 102.83
+        },
+        {
+          "date": "2026-09-21",
+          "shares_yi": 552.777,
+          "close": 1.749,
+          "shares_index": 99.43,
+          "price_index": 103.12
+        },
+        {
+          "date": "2026-09-22",
+          "shares_yi": 543.747,
+          "close": 1.758,
+          "shares_index": 97.81,
+          "price_index": 103.66
+        },
+        {
+          "date": "2026-09-23",
+          "shares_yi": 542.907,
+          "close": 1.755,
+          "shares_index": 97.66,
+          "price_index": 103.48
+        },
+        {
+          "date": "2026-09-24",
+          "shares_yi": 550.527,
+          "close": 1.713,
+          "shares_index": 99.03,
+          "price_index": 101.0
+        },
+        {
+          "date": "2026-09-28",
+          "shares_yi": 563.757,
+          "close": 1.643,
+          "shares_index": 101.41,
+          "price_index": 96.88
+        },
+        {
+          "date": "2026-09-29",
+          "shares_yi": 565.557,
+          "close": 1.657,
+          "shares_index": 101.73,
+          "price_index": 97.7
+        },
+        {
+          "date": "2026-09-30",
+          "shares_yi": 582.387,
+          "close": 1.616,
+          "shares_index": 104.76,
+          "price_index": 95.28
+        },
+        {
+          "date": "2026-10-08",
+          "shares_yi": 605.427,
+          "close": 1.537,
+          "shares_index": 108.9,
+          "price_index": 90.62
+        },
+        {
+          "date": "2026-10-09",
+          "shares_yi": 629.787,
+          "close": 1.541,
+          "shares_index": 113.29,
+          "price_index": 90.86
+        },
+        {
+          "date": "2026-10-12",
+          "shares_yi": 632.337,
+          "close": 1.506,
+          "shares_index": 113.74,
+          "price_index": 88.8
+        },
+        {
+          "date": "2026-10-13",
+          "shares_yi": 639.627,
+          "close": 1.507,
+          "shares_index": 115.06,
+          "price_index": 88.86
+        },
+        {
+          "date": "2026-10-14",
+          "shares_yi": 649.587,
+          "close": 1.458,
+          "shares_index": 116.85,
+          "price_index": 85.97
+        },
+        {
+          "date": "2026-10-15",
+          "shares_yi": 695.727,
+          "close": 1.438,
+          "shares_index": 125.15,
+          "price_index": 84.79
+        },
+        {
+          "date": "2026-10-16",
+          "shares_yi": 701.967,
+          "close": 1.43,
+          "shares_index": 126.27,
+          "price_index": 84.32
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 715.917,
+          "close": 1.405,
+          "shares_index": 128.78,
+          "price_index": 82.84
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 737.187,
+          "close": 1.417,
+          "shares_index": 132.61,
+          "price_index": 83.55
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 747.657,
+          "close": 1.418,
+          "shares_index": 134.49,
+          "price_index": 83.61
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 795.327,
+          "close": 1.377,
+          "shares_index": 143.06,
+          "price_index": 81.19
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 822.927,
+          "close": 1.422,
+          "shares_index": 148.03,
+          "price_index": 83.84
+        }
+      ]
+    },
+    {
+      "code": "159915",
+      "name": "创业板ETF易方达",
+      "theme": "宽基指数",
+      "market": "深圳",
+      "asset_class": "equity",
+      "classification_verified": true,
+      "observations_60": 62,
+      "current_shares_yi": 337.575,
+      "previous_shares_yi": 313.055,
+      "delta_shares_yi": 24.52,
+      "share_change_pct": 7.833,
+      "close": 2.702,
+      "price_change_pct": 4.244,
+      "reference_value_yi": 66.253,
+      "previous_reference_size_yi": 811.437,
+      "robust_z_60": 4.66,
+      "delta_5d_shares_yi": 78.21,
+      "share_change_5d_pct": 30.154,
+      "reference_5d_yi": 211.323,
+      "positive_days_5": 5,
+      "negative_days_5": 0,
+      "series_5": [
+        {
+          "date": "2026-10-16",
+          "shares_yi": 259.365
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 267.365
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 273.435
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 292.045
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 313.055
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 337.575
+        }
+      ],
+      "delta_20d_shares_yi": 137.62,
+      "share_change_20d_pct": 68.826,
+      "price_change_20d_pct": -18.59,
+      "reference_20d_yi": 371.849,
+      "start_reference_20d_yi": 663.649,
+      "series_20": [
+        {
+          "date": "2026-09-17",
+          "shares_yi": 199.955,
+          "close": 3.319,
+          "shares_index": 100.0,
+          "price_index": 100.0
+        },
+        {
+          "date": "2026-09-18",
+          "shares_yi": 198.595,
+          "close": 3.391,
+          "shares_index": 99.32,
+          "price_index": 102.17
+        },
+        {
+          "date": "2026-09-21",
+          "shares_yi": 196.305,
+          "close": 3.418,
+          "shares_index": 98.17,
+          "price_index": 102.98
+        },
+        {
+          "date": "2026-09-22",
+          "shares_yi": 196.275,
+          "close": 3.42,
+          "shares_index": 98.16,
+          "price_index": 103.04
+        },
+        {
+          "date": "2026-09-23",
+          "shares_yi": 196.485,
+          "close": 3.399,
+          "shares_index": 98.26,
+          "price_index": 102.41
+        },
+        {
+          "date": "2026-09-24",
+          "shares_yi": 199.635,
+          "close": 3.312,
+          "shares_index": 99.84,
+          "price_index": 99.79
+        },
+        {
+          "date": "2026-09-28",
+          "shares_yi": 208.645,
+          "close": 3.159,
+          "shares_index": 104.35,
+          "price_index": 95.18
+        },
+        {
+          "date": "2026-09-29",
+          "shares_yi": 207.305,
+          "close": 3.162,
+          "shares_index": 103.68,
+          "price_index": 95.27
+        },
+        {
+          "date": "2026-09-30",
+          "shares_yi": 206.095,
+          "close": 3.154,
+          "shares_index": 103.07,
+          "price_index": 95.03
+        },
+        {
+          "date": "2026-10-08",
+          "shares_yi": 213.085,
+          "close": 3.053,
+          "shares_index": 106.57,
+          "price_index": 91.99
+        },
+        {
+          "date": "2026-10-09",
+          "shares_yi": 220.225,
+          "close": 3.064,
+          "shares_index": 110.14,
+          "price_index": 92.32
+        },
+        {
+          "date": "2026-10-12",
+          "shares_yi": 222.265,
+          "close": 2.983,
+          "shares_index": 111.16,
+          "price_index": 89.88
+        },
+        {
+          "date": "2026-10-13",
+          "shares_yi": 229.595,
+          "close": 2.974,
+          "shares_index": 114.82,
+          "price_index": 89.61
+        },
+        {
+          "date": "2026-10-14",
+          "shares_yi": 234.975,
+          "close": 2.891,
+          "shares_index": 117.51,
+          "price_index": 87.1
+        },
+        {
+          "date": "2026-10-15",
+          "shares_yi": 254.705,
+          "close": 2.806,
+          "shares_index": 127.38,
+          "price_index": 84.54
+        },
+        {
+          "date": "2026-10-16",
+          "shares_yi": 259.365,
+          "close": 2.789,
+          "shares_index": 129.71,
+          "price_index": 84.03
+        },
+        {
+          "date": "2026-10-19",
+          "shares_yi": 267.365,
+          "close": 2.762,
+          "shares_index": 133.71,
+          "price_index": 83.22
+        },
+        {
+          "date": "2026-10-20",
+          "shares_yi": 273.435,
+          "close": 2.756,
+          "shares_index": 136.75,
+          "price_index": 83.04
+        },
+        {
+          "date": "2026-10-21",
+          "shares_yi": 292.045,
+          "close": 2.713,
+          "shares_index": 146.06,
+          "price_index": 81.74
+        },
+        {
+          "date": "2026-10-22",
+          "shares_yi": 313.055,
+          "close": 2.592,
+          "shares_index": 156.56,
+          "price_index": 78.1
+        },
+        {
+          "date": "2026-10-23",
+          "shares_yi": 337.575,
+          "close": 2.702,
+          "shares_index": 168.83,
+          "price_index": 81.41
+        }
+      ]
+    }
+  ],
+  "rejected_case": {
+    "code": "159516",
+    "reason": "20日份额与价格同步下降，不符合价跌份额增专题。"
+  },
+  "scenes": [
+    {
+      "id": "opening",
+      "start": 0,
+      "end": 3,
+      "scene": "daily",
+      "voice": "10月23日，宽基ETF包揽份额异动榜前五。"
+    },
+    {
+      "id": "ranking",
+      "start": 3,
+      "end": 12,
+      "scene": "daily",
+      "voice": "300ETF份额增加25.13亿份，对应收盘参考市值约104.98亿元，位列第一。"
+    },
+    {
+      "id": "focus",
+      "start": 12,
+      "end": 21,
+      "scene": "focus",
+      "voice": "科创50ETF过去20个交易日份额增加48.03%，同期价格下跌16.16%，背离仍在延续。"
+    },
+    {
+      "id": "ending",
+      "start": 21,
+      "end": 25,
+      "scene": "daily10",
+      "voice": "以上为份额统计，不等于真实资金净流入。"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ A quantitative ETF analysis toolkit built on SQLite — from daily data updates 
 
 - **Daily Data Pipeline** — Fetches ETF share/scale data from SSE & SZSE via AKShare, and price data from TongDaXin local `.day` files (with EastMoney as fallback).
 - **SQLite Database** — Single source of truth (`etf.db`) with normalized schema: fund metadata, daily shares, daily prices, and a total-scale view.
-- **Web Dashboard** — Flask-based web app for interactive exploration of ETF scale trends, cross-theme comparison, and anomaly detection.
+- **Web Dashboard** — Flask-based web app for interactive exploration of ETF scale trends, cross-theme comparison, anomaly detection, and the read-only ETF share-ranking workspace.
 - **Multi-Factor Strategy** — 4-dimensional factor library: momentum, volume impulse, smart money flow (share-price divergence), and volatility.
 - **Backtest Engine** — T+1 simulation with parameter optimization (Optuna), performance attribution, and risk analysis.
 
@@ -19,6 +19,7 @@ A quantitative ETF analysis toolkit built on SQLite — from daily data updates 
 ├── app.py                   # Flask web dashboard
 ├── backtest_optimize.py     # Standalone dual-factor backtest + Optuna optimization
 ├── src/
+│   ├── etf_rankings/        # Shared day/week ranking service (web + video prototype)
 │   └── strategy/
 │       ├── multi_factor_builder.py   # 4-dim factor computation (momentum, volume, flow, vol)
 │       ├── signal_generator.py       # Signal generation from factor scores
@@ -27,6 +28,7 @@ A quantitative ETF analysis toolkit built on SQLite — from daily data updates 
 ├── data/                    # Strategy output data (events, candidates, universe)
 ├── docs/                    # Strategy documentation (Step 1–4)
 ├── templates/               # Web app HTML templates
+├── static/                  # Isolated ranking workspace CSS/JavaScript
 ├── tests/                   # Validation tests
 ├── etf.db                   # [not in git] Primary SQLite database
 └── reports/                 # [not in git] Generated PDF/Excel reports
@@ -89,8 +91,18 @@ python tdx_price_update.py
 
 ```bash
 python app.py
-# → http://127.0.0.1:5000
+# → http://127.0.0.1:5010
 ```
+
+### ETF份额龙虎榜（一期）
+
+在页面顶部切换到“ETF份额龙虎榜”，可查看单日和5日周榜。该区域通过
+`GET /api/rankings`（或 `GET /api/rankings?date=YYYY-MM-DD`）从 `etf.db`
+建立只读连接；数据库更新后会自动按文件时间和大小失效缓存。
+
+- 日榜以相邻有效交易日的份额变化乘当日收盘价计算“收盘参考市值”。这不是资金净流入。
+- 周榜用6个完整份额观测点计算5个日变化；连续增加榜必须5日均为正。
+- 缺收盘价的ETF仍计入增减统计，但不参加参考市值排序；主题/行业榜一期未启用。
 
 ### Backtest
 
@@ -127,3 +139,25 @@ run_backtest(start_date='2019-04-01')
 ## License
 
 MIT
+
+## 微信小程序：ETF份额龙虎榜
+
+仓库现包含10页原生微信小程序、统一JavaScript云函数和只读SQLite同步器：
+
+```
+miniprogram/              # 原生WXML/WXSS/JavaScript，demo/real硬隔离
+cloudfunctions/etf-api/  # 排行、搜索、详情、自选和权益查询
+sync/etf_sync/           # 计算、校验、CloudBase增量同步与发布指针
+cloud-database/          # 索引和客户端数据库安全规则
+docs/miniprogram-*.md    # 数据契约、容量、部署与Windows运行说明
+```
+
+本地验收：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m pytest tests\test_miniprogram_compute.py tests\test_miniprogram_sync.py -q --basetemp .codex_stage\pytest-mini
+npm test --prefix cloudfunctions\etf-api
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --dry-run --initial
+```
+
+默认 [miniprogram/config/env.js](miniprogram/config/env.js) 为 `demo`，无云凭据即可导入微信开发者工具。正式配置、首次/每日同步、集合索引和权限步骤见 [Windows运行、部署与验收](docs/miniprogram-runbook.md)。

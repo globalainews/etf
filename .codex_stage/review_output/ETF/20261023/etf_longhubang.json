@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0",
+  "content_type": "etf_longhubang",
+  "package_id": "etf_longhubang_20261023_v1",
+  "trade_date": "2026-10-23",
+  "publish_date": "2026-10-25",
+  "timezone": "Asia/Shanghai",
+  "generated_at": "2026-10-25T17:11:45+08:00",
+  "title": "ETF龙虎榜",
+  "metric": {
+    "name": "share_change",
+    "unit": "share",
+    "period": "1d"
+  },
+  "source": {
+    "provider": "上交所/深交所，经本地ETF数据库",
+    "dataset": "fund_scale相邻有效交易日份额快照",
+    "as_of": "2026-10-25T17:11:45+08:00",
+    "license_note": "上游由本地AKShare更新程序采集交易所公开数据。"
+  },
+  "rankings": {
+    "increase": [
+      {
+        "fund_code": "588000.SH",
+        "fund_name": "科创50",
+        "exchange": "SSE",
+        "share_change": 2760000000.0,
+        "shares_current": 82292668200.0,
+        "shares_previous": 79532668200.0,
+        "share_change_pct": 3.470272106374522,
+        "display_value": "+27.6亿份",
+        "rank": 1
+      },
+      {
+        "fund_code": "510300.SH",
+        "fund_name": "300ETF",
+        "exchange": "SSE",
+        "share_change": 2512800000.0,
+        "shares_current": 35242687700.0,
+        "shares_previous": 32729887700.0,
+        "share_change_pct": 7.677386561885453,
+        "display_value": "+25.13亿份",
+        "rank": 2
+      },
+      {
+        "fund_code": "159915.SZ",
+        "fund_name": "创业板ETF易方达",
+        "exchange": "SZSE",
+        "share_change": 2452000000.0,
+        "shares_current": 33757454936.0,
+        "shares_previous": 31305454936.0,
+        "share_change_pct": 7.832500773468396,
+        "display_value": "+24.52亿份",
+        "rank": 3
+      },
+      {
+        "fund_code": "515880.SH",
+        "fund_name": "通信ETF",
+        "exchange": "SSE",
+        "share_change": 1448000000.0,
+        "shares_current": 64923774000.0,
+        "shares_previous": 63475774000.0,
+        "share_change_pct": 2.2811852597496487,
+        "display_value": "+14.48亿份",
+        "rank": 4
+      },
+      {
+        "fund_code": "510330.SH",
+        "fund_name": "华夏300",
+        "exchange": "SSE",
+        "share_change": 1375200000.0,
+        "shares_current": 11908149800.0,
+        "shares_previous": 10532949800.0,
+        "share_change_pct": 13.056171595918933,
+        "display_value": "+13.75亿份",
+        "rank": 5
+      }
+    ],
+    "decrease": [
+      {
+        "fund_code": "159516.SZ",
+        "fund_name": "半导体设备ETF国泰",
+        "exchange": "SZSE",
+        "share_change": -1575000000.0,
+        "shares_current": 58958359972.0,
+        "shares_previous": 60533359972.0,
+        "share_change_pct": -2.6018711017008207,
+        "display_value": "-15.75亿份",
+        "rank": 1
+      },
+      {
+        "fund_code": "515220.SH",
+        "fund_name": "煤炭ETF",
+        "exchange": "SSE",
+        "share_change": -429500000.0,
+        "shares_current": 7712676899.999999,
+        "shares_previous": 8142176899.999999,
+        "share_change_pct": -5.2750020697781705,
+        "display_value": "-4.3亿份",
+        "rank": 2
+      },
+      {
+        "fund_code": "512000.SH",
+        "fund_name": "券商ETF",
+        "exchange": "SSE",
+        "share_change": -384600000.0,
+        "shares_current": 71694635400.0,
+        "shares_previous": 72079235400.0,
+        "share_change_pct": -0.5335794669098279,
+        "display_value": "-3.85亿份",
+        "rank": 3
+      },
+      {
+        "fund_code": "588090.SH",
+        "fund_name": "科创板",
+        "exchange": "SSE",
+        "share_change": -333000000.0,
+        "shares_current": 3096072800.0000005,
+        "shares_previous": 3429072800.0000005,
+        "share_change_pct": -9.711079916413555,
+        "display_value": "-3.33亿份",
+        "rank": 4
+      },
+      {
+        "fund_code": "159994.SZ",
+        "fund_name": "通信ETF银华",
+        "exchange": "SZSE",
+        "share_change": -303000000.0,
+        "shares_current": 3358003358.0,
+        "shares_previous": 3661003358.0,
+        "share_change_pct": -8.276419614253738,
+        "display_value": "-3.03亿份",
+        "rank": 5
+      }
+    ]
+  },
+  "pages": [
+    {
+      "sequence": 1,
+      "page_id": "cover",
+      "page_type": "cover",
+      "html_file": "page_01_cover.html",
+      "headline": "科创50单日份额增加居首",
+      "tts_text": "十月二十三日ETF份额龙虎榜。科创五十单日份额增加二十七点六亿份，位居增加榜首。减少榜首是半导体设备ETF国泰。",
+      "subtitle_sentences": [
+        "10月23日ETF份额龙虎榜。",
+        "科创50单日份额增加+27.6亿份，位居增加榜首。",
+        "减少榜首：半导体设备ETF国泰。"
+      ],
+      "min_duration_sec": 6,
+      "max_duration_sec": 13
+    },
+    {
+      "sequence": 2,
+      "page_id": "increase_top5",
+      "page_type": "ranking",
+      "html_file": "page_02_increase.html",
+      "headline": "份额增加 TOP5",
+      "tts_text": "先看份额增加榜。第1名科创五十。第2名三百ETF。第3名创业板ETF易方达。第4名通信ETF。第5名华夏三百。",
+      "subtitle_sentences": [
+        "先看份额增加榜。",
+        "第1名科创50。",
+        "第2名300ETF。",
+        "第3名创业板ETF易方达。",
+        "第4名通信ETF。",
+        "第5名华夏300。"
+      ],
+      "min_duration_sec": 8,
+      "max_duration_sec": 18
+    },
+    {
+      "sequence": 3,
+      "page_id": "decrease_top5",
+      "page_type": "ranking",
+      "html_file": "page_03_decrease.html",
+      "headline": "份额减少 TOP5",
+      "tts_text": "再看份额减少榜。第1名半导体设备ETF国泰。第2名煤炭ETF。第3名券商ETF。第4名科创板。第5名通信ETF银华。",
+      "subtitle_sentences": [
+        "再看份额减少榜。",
+        "第1名半导体设备ETF国泰。",
+        "第2名煤炭ETF。",
+        "第3名券商ETF。",
+        "第4名科创板。",
+        "第5名通信ETF银华。"
+      ],
+      "min_duration_sec": 8,
+      "max_duration_sec": 18
+    },
+    {
+      "sequence": 4,
+      "page_id": "close",
+      "page_type": "close",
+      "html_file": "page_04_close.html",
+      "headline": "今日数据结论",
+      "tts_text": "今日增加榜首的变化量，比减少榜首的绝对变化量高十一点八五亿份。份额变化不等于资金净流入，也不代表价格涨跌。公开数据仅供参考，不构成投资建议。",
+      "subtitle_sentences": [
+        "增加榜首变化量高于减少榜首绝对变化量。",
+        "份额变化不等于资金净流入，也不代表价格涨跌。",
+        "公开数据仅供参考，不构成投资建议。"
+      ],
+      "min_duration_sec": 5,
+      "max_duration_sec": 14
+    }
+  ],
+  "compliance": {
+    "disclaimer": "数据仅供参考，不构成投资建议。",
+    "methodology_note": "按相邻有效交易日基金份额变化的绝对值排序；份额变化不等于资金净流入。"
+  }
+}

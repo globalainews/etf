@@ -1,0 +1,7 @@
+<view class="page"><view class="hero"><text wx:if="{{isDemo}}" class="demo-badge">演示模式</text><view class="hero-title">异动观察排行榜</view><text class="hero-sub">统计日 {{release.statistic_date || '--'}} · 产品观察指标</text></view>
+ <view class="notice">规则：当日绝对份额变化率 ÷ 此前{{rule.window || 20}}个有效交易日绝对变化率中位数；历史不含当日。阈值集中配置为 ≥{{rule.ratio_threshold || 3}}倍且当日绝对变化率 ≥{{rule.abs_pct_threshold || 1}}%。</view>
+ <view wx:if="{{error}}" class="notice error">{{error}}<button class="secondary retry" bindtap="load">重试</button></view><view wx:elif="{{loading}}" class="loading">加载异动样本…</view>
+ <view wx:elif="{{items.length}}" class="card"><view wx:for="{{items}}" wx:key="code" class="anomaly" data-code="{{item.code}}" bindtap="openDetail"><view class="section-head"><view><view class="name">{{item.name}}</view><view class="code">{{item.code}} · 同期价格 {{item.priceText}}</view></view><text class="ratio">{{item.ratioText}}</text></view><view class="bar"><view class="bar-in" style="width:{{item.barWidth}}%"></view></view><text class="muted">当日 {{item.rateText}} · 历史基准 {{item.baselineText}} · {{item.status}}</text></view></view><view wx:else class="card empty">当前没有同时满足历史窗口和筛选阈值的记录。数据不足时不会计算倍数。</view>
+ <view class="notice warning">{{disclaimer || '份额变化不代表未来涨跌，不等同资金净流入。'}} 本榜单不是确定买卖信号。</view>
+</view>
+

@@ -4,6 +4,11 @@
 # Python cache
 __pycache__/
 *.pyc
+.env
+sync/*.json
+sync/*.jsonl
+miniprogram/config/env.local.js
+project.private.config.json
 *.pyo
 
 # Logs
@@ -33,6 +38,7 @@ D:claude/
 # OS
 .DS_Store
 Thumbs.db
+/nul
 
 # Env
 .env

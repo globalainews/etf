@@ -1,0 +1,15 @@
+{
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "video_seconds": 25,
+  "safe_area": {"left": 80, "right": 80, "top": 120, "bottom": 180},
+  "video_codec": "libx264",
+  "pixel_format": "yuv420p",
+  "audio_codec": "aac",
+  "audio_rate": 48000,
+  "audio_lufs": -16,
+  "audio_true_peak": -1.5,
+  "voice_primary": "zh-CN-YunyangNeural",
+  "voice_fallback": "zh-CN-XiaoxiaoNeural"
+}

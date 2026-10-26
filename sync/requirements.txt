@@ -1,0 +1,4 @@
+# Runtime uses only the Python standard library.
+# Test dependency:
+pytest==8.3.5
+

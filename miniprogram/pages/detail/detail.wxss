@@ -1,0 +1,2 @@
+.watch{margin-top:22rpx}.chart{width:670rpx;height:300rpx;margin:8rpx -6rpx 18rpx}.chart-title{display:block;margin-top:16rpx;font-size:26rpx;font-weight:650}.selected{padding:14rpx;border-radius:10rpx;background:#f4f7f9;color:#4d6271;font-size:24rpx}.observation{display:flex;justify-content:space-between;padding:18rpx 0;border-bottom:1rpx solid #edf1f4}.hero-sub{white-space:pre-line}
+

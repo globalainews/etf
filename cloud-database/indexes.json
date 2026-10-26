@@ -1,0 +1,21 @@
+{
+  "source": "sync.etf_sync.bootstrap.INDEXES",
+  "note": "可执行 python -m sync.etf_sync.bootstrap 创建；重复创建同名索引时由CloudBase返回现有状态。",
+  "indexes": {
+    "etf_master": ["search_keys ASC"],
+    "etf_history": ["code ASC, date DESC, release_seq DESC"],
+    "ranking_snapshots": [
+      "release_id ASC, direction ASC, delta_shares DESC, code ASC",
+      "release_id ASC, direction ASC, delta_shares ASC, code ASC",
+      "release_id ASC, direction ASC, change_rate DESC, code ASC",
+      "release_id ASC, direction ASC, change_rate ASC, code ASC",
+      "release_id ASC, sector ASC, change_rate DESC, code ASC",
+      "UNIQUE release_id ASC, code ASC"
+    ],
+    "streak_snapshots": ["release_id ASC, direction ASC, status ASC, days DESC, code ASC", "UNIQUE release_id ASC, code ASC"],
+    "anomaly_snapshots": ["release_id ASC, qualified ASC, anomaly_ratio DESC, code ASC", "UNIQUE release_id ASC, code ASC"],
+    "sector_snapshots": ["release_id ASC, median_change_rate DESC, sector ASC"],
+    "user_watchlists": ["openid ASC, created_at DESC", "UNIQUE openid ASC, code ASC"]
+  }
+}
+

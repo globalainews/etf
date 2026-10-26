@@ -1,0 +1,8 @@
+<view class="page"><view class="hero"><text wx:if="{{isDemo}}" class="demo-badge">演示模式</text><view class="hero-title">板块份额对比</view><text class="hero-sub">板块内ETF份额变化率中位数 · {{release.statistic_date || '--'}}</text></view>
+ <view class="notice">分类来源：funds.theme；单只ETF当前仅归入一个分类，不允许重叠。未分类记录不会被补猜。</view>
+ <view wx:if="{{error}}" class="notice error">{{error}}<button class="secondary retry" bindtap="load">重试</button></view><view wx:elif="{{loading}}" class="loading">计算板块样本…</view>
+ <view wx:elif="{{!items.length}}" class="card empty">当前数据库缺少可靠分类，板块统计不可用。</view>
+ <view wx:else class="card"><block wx:for="{{items}}" wx:key="sector"><view class="sector-row" data-sector="{{item.sector}}" bindtap="expand"><view class="row-main"><view class="name">{{item.sector}}</view><view class="code">有效 {{item.valid_sample_count}} · 缺失 {{item.missing_sample_count}} · 总样本 {{item.sample_count}}</view></view><text class="sector-rate {{item.tone}}">{{item.rateText}}</text></view><view wx:if="{{expanded===item.sector}}" class="samples"><view wx:if="{{!samples.length}}" class="loading small">加载样本…</view><view wx:for="{{samples}}" wx:for-item="sample" wx:key="code" class="row" data-code="{{sample.code}}" bindtap="openDetail"><view class="row-main"><view class="name">{{sample.name}}</view><view class="code">{{sample.code}}</view></view><text class="{{sample.tone}}">{{sample.rateText}}</text></view></view></block></view>
+ <view class="footer-note">此处比较变化率中位数，不把不同ETF份额相加，也不解释为资金流。</view>
+</view>
+

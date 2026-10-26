@@ -1,0 +1,20 @@
+{
+  "weights": {
+    "daily_change_percentile": 15,
+    "reference_value": 20,
+    "robust_z_60": 20,
+    "continuity": 10,
+    "divergence": 10,
+    "peer_sync": 10,
+    "representativeness": 10,
+    "novelty": 5
+  },
+  "publish_threshold": 65,
+  "quality_threshold": 0.9,
+  "growth_min_reference_yi": 5,
+  "growth_min_shares_yi": 1,
+  "divergence_min_reference_yi": 10,
+  "relative_min_observations": 60,
+  "long_window_min_observations": 61,
+  "robust_z_label_threshold": 2.5
+}

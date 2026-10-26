@@ -64,16 +64,28 @@ body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f
 .loading.show { display: block; }
 .spinner { width: 36px; height: 36px; border: 3px solid #e0e0e0; border-top-color: #2d6aa0; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
 @keyframes spin { to { transform: rotate(360deg); } }
+.header-brand { display:flex; align-items:center; gap:22px; min-width:0; }
+.mode-tabs { display:flex; align-items:center; gap:4px; background:rgba(255,255,255,.12); padding:3px; border-radius:5px; }
+.mode-tabs button { border:0; border-radius:3px; background:transparent; color:rgba(255,255,255,.78); padding:5px 10px; font-size:12px; cursor:pointer; }
+.mode-tabs button.active { color:#153454; background:#fff; font-weight:700; }
+@media (max-width: 760px) { .header { height:auto; min-height:52px; padding:8px 12px; } .header-brand { gap:10px; flex-wrap:wrap; } .header .info { display:none; } .container { height:calc(100vh - 52px); } }
 </style>
+<link rel="stylesheet" href="{{ url_for('static', filename='rankings.css') }}">
 </head>
 <body>
 
 <div class="header">
-  <h1>📊 ETF基金规模趋势分析</h1>
+  <div class="header-brand">
+    <h1>📊 ETF基金规模趋势分析</h1>
+    <div class="mode-tabs" role="tablist" aria-label="分析模式">
+      <button type="button" id="analysisModeButton" class="active" role="tab" aria-selected="true">基金分析</button>
+      <button type="button" id="rankingsModeButton" role="tab" aria-selected="false">ETF份额龙虎榜</button>
+    </div>
+  </div>
   <span class="info" id="headerInfo">数据日期: 加载中...</span>
 </div>
 
-<div class="container">
+<div class="container" id="analysisView">
   <div class="sidebar">
     <div class="sidebar-header">
       <div class="tools">
@@ -142,6 +154,29 @@ body { font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif; background: #f
     </div>
   </div>
 </div>
+
+<section id="rankingsView" class="rankings-view" hidden aria-label="ETF份额异动龙虎榜">
+  <div class="rankings-shell">
+    <header class="rk-hero">
+      <div>
+        <div class="rk-eyebrow">自制ETF份额统计榜 · WEB EDITION</div>
+        <h2>ETF份额异动龙虎榜</h2>
+        <p id="rkSummary">加载最新交易日数据中…</p>
+      </div>
+      <div class="rk-controls">
+        <label>交易日<input id="rkDate" type="date" aria-label="龙虎榜交易日"></label>
+        <button type="button" id="rkRefresh">刷新数据</button>
+      </div>
+    </header>
+    <div class="rk-audit" id="rkAudit" aria-live="polite"></div>
+    <div class="rk-warnings" id="rkWarnings" hidden></div>
+    <nav class="rk-tabs" aria-label="龙虎榜视图">
+      <button type="button" class="rk-tab active" data-rk-tab="daily">日榜</button>
+      <button type="button" class="rk-tab" data-rk-tab="weekly">周榜</button>
+    </nav>
+    <main id="rkContent" class="rk-content" aria-live="polite"></main>
+  </div>
+</section>
 
 <script>
 let allFunds = [];
@@ -1425,5 +1460,6 @@ function renderChart(data, markers) {
   });
 }
 </script>
+<script src="{{ url_for('static', filename='rankings.js') }}"></script>
 </body>
 </html>

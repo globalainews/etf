@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://global-overview.local/schemas/etf_longhubang.v1.schema.json",
+  "title": "ETF龙虎榜短视频素材",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_type",
+    "package_id",
+    "trade_date",
+    "publish_date",
+    "timezone",
+    "generated_at",
+    "title",
+    "metric",
+    "source",
+    "rankings",
+    "pages",
+    "compliance"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "content_type": { "const": "etf_longhubang" },
+    "package_id": {
+      "type": "string",
+      "pattern": "^etf_longhubang_[0-9]{8}_v[1-9][0-9]*$"
+    },
+    "trade_date": { "type": "string", "format": "date" },
+    "publish_date": { "type": "string", "format": "date" },
+    "timezone": { "const": "Asia/Shanghai" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "title": { "const": "ETF龙虎榜" },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "unit", "period"],
+      "properties": {
+        "name": { "const": "share_change" },
+        "unit": { "const": "share" },
+        "period": { "const": "1d" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "dataset", "as_of"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "dataset": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "as_of": { "type": "string", "format": "date-time" },
+        "license_note": { "type": ["string", "null"], "maxLength": 200 }
+      }
+    },
+    "rankings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["increase", "decrease"],
+      "properties": {
+        "increase": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": { "$ref": "#/$defs/increaseItem" }
+        },
+        "decrease": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": { "$ref": "#/$defs/decreaseItem" }
+        }
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "prefixItems": [
+        { "$ref": "#/$defs/coverPage" },
+        { "$ref": "#/$defs/increasePage" },
+        { "$ref": "#/$defs/decreasePage" },
+        { "$ref": "#/$defs/closePage" }
+      ],
+      "items": false
+    },
+    "compliance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disclaimer"],
+      "properties": {
+        "disclaimer": { "type": "string", "minLength": 8, "maxLength": 100 },
+        "methodology_note": { "type": ["string", "null"], "maxLength": 300 }
+      }
+    }
+  },
+  "$defs": {
+    "baseItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "fund_code",
+        "fund_name",
+        "exchange",
+        "share_change",
+        "display_value"
+      ],
+      "properties": {
+        "rank": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "fund_code": { "type": "string", "pattern": "^[0-9]{6}\\.(SH|SZ)$" },
+        "fund_name": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "exchange": { "enum": ["SSE", "SZSE"] },
+        "share_change": { "type": "number" },
+        "shares_current": { "type": ["number", "null"], "minimum": 0 },
+        "shares_previous": { "type": ["number", "null"], "minimum": 0 },
+        "share_change_pct": { "type": ["number", "null"] },
+        "display_value": { "type": "string", "minLength": 3, "maxLength": 24 }
+      }
+    },
+    "increaseItem": {
+      "allOf": [
+        { "$ref": "#/$defs/baseItem" },
+        {
+          "properties": {
+            "share_change": { "exclusiveMinimum": 0 },
+            "display_value": { "pattern": "^\\+" }
+          }
+        }
+      ]
+    },
+    "decreaseItem": {
+      "allOf": [
+        { "$ref": "#/$defs/baseItem" },
+        {
+          "properties": {
+            "share_change": { "exclusiveMaximum": 0 },
+            "display_value": { "pattern": "^-" }
+          }
+        }
+      ]
+    },
+    "basePage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "page_id",
+        "page_type",
+        "html_file",
+        "headline",
+        "tts_text",
+        "subtitle_sentences",
+        "min_duration_sec",
+        "max_duration_sec"
+      ],
+      "properties": {
+        "sequence": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "page_id": { "type": "string" },
+        "page_type": { "enum": ["cover", "ranking", "close"] },
+        "html_file": {
+          "type": "string",
+          "pattern": "^page_0[1-4]_[a-z0-9_]+\\.html$"
+        },
+        "headline": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "tts_text": { "type": "string", "minLength": 8, "maxLength": 360 },
+        "subtitle_sentences": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": { "type": "string", "minLength": 1, "maxLength": 64 }
+        },
+        "min_duration_sec": { "type": "number", "minimum": 2, "maximum": 30 },
+        "max_duration_sec": { "type": "number", "minimum": 4, "maximum": 30 }
+      }
+    },
+    "coverPage": {
+      "allOf": [
+        { "$ref": "#/$defs/basePage" },
+        {
+          "properties": {
+            "sequence": { "const": 1 },
+            "page_id": { "const": "cover" },
+            "page_type": { "const": "cover" },
+            "html_file": { "const": "page_01_cover.html" }
+          }
+        }
+      ]
+    },
+    "increasePage": {
+      "allOf": [
+        { "$ref": "#/$defs/basePage" },
+        {
+          "properties": {
+            "sequence": { "const": 2 },
+            "page_id": { "const": "increase_top5" },
+            "page_type": { "const": "ranking" },
+            "html_file": { "const": "page_02_increase.html" }
+          }
+        }
+      ]
+    },
+    "decreasePage": {
+      "allOf": [
+        { "$ref": "#/$defs/basePage" },
+        {
+          "properties": {
+            "sequence": { "const": 3 },
+            "page_id": { "const": "decrease_top5" },
+            "page_type": { "const": "ranking" },
+            "html_file": { "const": "page_03_decrease.html" }
+          }
+        }
+      ]
+    },
+    "closePage": {
+      "allOf": [
+        { "$ref": "#/$defs/basePage" },
+        {
+          "properties": {
+            "sequence": { "const": 4 },
+            "page_id": { "const": "close" },
+            "page_type": { "const": "close" },
+            "html_file": { "const": "page_04_close.html" }
+          }
+        }
+      ]
+    }
+  }
+}

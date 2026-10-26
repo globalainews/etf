@@ -1,0 +1,73 @@
+{
+  "db_sha256": "eeaf4b5151425cb5769719240ac44688f6ed278d101d05b8777bac404b67a7df",
+  "table_counts": {
+    "funds": 1801,
+    "fund_scale": 1402412,
+    "fund_price": 1512233
+  },
+  "trade_date": "2026-10-23",
+  "previous_trade_date": "2026-10-22",
+  "latest_scale_count": 1690,
+  "latest_price_count": 1543,
+  "latest_overlap_count": 1543,
+  "latest_missing_price_count": 147,
+  "suspicious_classification_count": 84,
+  "suspicious_examples": [
+    {
+      "code": "159219",
+      "name": "深证100ETF融通",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159379",
+      "name": "A500ETF融通",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159601",
+      "name": "A50ETF华夏",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159602",
+      "name": "中国A50ETF南方",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159603",
+      "name": "科创创业ETF天弘",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159605",
+      "name": "中概互联ETF广发",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159606",
+      "name": "中证500成长ETF易方达",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159607",
+      "name": "中概互联网ETF嘉实",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159608",
+      "name": "稀有金属ETF广发",
+      "theme": "债券/货币"
+    },
+    {
+      "code": "159609",
+      "name": "光伏ETF浦银",
+      "theme": "债券/货币"
+    }
+  ],
+  "classification_status": "blocked_for_theme_ranking",
+  "checks": {
+    "funds_match_scale_codes": true,
+    "non_positive_latest_shares": 0,
+    "non_positive_latest_prices": 0
+  }
+}

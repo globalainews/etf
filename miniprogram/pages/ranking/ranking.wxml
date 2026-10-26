@@ -1,0 +1,12 @@
+<view class="page">
+ <view class="hero"><text wx:if="{{isDemo}}" class="demo-badge">演示模式</text><view class="hero-title">完整日榜</view><text class="hero-sub">统计日 {{release.statistic_date || '--'}} · 基期 {{release.baseline_date || '--'}}</text></view>
+ <view class="card">
+  <view class="tabs"><view class="tab {{direction==='increase'?'active':''}}" data-value="increase" bindtap="changeDirection">份额增加</view><view class="tab {{direction==='decrease'?'active':''}}" data-value="decrease" bindtap="changeDirection">份额减少</view></view>
+  <view class="tabs"><view class="tab {{sort==='delta'?'active':''}}" data-value="delta" bindtap="changeSort">按增减份额</view><view class="tab {{sort==='rate'?'active':''}}" data-value="rate" bindtap="changeSort">按变化比例</view></view>
+  <view wx:for="{{items}}" wx:key="code" class="row" data-code="{{item.code}}" bindtap="openDetail"><text class="rank">{{item.rank || index+1}}</text><view class="row-main"><view class="name">{{item.name}}</view><view class="code">{{item.code}} · 价格 {{item.priceText}}</view></view><view class="metrics"><text class="metric-main {{item.tone}}">{{sort==='delta'?item.deltaText:item.rateText}}</text><text class="metric-sub">{{sort==='delta'?item.rateText:item.deltaText}}</text></view></view>
+  <view wx:if="{{error}}" class="notice error">{{error}}<button class="secondary retry" bindtap="loadMore">重试</button></view>
+  <view wx:if="{{loading}}" class="loading">加载中…</view><view wx:elif="{{hasMore}}" class="load-more" bindtap="loadMore">加载更多</view><view wx:elif="{{items.length}}" class="footer-note">已到当前榜单末尾</view><view wx:else class="empty">当前统计日暂无可比较记录</view>
+ </view>
+ <view class="footer-note">排名使用原始精度，显示值才四舍五入；数值相同时按ETF代码稳定排序。单位：亿份。</view>
+</view>
+

@@ -1,0 +1,7 @@
+<view class="page"><view class="hero"><text wx:if="{{isDemo}}" class="demo-badge">演示自选 · 仅保存在本机</text><view class="hero-title">我的自选</view><text class="hero-sub">云端为真实模式的权威记录 · 数据日 {{release.statistic_date || '--'}}</text></view>
+ <view wx:if="{{error}}" class="notice error">{{error}}<button class="secondary retry" bindtap="load">重试</button></view><view wx:elif="{{loading}}" class="loading">正在读取自选…</view>
+ <view wx:elif="{{!items.length}}" class="card empty"><text class="empty-icon">☆</text><view>还没有自选ETF</view><text class="muted">从搜索页添加后，可在这里长期观察。</text><button class="primary search" bindtap="openSearch">去搜索ETF</button></view>
+ <view wx:else class="card"><view wx:for="{{items}}" wx:key="code" class="watch-row"><view class="row tap" data-code="{{item.code}}" bindtap="openDetail"><view class="row-main"><view class="name">{{item.snapshot.name}} <text wx:if="{{item.observation}}" class="pill">观察</text></view><view class="code">{{item.code}} · {{item.snapshot.sector || '分类缺失'}}</view></view><view class="metrics"><text class="metric-main {{item.snapshot.tone}}">{{item.snapshot.deltaText}}</text><text class="metric-sub">{{item.snapshot.rateText}}</text></view></view><view class="actions mini"><button class="secondary" data-code="{{item.code}}" bindtap="mark">观察标记</button><button class="danger" data-code="{{item.code}}" bindtap="remove">删除</button></view></view></view>
+ <view class="footer-note">首版观察标记仅在站内显示，不代表已订阅微信消息。</view>
+</view>
+

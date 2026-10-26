@@ -1,0 +1,7 @@
+<view class="page"><view class="hero gold"><view class="hero-title">会员权益方案</view><text class="hero-sub">功能路线预览 · 暂未开放购买或激活</text></view>
+ <view class="notice warning">核心日榜、基础查询与自选保持可用。额度和历史长度等商业限制未正式确定，当前不强制限制核心体验。</view>
+ <view wx:for="{{plans}}" wx:key="name" class="card plan"><view class="section-head"><text class="card-title">{{item.name}}</text><text class="tag">{{item.tag}}</text></view><view wx:for="{{item.items}}" wx:for-item="feature" wx:key="*this" class="feature">✓ {{feature}}</view></view>
+ <view class="card"><view class="card-title">上线前待核实</view><text class="muted block">个人主体与服务类目、金融数据展示合规、支付资质、会员协议和隐私政策。当前版本不包含支付、收益承诺、荐股或自动交易。</text></view>
+ <view class="actions"><button class="secondary" bindtap="close">关闭并返回</button><button class="primary" bindtap="continue">继续基础功能</button></view>
+</view>
+

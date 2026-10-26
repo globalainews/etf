@@ -66,8 +66,9 @@ def code_to_day_path(code):
             return os.path.join(TDX_BASE, 'sh', 'lday', f'sh{code}.day')
         elif code == '399001':
             return os.path.join(TDX_BASE, 'sz', 'lday', f'sz{code}.day')
-    # ETF
-    if code.startswith(('51', '56', '58', '588')):
+    # 上海 ETF：本地通达信文件均位于 sh/lday，涵盖 51/52/53/55/56/58 段。
+    # 52、53、55 段已核对存在于本机 .day 文件目录；58 已包含 589 段。
+    if code.startswith(('51', '52', '53', '55', '56', '58')):
         return os.path.join(TDX_BASE, 'sh', 'lday', f'sh{code}.day')
     elif code.startswith(('15', '16', '18')):
         return os.path.join(TDX_BASE, 'sz', 'lday', f'sz{code}.day')

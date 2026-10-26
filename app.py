@@ -9,6 +9,11 @@ import pandas as pd
 from flask import Flask, jsonify, render_template, request
 
 import db
+from src.etf_rankings.ranking_service import (
+    RankingInputError,
+    RankingNotFoundError,
+    build_rankings,
+)
 
 app = Flask(__name__)
 
@@ -233,6 +238,28 @@ def get_scale_movers():
     return jsonify({'date': selected_date, 'previous_date': previous_date,
                     'gainers': [as_fund(row) for row in gainers],
                     'losers': [as_fund(row) for row in losers], 'message': ''})
+
+
+@app.route('/api/rankings')
+def get_rankings():
+    """Return the read-only ETF daily and weekly ranking dashboard payload."""
+    selected_date = request.args.get('date', '').strip()
+    if selected_date and not re.fullmatch(r'\d{4}-\d{2}-\d{2}', selected_date):
+        return jsonify({'error': '日期格式须为 YYYY-MM-DD'}), 400
+    if selected_date:
+        try:
+            datetime.strptime(selected_date, '%Y-%m-%d')
+        except ValueError:
+            return jsonify({'error': '日期无效'}), 400
+    try:
+        return jsonify(build_rankings(selected_date or None))
+    except RankingNotFoundError as exc:
+        return jsonify({'error': str(exc)}), 404
+    except RankingInputError as exc:
+        return jsonify({'error': str(exc)}), 422
+    except Exception:
+        app.logger.exception('龙虎榜计算失败')
+        return jsonify({'error': '龙虎榜数据暂不可用，请稍后重试'}), 500
 
 
 @app.route('/api/trend/<codes>')

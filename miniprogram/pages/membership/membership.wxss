@@ -1,0 +1,2 @@
+.gold{background:linear-gradient(145deg,#071c32,#5d4920)}.tag{padding:7rpx 14rpx;border-radius:999rpx;color:#8a6720;background:#fff2c8;font-size:23rpx}.feature{padding:15rpx 0;color:#344a5d;border-bottom:1rpx solid #edf1f4}.block{display:block;margin-top:14rpx}.actions{padding-bottom:env(safe-area-inset-bottom)}
+

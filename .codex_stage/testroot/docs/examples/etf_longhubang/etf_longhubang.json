@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.0",
+  "content_type": "etf_longhubang",
+  "package_id": "etf_longhubang_20261023_v1",
+  "trade_date": "2026-10-23",
+  "publish_date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "generated_at": "2026-10-24T06:05:00+08:00",
+  "title": "ETF龙虎榜",
+  "metric": {
+    "name": "share_change",
+    "unit": "share",
+    "period": "1d"
+  },
+  "source": {
+    "provider": "示例数据供应方",
+    "dataset": "沪深交易所ETF日份额",
+    "as_of": "2026-10-23T18:00:00+08:00",
+    "license_note": "示例数据，仅用于演示接口。"
+  },
+  "rankings": {
+    "increase": [
+      {
+        "rank": 1,
+        "fund_code": "510300.SH",
+        "fund_name": "沪深300ETF",
+        "exchange": "SSE",
+        "share_change": 125000000,
+        "shares_current": 8450000000,
+        "shares_previous": 8325000000,
+        "share_change_pct": 1.5015,
+        "display_value": "+1.25亿份"
+      },
+      {
+        "rank": 2,
+        "fund_code": "510500.SH",
+        "fund_name": "中证500ETF",
+        "exchange": "SSE",
+        "share_change": 98000000,
+        "shares_current": 6098000000,
+        "shares_previous": 6000000000,
+        "share_change_pct": 1.6333,
+        "display_value": "+9800万份"
+      },
+      {
+        "rank": 3,
+        "fund_code": "588000.SH",
+        "fund_name": "科创50ETF",
+        "exchange": "SSE",
+        "share_change": 76000000,
+        "shares_current": 5076000000,
+        "shares_previous": 5000000000,
+        "share_change_pct": 1.52,
+        "display_value": "+7600万份"
+      },
+      {
+        "rank": 4,
+        "fund_code": "159915.SZ",
+        "fund_name": "创业板ETF",
+        "exchange": "SZSE",
+        "share_change": 54000000,
+        "shares_current": 4054000000,
+        "shares_previous": 4000000000,
+        "share_change_pct": 1.35,
+        "display_value": "+5400万份"
+      },
+      {
+        "rank": 5,
+        "fund_code": "512100.SH",
+        "fund_name": "中证1000ETF",
+        "exchange": "SSE",
+        "share_change": 42000000,
+        "shares_current": 3042000000,
+        "shares_previous": 3000000000,
+        "share_change_pct": 1.4,
+        "display_value": "+4200万份"
+      }
+    ],
+    "decrease": [
+      {
+        "rank": 1,
+        "fund_code": "512880.SH",
+        "fund_name": "证券ETF",
+        "exchange": "SSE",
+        "share_change": -113000000,
+        "shares_current": 6887000000,
+        "shares_previous": 7000000000,
+        "share_change_pct": -1.6143,
+        "display_value": "-1.13亿份"
+      },
+      {
+        "rank": 2,
+        "fund_code": "512690.SH",
+        "fund_name": "酒ETF",
+        "exchange": "SSE",
+        "share_change": -87000000,
+        "shares_current": 4913000000,
+        "shares_previous": 5000000000,
+        "share_change_pct": -1.74,
+        "display_value": "-8700万份"
+      },
+      {
+        "rank": 3,
+        "fund_code": "159995.SZ",
+        "fund_name": "芯片ETF",
+        "exchange": "SZSE",
+        "share_change": -65000000,
+        "shares_current": 3935000000,
+        "shares_previous": 4000000000,
+        "share_change_pct": -1.625,
+        "display_value": "-6500万份"
+      },
+      {
+        "rank": 4,
+        "fund_code": "515030.SH",
+        "fund_name": "新能源车ETF",
+        "exchange": "SSE",
+        "share_change": -48000000,
+        "shares_current": 2952000000,
+        "shares_previous": 3000000000,
+        "share_change_pct": -1.6,
+        "display_value": "-4800万份"
+      },
+      {
+        "rank": 5,
+        "fund_code": "159928.SZ",
+        "fund_name": "消费ETF",
+        "exchange": "SZSE",
+        "share_change": -33000000,
+        "shares_current": 1967000000,
+        "shares_previous": 2000000000,
+        "share_change_pct": -1.65,
+        "display_value": "-3300万份"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "sequence": 1,
+      "page_id": "cover",
+      "page_type": "cover",
+      "html_file": "page_01_cover.html",
+      "headline": "ETF龙虎榜",
+      "tts_text": "十月二十三日ETF龙虎榜来了，谁的份额增加最多，谁又在明显减少？",
+      "subtitle_sentences": [
+        "10月23日ETF龙虎榜来了。",
+        "谁的份额增加最多？",
+        "谁又在明显减少？"
+      ],
+      "min_duration_sec": 5,
+      "max_duration_sec": 10
+    },
+    {
+      "sequence": 2,
+      "page_id": "increase_top5",
+      "page_type": "ranking",
+      "html_file": "page_02_increase.html",
+      "headline": "份额增加 TOP5",
+      "tts_text": "先看份额增加榜。第五名中证一千ETF，增加四千二百万份；第四名创业板ETF，增加五千四百万份；第三名科创五十ETF，增加七千六百万份；第二名中证五百ETF，增加九千八百万份；第一名沪深三百ETF，增加一点二五亿份。",
+      "subtitle_sentences": [
+        "先看份额增加榜。",
+        "第5名中证1000ETF，增加4200万份。",
+        "第4名创业板ETF，增加5400万份。",
+        "第3名科创50ETF，增加7600万份。",
+        "第2名中证500ETF，增加9800万份。",
+        "第1名沪深300ETF，增加1.25亿份。"
+      ],
+      "min_duration_sec": 14,
+      "max_duration_sec": 22
+    },
+    {
+      "sequence": 3,
+      "page_id": "decrease_top5",
+      "page_type": "ranking",
+      "html_file": "page_03_decrease.html",
+      "headline": "份额减少 TOP5",
+      "tts_text": "再看份额减少榜。第五名消费ETF，减少三千三百万份；第四名新能源车ETF，减少四千八百万份；第三名芯片ETF，减少六千五百万份；第二名酒ETF，减少八千七百万份；第一名证券ETF，减少一点一三亿份。",
+      "subtitle_sentences": [
+        "再看份额减少榜。",
+        "第5名消费ETF，减少3300万份。",
+        "第4名新能源车ETF，减少4800万份。",
+        "第3名芯片ETF，减少6500万份。",
+        "第2名酒ETF，减少8700万份。",
+        "第1名证券ETF，减少1.13亿份。"
+      ],
+      "min_duration_sec": 14,
+      "max_duration_sec": 22
+    },
+    {
+      "sequence": 4,
+      "page_id": "close",
+      "page_type": "close",
+      "html_file": "page_04_close.html",
+      "headline": "今日榜首",
+      "tts_text": "今天份额增加最多的是沪深三百ETF，减少最多的是证券ETF。份额变化不等于资金净流入，数据仅供参考，不构成投资建议。",
+      "subtitle_sentences": [
+        "份额增加最多：沪深300ETF。",
+        "份额减少最多：证券ETF。",
+        "份额变化不等于资金净流入。",
+        "数据仅供参考，不构成投资建议。"
+      ],
+      "min_duration_sec": 8,
+      "max_duration_sec": 15
+    }
+  ],
+  "compliance": {
+    "disclaimer": "数据仅供参考，不构成投资建议。",
+    "methodology_note": "按交易日基金份额较上一交易日的增减绝对值排序。"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-15",
+  "scope": "project",
+  "lockFile": "D:\\claude projects\\ETF\\skills-lock.json",
+  "lockFound": true,
+  "command": "npx skills add https://gitee.com/wind_info/wind-skills.git --skill wind-alice -y",
+  "method": "add",
+  "sourceType": "git",
+  "updatedAt": "2026-10-15T12:09:24.808Z",
+  "status": "success",
+  "finishedAt": "2026-10-15T12:09:24.808Z",
+  "exitCode": 0,
+  "usedFallback": false,
+  "fallbackReason": null,
+  "error": null,
+  "remoteHead": "cbab09f30f3910f4ce73cdcc6e931b0d628cd587",
+  "remoteChanged": true,
+  "lastAppliedRemoteHead": "cbab09f30f3910f4ce73cdcc6e931b0d628cd587",
+  "changed": false,
+  "beforeHash": "e6452cfeb493812a91e76bb4b65053ad935e41a987871ac1dc7271898087a9b4",
+  "afterHash": "e6452cfeb493812a91e76bb4b65053ad935e41a987871ac1dc7271898087a9b4",
+  "output": "|\n•   codex  Agent detected — installing non-interactively\n\u001b[?25l|\no  Source: https://gitee.com/wind_info/wind-skills.git\n\u001b[?25h\u001b[?25l|\n•  Cloning repository…\u001b[1G\u001b[Jo  Cloning repository…\u001b[1G\u001b[JO  Cloning repository…\u001b[1G\u001b[J0  Cloning repository…\u001b[1G\u001b[J•  Cloning repository…\u001b[1G\u001b[Jo  Cloning repository…\u001b[1G\u001b[JO  Cloning repository…\u001b[1G\u001b[J0  Cloning repository…\u001b[1G\u001b[J•  Cloning repository….\u001b[1G\u001b[Jo  Cloning repository….\u001b[1G\u001b[JO  Cloning repository….\u001b[1G\u001b[J0  Cloning repository….\u001b[1G\u001b[J•  Cloning repository….\u001b[1G\u001b[Jo  Cloning repository….\u001b[1G\u001b[JO  Cloning repository….\u001b[1G\u001b[J0  Cloning repository….\u001b[1G\u001b[J•  Cloning repository…..\u001b[1G\u001b[Jo  Cloning repository…..\u001b[1G\u001b[JO  Cloning repository…..\u001b[1G\u001b[J0  Cloning repository…..\u001b[1G\u001b[J•  Cloning repository…..\u001b[1G\u001b[Jo  Cloning repository…..\u001b[1G\u001b[Jo  Repository cloned\n\u001b[?25h\u001b[?25l|\n\u001b[1G\u001b[Jo  Found 78 skills\n\u001b[?25h|\n•  Selected 1 skill: wind-alice\n\n|\no  Installation Summary ---------------------------------------------------+\n|                                                                          |\n|  .\\.agents\\skills\\wind-alice                                             |\n|    copy → Codex, Amp, Antigravity, Antigravity CLI, Cline +16 more       |\n|    overwrites: Codex, Amp, Antigravity, Antigravity CLI, Cline +16 more  |\n|                                                                          |\n+--------------------------------------------------------------------------+\n\u001b[?25l|\n\u001b[1G\u001b[Jo  Installation complete\n\u001b[?25h\n|\no  Installed 1 skill ---------------+\n|                                   |\n|  ✓ wind-alice (copied)            |\n|    → .\\.agents\\skills\\wind-alice  |\n|                                   |\n+-----------------------------------+\n\n|\n—  Done!  Review skills before use; they run with full agent permissions."
+}

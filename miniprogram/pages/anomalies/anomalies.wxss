@@ -1,0 +1,2 @@
+.anomaly{padding:22rpx 0;border-bottom:1rpx solid #edf1f4}.anomaly:last-child{border-bottom:0}.ratio{color:#9a7427;font-size:34rpx;font-weight:700}.bar{height:10rpx;margin:12rpx 0;border-radius:8rpx;background:#e9eef1;overflow:hidden}.bar-in{height:100%;border-radius:8rpx;background:linear-gradient(90deg,#0b8f84,#d0a33b)}
+
