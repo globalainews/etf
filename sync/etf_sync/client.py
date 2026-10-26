@@ -91,6 +91,27 @@ class HttpCloudbaseClient:
                 return None
             raise
 
+    def find_documents(self, collection: str, query: dict, *, limit: int = 1, skip: int = 0) -> list[dict]:
+        """Use CloudBase's documented :find endpoint and decode EJSON rows."""
+        result = self._request(
+            "POST",
+            f"/collections/{parse.quote(collection)}/documents:find",
+            {"query": json.dumps(query, ensure_ascii=False, separators=(",", ":"))},
+            query={"limit": str(limit), "skip": str(skip)},
+        )
+        data = result.get("data", result)
+        rows = data.get("list", []) if isinstance(data, dict) else []
+        parsed: list[dict] = []
+        for row in rows:
+            value = _decode_ejson(json.loads(row)) if isinstance(row, str) else row
+            if isinstance(value, dict):
+                parsed.append(value)
+        return parsed
+
+    def first_document(self, collection: str) -> dict | None:
+        rows = self.find_documents(collection, {}, limit=1)
+        return rows[0] if rows else None
+
     def upsert_many(self, collection: str, documents: Iterable[dict], *, batch_size: int = 80) -> int:
         docs = list(documents)
         written = 0
@@ -143,6 +164,14 @@ class MemoryCloudbaseClient:
     def get_document(self, collection: str, doc_id: str) -> dict | None:
         value = self.data.get(collection, {}).get(doc_id)
         return dict(value) if value else None
+
+    def first_document(self, collection: str) -> dict | None:
+        values = self.data.get(collection, {})
+        return dict(next(iter(values.values()))) if values else None
+
+    def find_documents(self, collection: str, query: dict, *, limit: int = 1, skip: int = 0) -> list[dict]:
+        return [dict(document) for document in self.data.get(collection, {}).values()
+                if all(document.get(key) == value for key, value in query.items())][skip:skip + limit]
 
     def upsert_many(self, collection: str, documents: Iterable[dict], *, batch_size: int = 80) -> int:
         if collection == self.fail_collection:

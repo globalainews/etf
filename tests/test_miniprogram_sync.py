@@ -78,6 +78,12 @@ def test_strict_ejson_numbers_are_decoded():
     }
 
 
+def test_first_document_reads_the_standard_list_response(monkeypatch):
+    client = HttpCloudbaseClient("env-test", "secret-not-logged")
+    monkeypatch.setattr(client, "_request", lambda *args, **kwargs: {"data": {"list": ['{"_id":"a"}']}})
+    assert client.first_document("etf_history") == {"_id": "a"}
+
+
 def test_transaction_id_is_query_parameter_and_transaction_calls_do_not_retry(monkeypatch):
     calls = []
 
@@ -189,4 +195,6 @@ def test_cloud_diagnostic_is_read_only_and_reports_release_counts():
         "total": 1, "for_local_release": 1, "expected_for_local_release": 1,
     }
     assert report["sample_documents"]["ranking_snapshots"]["release_id"] == "r1"
+    assert report["sample_documents"]["ranking_snapshots:first"]["found"] is True
+    assert report["sample_documents"]["ranking_snapshots:release_match"]["found"] is True
 

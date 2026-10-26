@@ -68,6 +68,23 @@ def diagnose_remote_bundle(client: Any, bundle: dict[str, Any], *, env_id: str) 
                 "release_id": document.get("release_id") if document else None,
                 "release_seq": document.get("release_seq") if document else None,
             }
+        first = client.first_document(collection)
+        samples[f"{collection}:first"] = {
+            "found": bool(first),
+            "_id": first.get("_id") if first else None,
+            "field_names": sorted(first) if first else [],
+            "release_id": first.get("release_id") if first else None,
+            "release_seq": first.get("release_seq") if first else None,
+        }
+        release_rows = client.find_documents(collection, {"release_id": release_id}, limit=1)
+        release_sample = release_rows[0] if release_rows else None
+        samples[f"{collection}:release_match"] = {
+            "found": bool(release_sample),
+            "_id": release_sample.get("_id") if release_sample else None,
+            "field_names": sorted(release_sample) if release_sample else [],
+            "release_id": release_sample.get("release_id") if release_sample else None,
+            "release_seq": release_sample.get("release_seq") if release_sample else None,
+        }
     return {
         "env_id": env_id,
         "local_release_id": release_id,
