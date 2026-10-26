@@ -58,6 +58,16 @@ F:\anaconda3\python.exe -X utf8 app.py
 
 Web自选保存在 `web_watchlists`，固定用户为 `local-default`，不增加伪微信身份或登录系统。
 
+### 历史龙虎榜
+
+页面顶部的“统计日”控件适用于首页、完整榜单、ETF详情、板块、连续变化和异动观察：
+
+- 直接选择任一已物化的历史交易日；没有已发布结果的日期会明确提示无数据；
+- `‹`、`›` 只在实际已发布交易日之间切换，不按自然日跳转；
+- “最新”回到当前本地发布批次的统计日；
+- URL 可用 `http://127.0.0.1:5010/ranking-app?date=YYYY-MM-DD` 直达某一历史日，便于制作历史回顾视频；
+- 页面样本数、基期、排名、价格比较和风险提示均以所选统计日计算，不能用最新日覆盖信息冒充历史数据。
+
 Web图表使用仓库内的 ECharts 5.5.0，许可证为
 `static/vendor/ECHARTS-LICENSE.txt`；页面不加载远程脚本。
 
@@ -89,6 +99,18 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --resume-publish
 
 恢复模式不会写入ETF业务集合。即使旧版失败时没有留下 `sync_batches` 标记，仍可用实际
 `release_id` 记录数完成受限恢复；任何集合计数不匹配时都会拒绝发布，届时才需要重新执行完整同步。
+
+恢复前或环境ID可能填错时，可执行只读诊断（不会写入云端）：
+
+```powershell
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --diagnose-cloud
+```
+
+输出会显示当前 `env_id`、本地发布批次、各集合总数以及该批次记录数。先确认 `env_id`
+与 CloudBase 控制台顶部显示的环境ID一致，再决定是否需要完整同步。
+
+同步客户端使用 CloudBase `POST documents:count` 条件计数接口校验 `release_id`，不能用集合
+总数代替批次一致性校验。
 
 ## 6. 视频素材
 

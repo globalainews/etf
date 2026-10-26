@@ -120,3 +120,137 @@ body.video-mode .metric b{font-size:30px}
 body.video-mode .panel-head h2{font-size:31px}
 body.video-mode .panel-head span{font-size:18px}
 body.video-mode .disclaimer{font-size:18px}
+
+/* Global Brief visual system: cool editorial charcoal, a restrained warm-gold
+   balance, and an almost imperceptible scan texture.  The texture is an
+   atmosphere layer only; it never sits above the data cards. */
+body:not(.video-mode) .app-topbar,
+body:not(.video-mode) .hero{
+  background:
+    radial-gradient(ellipse 95% 85% at -16% -44%,rgba(105,125,160,.13),transparent 63%),
+    radial-gradient(ellipse 78% 72% at 112% 132%,rgba(148,112,70,.10),transparent 66%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0,rgba(255,255,255,.012) 1px,transparent 1px,transparent 13px),
+    linear-gradient(175deg,#1B2029 0%,#141922 53%,#0E121A 100%);
+}
+body:not(.video-mode) .hero:after{display:none}
+
+body.video-mode{
+  background:
+    radial-gradient(ellipse 95% 66% at -18% -7%,rgba(105,125,160,.13),transparent 65%),
+    radial-gradient(ellipse 78% 61% at 112% 108%,rgba(148,112,70,.10),transparent 68%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0,rgba(255,255,255,.012) 1px,transparent 1px,transparent 13px),
+    linear-gradient(175deg,#1B2029 0%,#141922 53%,#0E121A 100%);
+}
+body.video-mode .mini-app{
+  position:relative;
+  overflow:hidden;
+  background:transparent;
+}
+body.video-mode .mini-app:before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  pointer-events:none;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.10);
+}
+body.video-mode .app-stage{position:relative;z-index:1}
+body.video-mode .app-topbar{background:transparent}
+body.video-mode .app-content{background:transparent}
+body.video-mode .panel{background:rgba(248,249,249,.98);box-shadow:0 18px 44px rgba(0,0,0,.22)}
+
+/* Dark content layer shared by mobile Web and vertical video.  Surfaces use
+   nearby charcoal values instead of white so the data sits in one coherent
+   Global Brief frame. */
+body:not(.video-mode) .mini-app,
+body.video-mode .mini-app{
+  --ink:#f3f6f8;
+  --muted:#aab8c5;
+  --paper:#141922;
+  --line:rgba(255,255,255,.10);
+  --white:#1b222c;
+  --shadow:0 10px 28px rgba(0,0,0,.20);
+  color:#f3f6f8;
+}
+body:not(.video-mode) .mini-app{
+  background:
+    radial-gradient(ellipse 95% 72% at -16% -12%,rgba(105,125,160,.10),transparent 66%),
+    radial-gradient(ellipse 80% 64% at 112% 108%,rgba(148,112,70,.08),transparent 70%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.010) 0,rgba(255,255,255,.010) 1px,transparent 1px,transparent 13px),
+    linear-gradient(175deg,#1B2029 0%,#141922 53%,#0E121A 100%);
+}
+body:not(.video-mode) .panel,
+body:not(.video-mode) .list-card,
+body:not(.video-mode) .empty-card,
+body:not(.video-mode) .loading-card,
+body:not(.video-mode) .error-card,
+body.video-mode .panel,
+body.video-mode .list-card,
+body.video-mode .empty-card,
+body.video-mode .loading-card,
+body.video-mode .error-card{
+  background:rgba(27,34,44,.93);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 14px 34px rgba(0,0,0,.20);
+}
+body:not(.video-mode) .stat-card,
+body.video-mode .stat-card{background:#222b36;border:1px solid rgba(255,255,255,.08)}
+body:not(.video-mode) .quick-card,
+body.video-mode .quick-card{background:#1b222c;border-color:rgba(255,255,255,.10);color:#f3f6f8}
+body:not(.video-mode) .quick-card:hover,
+body.video-mode .quick-card:hover{background:#222d38;border-color:rgba(83,213,196,.45)}
+body:not(.video-mode) .segmented,
+body.video-mode .segmented{background:#222b36;border:1px solid rgba(255,255,255,.06)}
+body:not(.video-mode) .segmented button,
+body.video-mode .segmented button{color:#b9c5d0}
+body:not(.video-mode) .segmented button.active,
+body.video-mode .segmented button.active{background:#0d8279;color:#fff}
+body:not(.video-mode) .rank-row,
+body.video-mode .rank-row{background:rgba(31,40,51,.78);border-color:rgba(255,255,255,.09)}
+body:not(.video-mode) .rank-row:hover,
+body.video-mode .rank-row:hover{background:#25303b;border-color:rgba(83,213,196,.32)}
+body:not(.video-mode) .rank-row:last-child{border-bottom:0}
+body:not(.video-mode) .fund-name strong,
+body:not(.video-mode) .detail-head h2,
+body:not(.video-mode) .panel-head h2,
+body:not(.video-mode) .panel-head h3,
+body.video-mode .fund-name strong,
+body.video-mode .detail-head h2,
+body.video-mode .panel-head h2,
+body.video-mode .panel-head h3{color:#f5f7f8}
+body:not(.video-mode) .fund-name span,
+body:not(.video-mode) .metric small,
+body:not(.video-mode) .coverage-note,
+body:not(.video-mode) .detail-head p,
+body:not(.video-mode) .disclaimer,
+body.video-mode .fund-name span,
+body.video-mode .metric small,
+body.video-mode .disclaimer{color:#aab8c5}
+body:not(.video-mode) .notice{background:rgba(12,92,86,.26);border-left-color:#24b9aa;color:#d6efeb}
+body:not(.video-mode) .note,
+body.video-mode .note{background:rgba(126,96,42,.16);border-left-color:#d6ac55;color:#f0ddb3}
+body:not(.video-mode) .toolbar input,
+body:not(.video-mode) .toolbar select,
+body:not(.video-mode) .search-form input{background:#202934;border-color:rgba(255,255,255,.14);color:#f3f6f8}
+body:not(.video-mode) .secondary{background:#222d38;border-color:rgba(255,255,255,.14);color:#e8f4f3}
+body:not(.video-mode) .bottom-nav{background:#151b24;border-top-color:rgba(255,255,255,.12);box-shadow:0 -4px 15px rgba(0,0,0,.28)}
+body:not(.video-mode) .bottom-nav button{color:#aab8c5}
+body:not(.video-mode) .bottom-nav button.active{color:#45d1c1}
+body:not(.video-mode) .badge{background:rgba(10,167,157,.20);color:#79e0d7}
+body:not(.video-mode) .benefit,
+body.video-mode .benefit{background:#202934;border-color:rgba(255,255,255,.10)}
+body.video-mode .rank-row{background:#202934;border-color:rgba(255,255,255,.11)}
+body.video-mode .rank-row:hover{background:#26313c}
+
+/* Historical daily rankings: use real published trading days, not a calendar
+   approximation.  This control stays visible on every functional Web page. */
+.history-strip{display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 14px;background:#171e27;border-bottom:1px solid rgba(255,255,255,.10);color:#b9c5d0}
+.history-strip label{display:flex;align-items:center;gap:7px;font-size:12px;white-space:nowrap}
+.history-strip input{width:132px;min-height:34px;padding:5px 7px;border:1px solid rgba(255,255,255,.16);border-radius:7px;background:#222b36;color:#f3f6f8;font:inherit;color-scheme:dark}
+.history-strip button{min-height:34px;border:1px solid rgba(255,255,255,.14);border-radius:7px;background:#222b36;color:#e5edf2;cursor:pointer}
+.history-strip .history-arrow{width:34px;font-size:22px;line-height:1}
+.history-strip .history-latest{padding:0 11px;font-size:12px}
+.history-strip button:hover{border-color:rgba(83,213,196,.55);color:#6fe2d5}
+.history-strip button:disabled{opacity:.42;cursor:default}
+body.video-mode .history-strip{display:none}
+@media(max-width:430px){.history-strip{gap:5px;padding:8px 11px}.history-strip label{gap:4px;font-size:11px}.history-strip input{width:120px}.history-strip .history-latest{padding:0 8px}}

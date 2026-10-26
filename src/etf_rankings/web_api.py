@@ -70,6 +70,37 @@ def _current(conn: sqlite3.Connection) -> dict[str, Any]:
     return result
 
 
+def _status_for_date(conn: sqlite3.Connection, value: str | None) -> dict[str, Any]:
+    """Return release metadata plus truthful coverage for one published trading day."""
+    result = _current(conn)
+    release_date = result["statistic_date"]
+    day = _date(value, result)
+    snapshot = conn.execute(
+        """SELECT baseline_date,COUNT(*) AS share_count,
+                  SUM(CASE WHEN change_status='OK' THEN 1 ELSE 0 END) AS comparable_count
+           FROM etf_derived_daily WHERE date=?""",
+        (day,),
+    ).fetchone()
+    if not snapshot or not snapshot["share_count"]:
+        raise ApiError("NO_DATA", "所选日期没有已发布的龙虎榜数据", 404)
+    coverage = dict(result["coverage"])
+    coverage.update({
+        "latest_share_count": int(snapshot["share_count"]),
+        "comparable_count": int(snapshot["comparable_count"] or 0),
+        "latest_price_count": conn.execute(
+            "SELECT COUNT(DISTINCT code) FROM fund_price WHERE date=? AND close IS NOT NULL", (day,)
+        ).fetchone()[0],
+    })
+    result.update({
+        "release_statistic_date": release_date,
+        "statistic_date": day,
+        "baseline_date": snapshot["baseline_date"],
+        "coverage": coverage,
+        "is_historical": day != release_date,
+    })
+    return result
+
+
 def _date(value: str | None, current: dict[str, Any]) -> str:
     value = (value or current["statistic_date"]).strip()
     if not DATE_RE.fullmatch(value):
@@ -123,7 +154,30 @@ def handle_unexpected(error: Exception):
 @mini_api.get("/status")
 def status():
     with _connect() as conn:
-        return _success(_current(conn))
+        return _success(_status_for_date(conn, request.args.get("date")))
+
+
+@mini_api.get("/calendar")
+def calendar():
+    """Find the immediately previous or next published trading day.
+
+    The date input remains available for arbitrary history, while these small,
+    indexed queries make phone navigation follow actual trading days rather
+    than calendar days.
+    """
+    direction = request.args.get("direction", "")
+    if direction not in {"previous", "next"}:
+        raise ApiError("BAD_REQUEST", "direction 须为 previous 或 next")
+    with _connect() as conn:
+        release = _current(conn)
+        day = _date(request.args.get("date"), release)
+        operator, order = ("<", "DESC") if direction == "previous" else (">", "ASC")
+        row = conn.execute(
+            f"SELECT date FROM etf_derived_daily WHERE date {operator} ? GROUP BY date ORDER BY date {order} LIMIT 1",
+            (day,),
+        ).fetchone()
+        return _success({"date": row["date"] if row else None, "direction": direction,
+                         "current_date": day, "latest_date": release["statistic_date"]})
 
 
 @mini_api.get("/rankings")

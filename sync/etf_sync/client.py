@@ -11,6 +11,22 @@ class CloudbaseError(RuntimeError):
     pass
 
 
+def _decode_ejson(value: Any) -> Any:
+    """Decode the strict EJSON numeric wrappers returned by CloudBase REST."""
+    if isinstance(value, list):
+        return [_decode_ejson(item) for item in value]
+    if not isinstance(value, dict):
+        return value
+    if set(value) == {"$numberInt"} or set(value) == {"$numberLong"}:
+        return int(next(iter(value.values())))
+    if set(value) == {"$numberDouble"}:
+        return float(value["$numberDouble"])
+    if set(value) == {"$numberDecimal"}:
+        # Decimal values are only carried through to JSON-facing callers here.
+        return value["$numberDecimal"]
+    return {key: _decode_ejson(item) for key, item in value.items()}
+
+
 class HttpCloudbaseClient:
     """Official CloudBase NoSQL HTTP API client using a server-side API Key."""
 
@@ -46,7 +62,7 @@ class HttpCloudbaseClient:
             try:
                 with request.urlopen(request.Request(url, data=body, headers=headers, method=method), timeout=self.timeout) as response:
                     raw = response.read()
-                    return json.loads(raw.decode("utf-8")) if raw else {}
+                    return _decode_ejson(json.loads(raw.decode("utf-8"))) if raw else {}
             except error.HTTPError as exc:
                 safe_body = exc.read(2048).decode("utf-8", "replace")
                 if exc.code not in retryable or attempt + 1 >= attempts:
@@ -90,10 +106,14 @@ class HttpCloudbaseClient:
         return written
 
     def count(self, collection: str, query: dict) -> int:
-        result = self._request("GET", f"/collections/{parse.quote(collection)}/documents", query={
-            "query": json.dumps(query, ensure_ascii=False, separators=(",", ":")), "count": "true"
+        # CloudBase REST's filtered-count endpoint is POST documents:count;
+        # the documents listing endpoint may report a collection total but does
+        # not provide a reliable filtered count.
+        result = self._request("POST", f"/collections/{parse.quote(collection)}/documents:count", {
+            "query": json.dumps(query, ensure_ascii=False, separators=(",", ":"))
         })
-        return int(result.get("total", 0))
+        data = result.get("data", result)
+        return int(data.get("total", 0))
 
     def start_transaction(self) -> str:
         return self._request("POST", "/transactions")["transactionId"]

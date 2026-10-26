@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -30,6 +31,52 @@ def summarize(bundle: dict[str, Any]) -> dict[str, Any]:
         "counts": bundle["batch"]["counts"],
         "quality_status": bundle["release"]["quality_status"],
         "coverage": bundle["release"]["coverage"],
+    }
+
+
+def diagnose_remote_bundle(client: Any, bundle: dict[str, Any], *, env_id: str) -> dict[str, Any]:
+    """Read-only CloudBase inventory used before retrying a failed publish."""
+    release_id = bundle["release"]["release_id"]
+    expected = bundle["batch"]["counts"]
+    remote_batch = client.get_document("sync_batches", release_id)
+    collections: dict[str, dict[str, int]] = {}
+    samples: dict[str, dict[str, Any]] = {}
+    for collection in bundle["collections"]:
+        total = client.count(collection, {})
+        release_count = total if collection == "etf_master" else client.count(
+            collection, {"release_id": release_id}
+        )
+        collections[collection] = {
+            "total": total,
+            "for_local_release": release_count,
+            "expected_for_local_release": expected[collection],
+        }
+        document_id = None
+        rows = bundle["collections"][collection]
+        if rows and collection != "etf_history":
+            document_id = rows[0]["_id"]
+        elif rows and remote_batch and remote_batch.get("release_seq") is not None:
+            row = rows[0]
+            raw = f"{row['code']}|{row['date']}|{remote_batch['release_seq']}"
+            document_id = hashlib.sha256(raw.encode("utf-8")).hexdigest()
+        if document_id:
+            document = client.get_document(collection, document_id)
+            samples[collection] = {
+                "_id": document_id,
+                "found": bool(document),
+                "field_names": sorted(document) if document else [],
+                "release_id": document.get("release_id") if document else None,
+                "release_seq": document.get("release_seq") if document else None,
+            }
+    return {
+        "env_id": env_id,
+        "local_release_id": release_id,
+        "local_statistic_date": bundle["release"]["statistic_date"],
+        "remote_publish_status": client.get_document("publish_status", "current"),
+        "remote_sync_batch": remote_batch,
+        "collections": collections,
+        "sample_documents": samples,
+        "read_only": True,
     }
 
 

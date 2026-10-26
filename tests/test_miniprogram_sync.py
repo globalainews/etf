@@ -3,8 +3,9 @@ from __future__ import annotations
 import pytest
 from urllib import error
 
-from sync.etf_sync.client import CloudbaseError, HttpCloudbaseClient, MemoryCloudbaseClient
-from sync.etf_sync.runner import sync_bundle
+from sync.etf_sync.client import (CloudbaseError, HttpCloudbaseClient,
+                                  MemoryCloudbaseClient, _decode_ejson)
+from sync.etf_sync.runner import diagnose_remote_bundle, sync_bundle
 
 
 def bundle() -> dict:
@@ -55,6 +56,26 @@ def test_network_retry_is_finite(monkeypatch):
         client.get_document("x", "y")
     assert len(attempts) == 3
     assert "secret-not-logged" not in str(exc.value)
+
+
+def test_cloudbase_count_uses_official_filtered_count_endpoint(monkeypatch):
+    calls = []
+
+    def capture(*args, **kwargs):
+        calls.append((args, kwargs))
+        return {"data": {"total": 7}}
+
+    client = HttpCloudbaseClient("env-test", "secret-not-logged")
+    monkeypatch.setattr(client, "_request", capture)
+    assert client.count("etf_history", {"release_id": "r1"}) == 7
+    assert calls[0][0][:2] == ("POST", "/collections/etf_history/documents:count")
+    assert calls[0][0][2] == {"query": '{"release_id":"r1"}'}
+
+
+def test_strict_ejson_numbers_are_decoded():
+    assert _decode_ejson({"n": {"$numberLong": "12"}, "items": [{"$numberInt": "3"}]}) == {
+        "n": 12, "items": [3],
+    }
 
 
 def test_transaction_id_is_query_parameter_and_transaction_calls_do_not_retry(monkeypatch):
@@ -152,4 +173,20 @@ def test_resume_publish_without_batch_marker_uses_count_verified_recovery():
     assert result["published"] is True
     assert not any(name in payload["collections"] for name, _ in client.writes)
     assert client.data["sync_batches"]["r1"]["recovery_mode"] == "count_verified_existing_release"
+
+
+def test_cloud_diagnostic_is_read_only_and_reports_release_counts():
+    payload = bundle()
+    client = MemoryCloudbaseClient()
+    for collection, documents in payload["collections"].items():
+        client.upsert_many(collection, documents)
+
+    report = diagnose_remote_bundle(client, payload, env_id="cloud1-test")
+
+    assert report["read_only"] is True
+    assert report["env_id"] == "cloud1-test"
+    assert report["collections"]["etf_history"] == {
+        "total": 1, "for_local_release": 1, "expected_for_local_release": 1,
+    }
+    assert report["sample_documents"]["ranking_snapshots"]["release_id"] == "r1"
 

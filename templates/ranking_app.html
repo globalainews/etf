@@ -30,6 +30,12 @@
       <div><span id="pageEyebrow">本地数据</span><h1 id="pageTitle">ETF份额龙虎榜</h1></div>
       <div class="top-status" id="topStatus">正在读取发布批次…</div>
     </header>
+    <div class="history-strip" aria-label="历史龙虎榜日期">
+      <button class="history-arrow" type="button" data-history-shift="previous" aria-label="前一交易日">‹</button>
+      <label>统计日<input id="historyDate" type="date" aria-label="选择统计交易日"></label>
+      <button class="history-arrow" type="button" data-history-shift="next" aria-label="后一交易日">›</button>
+      <button class="history-latest" type="button" data-history-latest>最新</button>
+    </div>
     <main id="appContent" class="app-content" aria-live="polite"><div class="loading-card">正在加载…</div></main>
   </section>
   <nav class="bottom-nav" aria-label="手机导航">

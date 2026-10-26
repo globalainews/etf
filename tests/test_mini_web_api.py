@@ -19,6 +19,14 @@ def test_web_api_and_watchlist(tmp_path: Path, monkeypatch):
     assert client.get("/ranking-app").status_code == 200
     status = client.get("/api/mini/status").get_json()
     assert status["ok"] is True
+    historical = client.get("/api/mini/status?date=2026-01-10").get_json()["data"]
+    assert historical["statistic_date"] == "2026-01-10"
+    assert historical["release_statistic_date"] == "2026-01-25"
+    assert historical["is_historical"] is True
+    assert historical["coverage"]["latest_price_count"] == 1
+    assert client.get("/api/mini/calendar?date=2026-01-10&direction=previous").get_json()["data"]["date"] == "2026-01-09"
+    assert client.get("/api/mini/calendar?date=2026-01-10&direction=next").get_json()["data"]["date"] == "2026-01-11"
+    assert client.get("/api/mini/calendar?date=2026-01-10&direction=invalid").status_code == 400
     ranking = client.get("/api/mini/rankings?direction=increase&pageSize=1").get_json()["data"]
     assert ranking["items"][0]["code"] == "510001"
     assert client.get("/api/mini/rankings?sort=unsafe").status_code == 400
