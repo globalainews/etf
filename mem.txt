@@ -34,3 +34,6 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
 
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.local_cli --correction-from 2026-10-20
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --correction-from 2026-10-20
+
+
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli

@@ -21,7 +21,7 @@ function history(code, count=90) {
 }
 
 const status={ release_id:'demo-release', release_seq:1, statistic_date:'2026-10-23', baseline_date:'2026-10-22', updated_at:'2026-10-23T18:00:00+08:00',
-  coverage:{fund_total:1801,latest_share_count:1690,comparable_count:1690,latest_price_count:1690,classification_count:1260}, quality_status:'DEMO',
+  coverage:{fund_total:1801,latest_share_count:6,comparable_count:6,latest_price_count:6,classification_count:5,total_shares:255000000000,increase_count:4,decrease_count:2,unchanged_count:0,unavailable_change_count:0}, quality_status:'DEMO',
   disclaimer:'份额变化不代表未来涨跌，不等同资金净流入。', share_unit:'份', display_share_unit:'亿份', price_currency:'CNY', price_adjustment:'前复权', is_stale:false };
 const streaks=funds.map((item,index)=>({ ...item, days:2+(index%5), start_date:'2026-10-16', end_date:'2026-10-23', cumulative_change_rate:item.change_rate*(2+index%5), status:'OK' }));
 const anomalies=funds.map((item,index)=>({ ...item, anomaly_ratio:5.8-index*.6, history_median_abs_rate:.004, qualified:index<4, status:'OK',

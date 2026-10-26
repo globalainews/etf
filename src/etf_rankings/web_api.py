@@ -77,7 +77,12 @@ def _status_for_date(conn: sqlite3.Connection, value: str | None) -> dict[str, A
     day = _date(value, result)
     snapshot = conn.execute(
         """SELECT baseline_date,COUNT(*) AS share_count,
-                  SUM(CASE WHEN change_status='OK' THEN 1 ELSE 0 END) AS comparable_count
+                  SUM(CASE WHEN change_status='OK' THEN 1 ELSE 0 END) AS comparable_count,
+                  SUM(shares) AS total_shares,
+                  SUM(CASE WHEN change_status='OK' AND delta_shares>0 THEN 1 ELSE 0 END) AS increase_count,
+                  SUM(CASE WHEN change_status='OK' AND delta_shares<0 THEN 1 ELSE 0 END) AS decrease_count,
+                  SUM(CASE WHEN change_status='OK' AND delta_shares=0 THEN 1 ELSE 0 END) AS unchanged_count,
+                  SUM(CASE WHEN change_status!='OK' THEN 1 ELSE 0 END) AS unavailable_change_count
            FROM etf_derived_daily WHERE date=?""",
         (day,),
     ).fetchone()
@@ -90,6 +95,11 @@ def _status_for_date(conn: sqlite3.Connection, value: str | None) -> dict[str, A
         "latest_price_count": conn.execute(
             "SELECT COUNT(DISTINCT code) FROM fund_price WHERE date=? AND close IS NOT NULL", (day,)
         ).fetchone()[0],
+        "total_shares": snapshot["total_shares"],
+        "increase_count": int(snapshot["increase_count"] or 0),
+        "decrease_count": int(snapshot["decrease_count"] or 0),
+        "unchanged_count": int(snapshot["unchanged_count"] or 0),
+        "unavailable_change_count": int(snapshot["unavailable_change_count"] or 0),
     })
     result.update({
         "release_statistic_date": release_date,
@@ -184,10 +194,9 @@ def calendar():
 def rankings():
     direction = request.args.get("direction", "increase")
     sort = request.args.get("sort", "delta")
-    if direction not in {"increase", "decrease"} or sort not in {"delta", "rate"}:
+    if direction not in {"increase", "decrease"} or sort != "delta":
         raise ApiError("BAD_REQUEST", "方向或排序字段无效")
     page, size = _paging()
-    field = "change_rate" if sort == "rate" else "delta_shares"
     order = "DESC" if direction == "increase" else "ASC"
     with _connect() as conn:
         release = _current(conn)
@@ -195,11 +204,12 @@ def rankings():
         exists = conn.execute("SELECT 1 FROM etf_derived_daily WHERE date=? LIMIT 1", (day,)).fetchone()
         if not exists:
             raise ApiError("NO_DATA", "所选日期没有已计算的龙虎榜", 404)
-        base = "FROM etf_derived_daily WHERE date=? AND direction=?"
-        result = _paged(conn, f"SELECT * {base} ORDER BY {field} {order},code ASC",
+        base = "FROM etf_derived_daily WHERE date=? AND direction=? AND delta_rank IS NOT NULL"
+        result = _paged(conn, f"SELECT * {base} ORDER BY delta_shares {order},code ASC",
                         [day, direction], f"SELECT COUNT(*) {base}", [day, direction], page, size)
         result.update({"release": release, "statistic_date": day,
-                       "baseline_date": result["items"][0]["baseline_date"] if result["items"] else None})
+                       "baseline_date": result["items"][0]["baseline_date"] if result["items"] else None,
+                       "rule": "按原始份额增减排序；增加、减少各只保留前100名。"})
         return _success(result)
 
 
@@ -278,7 +288,7 @@ def streaks():
         result = _paged(conn, f"SELECT * {base} ORDER BY streak_days DESC,ABS(streak_change_rate) DESC,code",
                         [day, direction], f"SELECT COUNT(*) {base}", [day, direction], page, size)
         result.update({"release": release, "statistic_date": day,
-                       "rule": "按完整交易日计数；份额不变或缺失均中断。"})
+                       "rule": "仅计算当日份额超过100亿份的ETF；份额不变、缺失或未达规模门槛均中断。"})
         return _success(result)
 
 
@@ -292,7 +302,7 @@ def anomalies():
         result = _paged(conn, f"SELECT * {base} ORDER BY anomaly_ratio DESC,code",
                         [day], f"SELECT COUNT(*) {base}", [day], page, size)
         result.update({"release": release, "statistic_date": day, "disclaimer": DISCLAIMER,
-                       "rule": "当日绝对变化率÷此前20个有效交易日绝对变化率中位数。"})
+                       "rule": "当日绝对变化率÷此前20个有效交易日绝对变化率中位数；仅展示当日份额超过100亿份的ETF。"})
         return _success(result)
 
 

@@ -19,6 +19,10 @@ class SyncConfig:
     anomaly_min_history: int = 20
     anomaly_ratio_threshold: float = 3.0
     anomaly_abs_pct_threshold: float = 1.0
+    # 原始份额单位为“份”。异动榜只展示规模严格大于 100 亿份的 ETF。
+    anomaly_min_shares: float = 10_000_000_000.0
+    # 增加、减少榜各自按原始份额增减排序，仅发布前 N 名。
+    ranking_limit: int = 100
     schema_version: str = "1.0"
 
     @classmethod
@@ -31,5 +35,7 @@ class SyncConfig:
             timeout_seconds=float(os.getenv("CLOUDBASE_TIMEOUT_SECONDS", "20")),
             max_retries=int(os.getenv("CLOUDBASE_MAX_RETRIES", "3")),
             batch_size=int(os.getenv("CLOUDBASE_BATCH_SIZE", "80")),
+            anomaly_min_shares=float(os.getenv("ETF_ANOMALY_MIN_SHARES", "10000000000")),
+            ranking_limit=int(os.getenv("ETF_RANKING_LIMIT", "100")),
         )
 

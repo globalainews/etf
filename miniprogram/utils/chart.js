@@ -19,7 +19,10 @@ function drawLine(canvasId, points, key, color, unit, selectedIndex = -1) {
   ctx.fillText(points[0].date.slice(5), left, height - 7); ctx.fillText(points[points.length - 1].date.slice(5), width - 44, height - 7);
   if (selectedIndex >= 0 && points[selectedIndex] && points[selectedIndex][key] !== null) {
     const x = left + (width - left - right) * (selectedIndex / Math.max(points.length - 1, 1));
-    ctx.setStrokeStyle('#d0a33b'); ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, height - bottom); ctx.stroke();
+    const y = top + (max - Number(points[selectedIndex][key])) / (max - min) * (height - top - bottom);
+    // 选中点用空心圆标识；不画竖线，避免与价格/份额走势误读为一次急跌。
+    ctx.setFillStyle('#ffffff'); ctx.setStrokeStyle(color); ctx.setLineWidth(3);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
   }
   ctx.draw();
 }

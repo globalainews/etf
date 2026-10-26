@@ -174,6 +174,13 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --dry-run
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
 ```
 
+Windows日常操作也可直接双击项目根目录的批处理文件：
+
+1. `计算龙虎榜派生表.bat`：在份额和价格更新完成后，计算新增交易日并校验本地发布批次；不会写入CloudBase。
+2. `同步龙虎榜到云数据库.bat`：先校验本地批次和执行云端dry-run，确认输入 `Y` 后才同步并切换云端发布指针。
+
+第二个脚本从当前系统环境变量读取 `CLOUDBASE_ENV_ID` 与 `CLOUDBASE_API_KEY`；若未设置，则读取仓库外的 `%USERPROFILE%\.etf-cloudbase.env`。该文件每行一个 `KEY=VALUE`，不得提交到仓库。
+
 导出每日视频素材数据和7个HTML场景：
 
 ```powershell

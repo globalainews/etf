@@ -35,6 +35,34 @@ def build_published_bundle(config: SyncConfig, *, release_seq: int, initial: boo
         statistic_date = local["statistic_date"]
         release_id = local["batch_id"]
         coverage = json.loads(local["coverage_json"])
+        # Batches published before this coverage field was introduced remain
+        # valid; derive it from the already-published daily result instead of
+        # showing a misleading blank in real-mode clients.
+        if "latest_price_count" not in coverage:
+            coverage["latest_price_count"] = conn.execute(
+                "SELECT COUNT(*) FROM etf_derived_daily "
+                "WHERE date=? AND price_change_rate IS NOT NULL",
+                (statistic_date,),
+            ).fetchone()[0]
+        observation_keys = {"total_shares", "increase_count", "decrease_count",
+                            "unchanged_count", "unavailable_change_count"}
+        if not observation_keys.issubset(coverage):
+            metrics = conn.execute(
+                """SELECT SUM(shares) AS total_shares,
+                          SUM(CASE WHEN change_status='OK' AND delta_shares>0 THEN 1 ELSE 0 END) AS increase_count,
+                          SUM(CASE WHEN change_status='OK' AND delta_shares<0 THEN 1 ELSE 0 END) AS decrease_count,
+                          SUM(CASE WHEN change_status='OK' AND delta_shares=0 THEN 1 ELSE 0 END) AS unchanged_count,
+                          SUM(CASE WHEN change_status!='OK' THEN 1 ELSE 0 END) AS unavailable_change_count
+                   FROM etf_derived_daily WHERE date=?""",
+                (statistic_date,),
+            ).fetchone()
+            coverage.update({
+                "total_shares": metrics["total_shares"],
+                "increase_count": int(metrics["increase_count"] or 0),
+                "decrease_count": int(metrics["decrease_count"] or 0),
+                "unchanged_count": int(metrics["unchanged_count"] or 0),
+                "unavailable_change_count": int(metrics["unavailable_change_count"] or 0),
+            })
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         common = {"release_id": release_id, "release_seq": release_seq,
                   "schema_version": config.schema_version}
@@ -61,21 +89,24 @@ def build_published_bundle(config: SyncConfig, *, release_seq: int, initial: boo
                     "statistic_date": row["date"], "baseline_date": row["baseline_date"],
                     "code": row["code"], "name": row["name"], "market": row["market"],
                     "sector": row["sector"]}
-            ranking.append({**base, "shares": row["shares"], "baseline_shares": row["baseline_shares"],
-                            "delta_shares": row["delta_shares"], "change_rate": row["change_rate"],
-                            "change_status": row["change_status"], "price_close": row["price_close"],
-                            "baseline_price_close": row["baseline_price_close"],
-                            "price_change_rate": row["price_change_rate"], "price_status": row["price_status"],
-                            "direction": row["direction"], "rank": row["delta_rank"],
-                            "rate_rank": row["rate_rank"], "special_event": row["special_event"],
-                            "special_event_status": row["special_event_status"],
-                            "quality_status": row["quality_status"], "source": "local_sqlite_published",
-                            "synced_at": now})
-            streaks.append({**base, "direction": row["streak_direction"], "days": row["streak_days"],
-                            "start_date": row["streak_start_date"], "end_date": row["date"],
-                            "cumulative_change_rate": row["streak_change_rate"],
-                            "status": row["streak_status"], "rank": row["delta_rank"]})
-            anomalies.append({**base, "change_rate": row["change_rate"],
+            if row["delta_rank"] is not None:
+                ranking.append({**base, "shares": row["shares"], "baseline_shares": row["baseline_shares"],
+                                "delta_shares": row["delta_shares"], "change_rate": row["change_rate"],
+                                "change_status": row["change_status"], "price_close": row["price_close"],
+                                "baseline_price_close": row["baseline_price_close"],
+                                "price_change_rate": row["price_change_rate"], "price_status": row["price_status"],
+                                "direction": row["direction"], "rank": row["delta_rank"],
+                                "special_event": row["special_event"],
+                                "special_event_status": row["special_event_status"],
+                                "quality_status": row["quality_status"], "source": "local_sqlite_published",
+                                "synced_at": now})
+            if row["streak_status"] == "OK" and (row["streak_days"] or 0) >= 2:
+                streaks.append({**base, "direction": row["streak_direction"], "days": row["streak_days"],
+                                "start_date": row["streak_start_date"], "end_date": row["date"],
+                                "cumulative_change_rate": row["streak_change_rate"],
+                                "status": row["streak_status"], "rank": row["delta_rank"]})
+            if row["anomaly_qualified"]:
+                anomalies.append({**base, "change_rate": row["change_rate"],
                               "history_median_abs_rate": row["anomaly_median_abs_rate"],
                               "anomaly_ratio": row["anomaly_ratio"],
                               "price_change_rate": row["price_change_rate"],
@@ -87,6 +118,8 @@ def build_published_bundle(config: SyncConfig, *, release_seq: int, initial: boo
                                        "min_history": config.anomaly_min_history,
                                        "ratio_threshold": config.anomaly_ratio_threshold,
                                        "abs_pct_threshold": config.anomaly_abs_pct_threshold,
+                                       "min_shares": config.anomaly_min_shares,
+                                       "share_unit": "份",
                                        "excludes_current": True}})
         sectors = []
         for row in conn.execute("SELECT * FROM etf_sector_daily WHERE date=? ORDER BY rank,sector", (statistic_date,)):

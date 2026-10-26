@@ -48,10 +48,9 @@ function createService(db, getContext) {
   async function rankings(args) {
     const release = await current();
     const direction = v.oneOf(args.direction, ['increase', 'decrease'], 'increase', '方向');
-    const sort = v.oneOf(args.sort, ['delta', 'rate'], 'delta', '排序字段');
-    const field = sort === 'rate' ? 'change_rate' : 'delta_shares';
+    v.oneOf(args.sort, ['delta'], 'delta', '排序字段');
     const order = direction === 'increase' ? 'desc' : 'asc';
-    const result = await paged(COLLECTION.ranking, { release_id: release.release_id, direction }, [[field, order], ['code', 'asc']], args);
+    const result = await paged(COLLECTION.ranking, { release_id: release.release_id, direction }, [['delta_shares', order], ['code', 'asc']], args);
     return { ...result, release };
   }
 
@@ -102,7 +101,10 @@ function createService(db, getContext) {
   async function anomalies(args) {
     const release = await current();
     const result = await paged(COLLECTION.anomaly, { release_id: release.release_id, qualified: true }, [['anomaly_ratio', 'desc'], ['code', 'asc']], args);
-    return { ...result, release, disclaimer: release.disclaimer };
+    const rule = result.items[0] && result.items[0].rule
+      ? result.items[0].rule
+      : { window: 20, min_history: 20, ratio_threshold: 3, abs_pct_threshold: 1, min_shares: 10000000000, share_unit: '份', excludes_current: true };
+    return { ...result, rule, release, disclaimer: release.disclaimer };
   }
 
   async function sectors(args) {

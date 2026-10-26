@@ -33,6 +33,11 @@ def test_web_api_and_watchlist(tmp_path: Path, monkeypatch):
     assert historical["release_statistic_date"] == "2026-01-25"
     assert historical["is_historical"] is True
     assert historical["coverage"]["latest_price_count"] == 1
+    assert historical["coverage"]["total_shares"] == 168
+    assert historical["coverage"]["increase_count"] == 2
+    assert historical["coverage"]["decrease_count"] == 0
+    assert historical["coverage"]["unchanged_count"] == 0
+    assert historical["coverage"]["unavailable_change_count"] == 0
     assert client.get("/api/mini/calendar?date=2026-01-10&direction=previous").get_json()["data"]["date"] == "2026-01-09"
     assert client.get("/api/mini/calendar?date=2026-01-10&direction=next").get_json()["data"]["date"] == "2026-01-11"
     assert client.get("/api/mini/calendar?date=2026-01-10&direction=invalid").status_code == 400

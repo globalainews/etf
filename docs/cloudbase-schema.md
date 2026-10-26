@@ -6,9 +6,11 @@
 |---|---|---|---|
 | `etf_master` | 每ETF；`_id=code` | 名称、市场、类型、分类、搜索前缀、schema版本 | 禁止直读写 |
 | `etf_history` | 每ETF/日期/修订；`code_date_releaseSeq` | 份额、收盘价、缺失状态、来源 | 禁止直读写 |
-| `ranking_snapshots` | 每发布批次/ETF | 增量、变化率、价格变化、质量状态 | 禁止直读写 |
-| `streak_snapshots` | 每发布批次/ETF | 方向、天数、起止日、累计变化 | 禁止直读写 |
-| `anomaly_snapshots` | 每发布批次/ETF | 当日变化率、历史中位数、倍数、规则 | 禁止直读写 |
+| `ranking_snapshots` | 每发布批次/ETF/方向前100名 | 增量、变化率、价格变化、质量状态 | 禁止直读写 |
+| `streak_snapshots` | 每发布批次/连续至少2日且份额>100亿的ETF | 方向、天数、起止日、累计变化 | 禁止直读写 |
+| `anomaly_snapshots` | 每发布批次/份额>100亿且满足异动阈值的ETF | 当日变化率、历史中位数、倍数、规则 | 禁止直读写 |
+
+`ranking_snapshots` 按原始份额增减排序，增加、减少各最多100条。连续与异动的100亿门槛以原始份额“份”为单位，严格使用 `shares > 10,000,000,000`；门槛以下的产品不写入这两个集合。
 | `sector_snapshots` | 每发布批次/板块 | 中位数、有效/缺失样本数、分类来源 | 禁止直读写 |
 | `sync_batches` | 每发布尝试；`_id=release_id` | 状态、计数、来源签名、失败类型 | 禁止直读写 |
 | `publish_status` | 单文档；`_id=current` | 当前发布指针、日期、覆盖与质量 | 禁止直读写 |

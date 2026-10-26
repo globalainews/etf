@@ -12,8 +12,8 @@ function paginate(items, page=1, pageSize=20) {
 function demoCall(action,args){
   if(action==='status') return wait(demo.status);
   if(action==='rankings'){
-    const direction=args.direction||'increase'; const field=args.sort==='rate'?'change_rate':'delta_shares';
-    const items=demo.funds.filter(i=>i.direction===direction).sort((a,b)=>direction==='increase'?b[field]-a[field]:a[field]-b[field]);
+    const direction=args.direction||'increase';
+    const items=demo.funds.filter(i=>i.direction===direction).sort((a,b)=>direction==='increase'?b.delta_shares-a.delta_shares:a.delta_shares-b.delta_shares).slice(0,100);
     return wait({...paginate(items,args.page,args.pageSize),release:demo.status});
   }
   if(action==='search'){
@@ -25,8 +25,8 @@ function demoCall(action,args){
     const all=demo.history(args.code,90); const period=Number(args.period||30); const hist=all.slice(-period);
     return wait({master,snapshot:master,history:hist,streak:demo.streaks.find(i=>i.code===args.code),anomaly:demo.anomalies.find(i=>i.code===args.code),requestedPeriod:period,availablePoints:hist.length,release:demo.status});
   }
-  if(action==='streaks'){ const items=demo.streaks.filter(i=>i.direction===(args.direction||'increase')); return wait({...paginate(items,args.page,args.pageSize),release:demo.status,rule:'按连续有效统计日计数；份额不变或缺失均中断。'}); }
-  if(action==='anomalies') return wait({...paginate(demo.anomalies.filter(i=>i.qualified),args.page,args.pageSize),release:demo.status,disclaimer:demo.status.disclaimer});
+  if(action==='streaks'){ const items=demo.streaks.filter(i=>i.direction===(args.direction||'increase')); return wait({...paginate(items,args.page,args.pageSize),release:demo.status,rule:'仅计算当日份额超过100亿份的ETF；份额不变、缺失或未达规模门槛均中断。'}); }
+  if(action==='anomalies') return wait({...paginate(demo.anomalies.filter(i=>i.qualified),args.page,args.pageSize),release:demo.status,rule:{window:20,ratio_threshold:3,abs_pct_threshold:1,min_shares:10000000000},disclaimer:demo.status.disclaimer});
   if(action==='sectors') return wait({...paginate(demo.sectors,args.page,args.pageSize),release:demo.status});
   if(action==='sectorSamples'){ const items=demo.funds.filter(i=>i.sector===args.sector); return wait({...paginate(items,args.page,args.pageSize),release:demo.status,sector:args.sector}); }
   if(action==='watchlist.list'){ const codes=readWatch(); return wait({items:codes.map(code=>({code,snapshot:demo.funds.find(i=>i.code===code)})).filter(i=>i.snapshot),release:demo.status}); }

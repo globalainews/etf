@@ -325,6 +325,11 @@ def build_release_bundle(config: SyncConfig, *, release_id: str | None = None, r
             "comparable_count": len(comparable_codes),
             "latest_price_count": sum(statistic_date in values for values in prices.values()),
             "classification_count": sum(bool(item.get("sector")) for item in masters),
+            "total_shares": sum(float(row["shares"]) for row in ranking_rows if row["shares"] is not None),
+            "increase_count": sum(row["direction"] == "increase" for row in ranking_rows),
+            "decrease_count": sum(row["direction"] == "decrease" for row in ranking_rows),
+            "unchanged_count": sum(row["direction"] == "flat" and row["change_status"] == "OK" for row in ranking_rows),
+            "unavailable_change_count": sum(row["change_status"] != "OK" for row in ranking_rows),
         }
         status = {
             "_id": "current",

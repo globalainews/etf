@@ -19,7 +19,7 @@ from .compute import anomaly_ratio, change_rate, stable_rank
 from .config import SyncConfig
 
 
-CALC_VERSION = "2.0"
+CALC_VERSION = "2.3"
 LOCAL_USER_ID = "local-default"
 DERIVED_COLUMNS = (
     "date", "code", "name", "market", "sector", "baseline_date", "shares",
@@ -100,10 +100,11 @@ def _validate_date(value: str | None) -> str | None:
         raise ValueError("日期格式须为 YYYY-MM-DD") from exc
 
 
-def _rank(rows: list[dict[str, Any]], direction: str, field: str, target: str) -> None:
+def _rank(rows: list[dict[str, Any]], direction: str, field: str, target: str,
+          limit: int | None = None) -> None:
     selected = [row for row in rows if row["direction"] == direction and row[field] is not None]
     stable_rank(selected, field, descending=direction == "increase")
-    for row in selected:
+    for row in selected[:limit]:
         row[target] = row.pop("rank")
 
 
@@ -174,6 +175,8 @@ def _build_and_publish(conn: sqlite3.Connection, config: SyncConfig, dates: list
         "anomaly_min_history": config.anomaly_min_history,
         "anomaly_ratio_threshold": config.anomaly_ratio_threshold,
         "anomaly_abs_pct_threshold": config.anomaly_abs_pct_threshold,
+        "anomaly_min_shares": config.anomaly_min_shares,
+        "ranking_limit": config.ranking_limit,
         "calc_version": CALC_VERSION,
     }, ensure_ascii=False, sort_keys=True)
     conn.execute("DELETE FROM etf_derived_daily_stage")
@@ -226,15 +229,20 @@ def _build_and_publish(conn: sqlite3.Connection, config: SyncConfig, dates: list
                 price_rate, price_status = change_rate(close, old_close)
                 delta = shares - old_shares if old_shares is not None else None
                 direction = "increase" if delta is not None and delta > 0 else "decrease" if delta is not None and delta < 0 else "flat"
-                prior = list(anomaly_history[code])
-                ratio, anomaly_status = anomaly_ratio(rate, prior, config.anomaly_min_history)
-                median_abs = statistics.median(abs(item) for item in prior[-config.anomaly_window:]) if len(prior) >= config.anomaly_min_history else None
-                qualified = int(
-                    ratio is not None and ratio >= config.anomaly_ratio_threshold and
-                    abs(rate or 0) >= config.anomaly_abs_pct_threshold / 100
-                )
+                scale_eligible = shares > config.anomaly_min_shares
+                if scale_eligible:
+                    prior = list(anomaly_history[code])
+                    ratio, anomaly_status = anomaly_ratio(rate, prior, config.anomaly_min_history)
+                    median_abs = statistics.median(abs(item) for item in prior[-config.anomaly_window:]) if len(prior) >= config.anomaly_min_history else None
+                    qualified = int(ratio is not None and ratio >= config.anomaly_ratio_threshold and
+                                    abs(rate or 0) >= config.anomaly_abs_pct_threshold / 100)
+                else:
+                    # 规模未达门槛时不产生异动计算；同时中断历史窗口，避免日后跨门槛拼接。
+                    anomaly_history[code].clear()
+                    ratio, median_abs, qualified = None, None, 0
+                    anomaly_status = "SHARE_SCALE_BELOW_THRESHOLD"
                 prior_streak = streak_state.get(code)
-                if direction in {"increase", "decrease"} and old_shares is not None:
+                if scale_eligible and direction in {"increase", "decrease"} and old_shares is not None:
                     if prior_streak and prior_streak["last_index"] == date_index - 1 and prior_streak["direction"] == direction:
                         streak_days = prior_streak["days"] + 1
                         streak_start_date = prior_streak["start_date"]
@@ -252,7 +260,8 @@ def _build_and_publish(conn: sqlite3.Connection, config: SyncConfig, dates: list
                     streak_days, streak_start_date, streak_rate = 0, None, None
                     streak_state[code] = {"direction": None, "days": 0, "start_date": None,
                                           "base_shares": shares, "last_index": date_index}
-                    streak_status = "UNCHANGED" if delta == 0 else "DATA_INSUFFICIENT"
+                    streak_status = ("SHARE_SCALE_BELOW_THRESHOLD" if not scale_eligible else
+                                     "UNCHANGED" if delta == 0 else "DATA_INSUFFICIENT")
                 fund = funds.get(code, {"name": code, "market": "", "theme": "", "type": ""})
                 sector = fund.get("theme") or None
                 if sector:
@@ -268,7 +277,7 @@ def _build_and_publish(conn: sqlite3.Connection, config: SyncConfig, dates: list
                     "price_close": close, "baseline_price_close": old_close,
                     "price_change_rate": price_rate, "price_status": price_status,
                     "direction": direction, "delta_rank": None, "rate_rank": None,
-                    "streak_direction": direction if streak_days else None,
+                    "streak_direction": direction if scale_eligible and streak_days else None,
                     "streak_days": streak_days, "streak_start_date": streak_start_date,
                     "streak_change_rate": streak_rate, "streak_status": streak_status,
                     "anomaly_median_abs_rate": median_abs, "anomaly_ratio": ratio,
@@ -277,11 +286,10 @@ def _build_and_publish(conn: sqlite3.Connection, config: SyncConfig, dates: list
                     "quality_status": "OK" if rate_status == "OK" else "PARTIAL",
                     "calc_version": CALC_VERSION, "batch_id": batch_id,
                 })
-                if rate is not None:
+                if scale_eligible and rate is not None:
                     anomaly_history[code].append(rate)
             for direction in ("increase", "decrease"):
-                _rank(daily, direction, "delta_shares", "delta_rank")
-                _rank(daily, direction, "change_rate", "rate_rank")
+                _rank(daily, direction, "delta_shares", "delta_rank", config.ranking_limit)
             sectors = []
             for sector in sorted(sector_samples):
                 rates = sector_rates[sector]
@@ -338,6 +346,15 @@ def _publish(conn: sqlite3.Connection, batch_id: str, effective_from: str,
     ).fetchone()[0]
     if not latest_count:
         raise ValueError("暂存区缺少最新统计日")
+    metrics = conn.execute(
+        """SELECT SUM(shares) AS total_shares,
+                  SUM(CASE WHEN change_status='OK' AND delta_shares>0 THEN 1 ELSE 0 END) AS increase_count,
+                  SUM(CASE WHEN change_status='OK' AND delta_shares<0 THEN 1 ELSE 0 END) AS decrease_count,
+                  SUM(CASE WHEN change_status='OK' AND delta_shares=0 THEN 1 ELSE 0 END) AS unchanged_count,
+                  SUM(CASE WHEN change_status!='OK' THEN 1 ELSE 0 END) AS unavailable_change_count
+           FROM etf_derived_daily_stage WHERE date=?""",
+        (statistic_date,),
+    ).fetchone()
     coverage = {
         "fund_total": len(funds),
         "latest_share_count": latest_count,
@@ -350,6 +367,11 @@ def _publish(conn: sqlite3.Connection, batch_id: str, effective_from: str,
             (statistic_date,),
         ).fetchone()[0],
         "classification_count": sum(bool(row.get("theme")) for row in funds.values()),
+        "total_shares": metrics["total_shares"],
+        "increase_count": int(metrics["increase_count"] or 0),
+        "decrease_count": int(metrics["decrease_count"] or 0),
+        "unchanged_count": int(metrics["unchanged_count"] or 0),
+        "unavailable_change_count": int(metrics["unavailable_change_count"] or 0),
     }
     completed = _utcnow()
     with conn:
