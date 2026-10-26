@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """ETF基金规模趋势分析 - Web应用（数据源: etf.db SQLite）"""
 import sys
+import os
 import re
 import sqlite3
 from contextlib import closing
@@ -484,5 +485,6 @@ def get_markers(codes):
 
 
 if __name__ == '__main__':
-    print("\n启动服务: http://127.0.0.1:5000")
-    app.run(debug=False, host='127.0.0.1', port=5010)
+    port = int(os.getenv("ETF_WEB_PORT", "5010"))
+    print(f"\n启动服务: http://127.0.0.1:{port}")
+    app.run(debug=False, host='127.0.0.1', port=port)
