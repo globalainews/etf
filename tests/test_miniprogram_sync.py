@@ -130,3 +130,26 @@ def test_resume_publish_refuses_incomplete_remote_batch():
         sync_bundle(client, payload, resume_publish=True)
     assert "current" not in client.data.get("publish_status", {})
 
+
+def test_resume_publish_without_batch_marker_uses_count_verified_recovery():
+    class TrackingClient(MemoryCloudbaseClient):
+        def __init__(self):
+            super().__init__()
+            self.writes = []
+
+        def upsert_many(self, collection, documents, *, batch_size=80):
+            docs = list(documents)
+            self.writes.append((collection, len(docs)))
+            return super().upsert_many(collection, docs, batch_size=batch_size)
+
+    payload = bundle()
+    client = TrackingClient()
+    for collection, documents in payload["collections"].items():
+        MemoryCloudbaseClient.upsert_many(client, collection, documents)
+
+    result = sync_bundle(client, payload, resume_publish=True)
+
+    assert result["published"] is True
+    assert not any(name in payload["collections"] for name, _ in client.writes)
+    assert client.data["sync_batches"]["r1"]["recovery_mode"] == "count_verified_existing_release"
+

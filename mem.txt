@@ -13,3 +13,5 @@ $env:ETF_DB_PATH="D:\claude projects\ETF\etf.db"
 
 
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial
+
+F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --resume-publish

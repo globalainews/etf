@@ -52,6 +52,13 @@ def _current(conn: sqlite3.Connection) -> dict[str, Any]:
         raise ApiError("NO_DATA", "本地龙虎榜尚未计算，请先执行全量物化命令", 404)
     result = dict(row)
     result["coverage"] = json.loads(result.pop("coverage_json"))
+    # Older local calculation batches did not persist the price coverage field.
+    # Derive the real current-day number for display rather than showing a fake
+    # zero or an "undefined" placeholder in the mini-program-equivalent UI.
+    result["coverage"].setdefault("latest_price_count", conn.execute(
+        "SELECT COUNT(DISTINCT code) FROM fund_price WHERE date=? AND close IS NOT NULL",
+        (result["statistic_date"],),
+    ).fetchone()[0])
     result["disclaimer"] = DISCLAIMER
     try:
         updated = datetime.fromisoformat(result["updated_at"].replace("Z", "+00:00"))

@@ -3,3 +3,120 @@
 @media(max-width:900px){.mini-app{display:block}.app-sidebar{display:none}.app-topbar{min-height:76px;padding:14px 18px}.app-topbar h1{font-size:20px}.top-status{font-size:11px}.app-content{padding:18px 14px 92px}.hero h2{font-size:26px}.bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(4,1fr);left:0;right:0;bottom:0;z-index:20;background:#fff;border-top:1px solid var(--line);padding:7px 0 calc(7px + env(safe-area-inset-bottom))}.bottom-nav button{border:0;background:none;color:var(--muted);font-size:11px}.bottom-nav span{display:block;font-size:20px;margin-bottom:2px}.bottom-nav button.active{color:var(--teal)}.stat-grid,.quick-grid{grid-template-columns:repeat(2,1fr)}.rank-row{grid-template-columns:38px 1fr 120px}.rank-row .bar{display:none}.chart-grid{grid-template-columns:1fr}.sector-row{grid-template-columns:42px 1fr 100px}.sector-row>:last-child{display:none}}
 body.video-mode{width:1080px;height:1920px;overflow:hidden;background:#06182b}body.video-mode .mini-app{display:block;width:1080px;height:1920px;background:linear-gradient(180deg,#06182b 0,#0b263f 34%,#f3f6f8 34%)}body.video-mode .app-sidebar,body.video-mode .bottom-nav{display:none}body.video-mode .app-topbar{height:220px;padding:70px 76px 30px;background:transparent;color:#fff;border:0}body.video-mode .app-topbar h1{font-size:48px}body.video-mode .app-topbar #pageEyebrow{font-size:18px;color:#56ded1}body.video-mode .top-status{color:#b6cad8;font-size:18px}body.video-mode .app-content{max-width:none;padding:22px 70px 100px}body.video-mode .hero{padding:34px}body.video-mode .hero h2{font-size:42px}body.video-mode .rank-row{grid-template-columns:70px 1.2fr 1fr 190px;padding:23px;font-size:20px}body.video-mode .rank-no{font-size:27px}body.video-mode .fund-name span,body.video-mode .metric small{font-size:16px}body.video-mode .metric b{font-size:26px}body.video-mode .panel{padding:28px}body.video-mode .panel-head h2{font-size:28px}body.video-mode .disclaimer{font-size:16px}body.video-mode .video-kicker{display:block;color:#d6ac55;font-size:17px;letter-spacing:.16em;margin-bottom:12px}
 body.video-mode .toolbar{display:none}
+
+/* Keep the browser experience visually aligned with the native mini-program.
+   Desktop browsers render the same mobile-first page in a centered canvas. */
+body:not(.video-mode){background:#e7edf1}
+body:not(.video-mode) .mini-app{display:block;min-height:100vh;max-width:750px;margin:0 auto;background:var(--paper);box-shadow:0 0 42px rgba(7,28,50,.12)}
+body:not(.video-mode) .app-sidebar{display:none}
+body:not(.video-mode) .app-topbar{min-height:64px;padding:12px 18px;background:#071c32;color:#fff;border:0;align-items:center}
+body:not(.video-mode) .app-topbar #pageEyebrow{display:none}
+body:not(.video-mode) .app-topbar h1{margin:0;font-size:18px;font-weight:650;letter-spacing:.02em}
+body:not(.video-mode) .top-status{max-width:48%;color:#b9ccda;font-size:10px;line-height:1.45;text-align:right}
+body:not(.video-mode) .app-content{max-width:none;padding:12px 12px 92px}
+body:not(.video-mode) .hero{margin:-12px -12px 12px;padding:20px 16px 18px;border-radius:0;box-shadow:none;background:linear-gradient(145deg,#071c32,#0d3554)}
+body:not(.video-mode) .hero h2{margin:9px 0 0;font-size:23px;letter-spacing:.02em}
+body:not(.video-mode) .hero p{margin-top:8px;font-size:13px;line-height:1.6;color:#b9ccda}
+body:not(.video-mode) .hero:after{width:160px;height:160px;right:-62px;top:-92px}
+body:not(.video-mode) .hero .quality{margin:0;padding:3px 8px;border:1px solid #f0ca72;background:transparent;color:#ffe39d;font-size:10px}
+body:not(.video-mode) .notice{margin:0 0 10px;padding:10px 11px;border-left:4px solid #0e9f91;border-radius:8px;background:#e8f6f3;color:#315d59;font-size:12px;line-height:1.55}
+body:not(.video-mode) .panel,body:not(.video-mode) .list-card,body:not(.video-mode) .empty-card,body:not(.video-mode) .loading-card,body:not(.video-mode) .error-card{margin-top:0;margin-bottom:11px;padding:13px;border:0;border-radius:10px;box-shadow:0 3px 12px rgba(7,28,50,.055)}
+body:not(.video-mode) .panel-head{margin-bottom:9px}
+body:not(.video-mode) .panel-head h2,body:not(.video-mode) .panel-head h3{font-size:16px}
+body:not(.video-mode) .panel-head a,body:not(.video-mode) .link-button{font-size:13px;color:#087f77}
+body:not(.video-mode) .stat-grid{grid-template-columns:repeat(2,1fr);gap:7px;margin:10px 0}
+body:not(.video-mode) .stat-card{padding:10px;border-radius:8px;background:#f4f7f9;box-shadow:none}
+body:not(.video-mode) .stat-card strong{margin:0;font-size:18px}
+body:not(.video-mode) .stat-card label{margin-top:4px;font-size:11px}
+body:not(.video-mode) .coverage-note{margin:8px 0 0;color:#6f7f8f;font-size:12px;line-height:1.55}
+body:not(.video-mode) .segmented{padding:3px;border:0;border-radius:8px;background:#e8eef2}
+body:not(.video-mode) .segmented button{min-height:34px;padding:6px 5px;border-radius:6px;font-size:13px}
+body:not(.video-mode) .segmented button.active{background:#0a7f78}
+body:not(.video-mode) .mini-tabs{display:grid;grid-template-columns:repeat(4,1fr);margin:-2px 0 13px}
+body:not(.video-mode) .ranking-list{gap:0;margin:0}
+body:not(.video-mode) .rank-row{grid-template-columns:32px minmax(0,1fr) 132px;gap:7px;padding:11px 0;border:0;border-bottom:1px solid #edf1f4;border-radius:0;background:transparent}
+body:not(.video-mode) .rank-row:last-child{border-bottom:0}
+body:not(.video-mode) .rank-row:hover{border-color:#edf1f4;background:#f8fbfc}
+body:not(.video-mode) .rank-row .bar{display:none}
+body:not(.video-mode) .rank-no{font-size:14px;color:#9b7b31}
+body:not(.video-mode) .fund-name strong{font-size:14px;font-weight:650}
+body:not(.video-mode) .fund-name span,body:not(.video-mode) .metric small{margin-top:3px;font-size:10px;line-height:1.4}
+body:not(.video-mode) .metric b{font-size:14px}
+body:not(.video-mode) .quick-grid{grid-template-columns:repeat(2,1fr);gap:8px;margin:0 0 11px}
+body:not(.video-mode) .quick-card{min-height:78px;padding:11px;border-radius:10px;background:#fff;box-shadow:0 3px 12px rgba(7,28,50,.04)}
+body:not(.video-mode) .quick-card b{font-size:14px}
+body:not(.video-mode) .quick-card span{font-size:11px;line-height:1.4}
+body:not(.video-mode) .toolbar{margin-bottom:11px;gap:8px}
+body:not(.video-mode) .toolbar input,body:not(.video-mode) .toolbar select,.search-form input{padding:9px 10px;border-radius:8px;font-size:14px}
+body:not(.video-mode) .search-form{gap:8px}
+body:not(.video-mode) .primary,body:not(.video-mode) .secondary{min-height:38px;padding:8px 12px;border-radius:8px;font-size:13px}
+body:not(.video-mode) .detail-head h2{font-size:20px}
+body:not(.video-mode) .detail-head p{margin:5px 0;color:#718096;font-size:12px}
+body:not(.video-mode) .chart-grid{grid-template-columns:1fr;gap:12px;margin-top:12px}
+body:not(.video-mode) .chart-box{height:210px}
+body:not(.video-mode) .chart-title{font-size:13px}
+body:not(.video-mode) .note{margin-top:12px;padding:10px 11px;border-left-width:3px;font-size:12px}
+body:not(.video-mode) .sector-row{grid-template-columns:34px minmax(0,1fr) 95px;gap:7px;padding:11px 0}
+body:not(.video-mode) .sector-row>:last-child{display:none}
+body:not(.video-mode) .benefit-grid{grid-template-columns:1fr;gap:8px}
+body:not(.video-mode) .benefit{padding:12px;border-radius:9px}
+body:not(.video-mode) .disclaimer{margin:12px 4px;font-size:11px;text-align:center}
+body:not(.video-mode) .bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(4,1fr);left:50%;right:auto;bottom:0;width:min(100%,750px);transform:translateX(-50%);z-index:20;padding:7px 0 calc(7px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -3px 12px rgba(7,28,50,.04)}
+body:not(.video-mode) .bottom-nav button{border:0;background:none;color:#718096;font-size:11px}
+body:not(.video-mode) .bottom-nav span{display:block;margin-bottom:2px;font-size:19px}
+body:not(.video-mode) .bottom-nav button.active{color:#087f77}
+
+/* Readability pass: this product is primarily read on a phone and reused in
+   vertical video.  Keep the information density, but favour legible text. */
+body:not(.video-mode) .app-topbar{min-height:70px;padding:13px 18px}
+body:not(.video-mode) .app-topbar h1{font-size:20px}
+body:not(.video-mode) .top-status{font-size:11px;line-height:1.55}
+body:not(.video-mode) .hero{padding:23px 16px 21px}
+body:not(.video-mode) .hero h2{font-size:27px}
+body:not(.video-mode) .hero p{font-size:15px;line-height:1.65}
+body:not(.video-mode) .hero .quality{padding:4px 9px;font-size:11px}
+body:not(.video-mode) .notice{padding:11px 12px;font-size:13px}
+body:not(.video-mode) .panel,body:not(.video-mode) .list-card,body:not(.video-mode) .empty-card,body:not(.video-mode) .loading-card,body:not(.video-mode) .error-card{padding:15px;border-radius:12px}
+body:not(.video-mode) .panel-head{margin-bottom:12px}
+body:not(.video-mode) .panel-head h2,body:not(.video-mode) .panel-head h3{font-size:18px}
+body:not(.video-mode) .panel-head a,body:not(.video-mode) .link-button{font-size:14px}
+body:not(.video-mode) .stat-grid{gap:9px;margin:12px 0}
+body:not(.video-mode) .stat-card{padding:12px}
+body:not(.video-mode) .stat-card strong{font-size:22px}
+body:not(.video-mode) .stat-card label{margin-top:5px;font-size:12px}
+body:not(.video-mode) .coverage-note{font-size:13px}
+body:not(.video-mode) .segmented button{min-height:40px;padding:7px 6px;font-size:14px}
+body:not(.video-mode) .rank-row{grid-template-columns:36px minmax(0,1fr) 146px;gap:8px;padding:14px 0}
+body:not(.video-mode) .rank-no{font-size:16px}
+body:not(.video-mode) .fund-name strong{font-size:16px}
+body:not(.video-mode) .fund-name span,body:not(.video-mode) .metric small{margin-top:4px;font-size:11.5px;line-height:1.45}
+body:not(.video-mode) .metric b{font-size:17px}
+body:not(.video-mode) .quick-card{min-height:88px;padding:13px}
+body:not(.video-mode) .quick-card b{font-size:15px}
+body:not(.video-mode) .quick-card span{font-size:12px}
+body:not(.video-mode) .toolbar input,body:not(.video-mode) .toolbar select,.search-form input{font-size:16px}
+body:not(.video-mode) .primary,body:not(.video-mode) .secondary{min-height:42px;padding:9px 13px;font-size:14px}
+body:not(.video-mode) .detail-head h2{font-size:22px}
+body:not(.video-mode) .detail-head p{font-size:13px}
+body:not(.video-mode) .chart-box{height:230px}
+body:not(.video-mode) .chart-title{font-size:14px}
+body:not(.video-mode) .note{font-size:13px;line-height:1.65}
+body:not(.video-mode) .disclaimer{font-size:12px;line-height:1.7}
+body:not(.video-mode) .bottom-nav{padding-top:8px}
+body:not(.video-mode) .bottom-nav button{font-size:12px}
+body:not(.video-mode) .bottom-nav span{font-size:22px}
+
+/* Video cards keep all TOP 10 rows inside the 1080x1920 canvas, while using
+   the space formerly used by the decorative bar for larger fund labels. */
+body.video-mode .app-topbar h1{font-size:52px}
+body.video-mode .top-status{font-size:20px}
+body.video-mode .video-kicker{font-size:19px}
+body.video-mode .rank-row{grid-template-columns:74px minmax(0,1fr) 235px;gap:16px;padding:20px 23px}
+body.video-mode .rank-row .bar{display:none}
+body.video-mode .rank-no{font-size:30px}
+body.video-mode .fund-name strong{font-size:26px}
+body.video-mode .fund-name span,body.video-mode .metric small{font-size:17px;line-height:1.45}
+body.video-mode .metric b{font-size:30px}
+body.video-mode .panel-head h2{font-size:31px}
+body.video-mode .panel-head span{font-size:18px}
+body.video-mode .disclaimer{font-size:18px}

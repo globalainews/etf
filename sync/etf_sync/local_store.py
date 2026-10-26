@@ -345,6 +345,10 @@ def _publish(conn: sqlite3.Connection, batch_id: str, effective_from: str,
             "SELECT COUNT(*) FROM etf_derived_daily_stage WHERE date=? AND change_status='OK'",
             (statistic_date,),
         ).fetchone()[0],
+        "latest_price_count": conn.execute(
+            "SELECT COUNT(DISTINCT code) FROM fund_price WHERE date=? AND close IS NOT NULL",
+            (statistic_date,),
+        ).fetchone()[0],
         "classification_count": sum(bool(row.get("theme")) for row in funds.values()),
     }
     completed = _utcnow()

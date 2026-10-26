@@ -47,6 +47,7 @@ def sync_bundle(
     if any(len(row.get("code", "")) != 6 or not row["code"].isdigit() for row in bundle["collections"]["etf_master"]):
         raise ValueError("etf_master contains invalid ETF code")
     remote_batch = None
+    untracked_recovery = False
     if resume_publish:
         current = client.get_document("publish_status", "current")
         remote_batch = client.get_document("sync_batches", release_id)
@@ -54,12 +55,18 @@ def sync_bundle(
                 and remote_batch.get("state") == "published"):
             return {**summarize(bundle), "written": {}, "published": True,
                     "resumed": True, "already_published": True}
-        if not remote_batch or remote_batch.get("state") not in {"failed", "uploading"}:
-            raise RuntimeError("no failed upload batch is available for publish-only recovery")
-        if int(remote_batch.get("release_seq", -1)) != int(bundle["release"]["release_seq"]):
-            raise RuntimeError("remote failed batch release sequence does not match the recovery bundle")
-        if remote_batch.get("counts") != bundle["batch"]["counts"]:
-            raise RuntimeError("remote failed batch counts do not match the local recovery bundle")
+        if remote_batch:
+            if remote_batch.get("state") not in {"failed", "uploading"}:
+                raise RuntimeError("remote batch is not eligible for publish-only recovery")
+            if int(remote_batch.get("release_seq", -1)) != int(bundle["release"]["release_seq"]):
+                raise RuntimeError("remote failed batch release sequence does not match the recovery bundle")
+            if remote_batch.get("counts") != bundle["batch"]["counts"]:
+                raise RuntimeError("remote failed batch counts do not match the local recovery bundle")
+        else:
+            # Older failed clients could finish document writes but fail before
+            # recording sync_batches.  Exact per-release counts below are the
+            # safety gate before this path can publish a pointer.
+            untracked_recovery = True
     else:
         for name in COLLECTIONS:
             client.ensure_collection(name)
@@ -98,6 +105,9 @@ def sync_bundle(
         ready_batch = {**(remote_batch or bundle["batch"]), "state": "published",
                        "published_at": published_at}
         ready_batch.pop("failure_type", None)
+        if untracked_recovery:
+            ready_batch["recovery_mode"] = "count_verified_existing_release"
+            ready_batch["business_documents_reused"] = True
         current = {**bundle["release"], "published_at": published_at}
         tx = client.start_transaction()
         try:
@@ -141,11 +151,18 @@ def prepare_bundle(
         probe = build_published_bundle(config, release_seq=0, initial=initial,
                                        correction_from=correction_from)
         remote_batch = client.get_document("sync_batches", probe["release"]["release_id"])
-        if not remote_batch or "release_seq" not in remote_batch:
-            raise RuntimeError("failed remote batch was not found; full synchronization is required")
+        if remote_batch and "release_seq" in remote_batch:
+            return build_published_bundle(
+                config,
+                release_seq=int(remote_batch["release_seq"]),
+                initial=initial,
+                correction_from=correction_from,
+            )
+        # No batch marker: use a fresh high-water sequence so already-uploaded
+        # history revisions remain visible to the pointer after count checks.
         return build_published_bundle(
             config,
-            release_seq=int(remote_batch["release_seq"]),
+            release_seq=int(time.time() * 1000),
             initial=initial,
             correction_from=correction_from,
         )

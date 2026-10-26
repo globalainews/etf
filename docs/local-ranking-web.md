@@ -87,7 +87,8 @@ F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli
 F:\anaconda3\python.exe -X utf8 -m sync.etf_sync.cli --initial --resume-publish
 ```
 
-恢复模式不会写入ETF业务集合；任何集合计数不匹配时会拒绝发布，届时才需要重新执行完整同步。
+恢复模式不会写入ETF业务集合。即使旧版失败时没有留下 `sync_batches` 标记，仍可用实际
+`release_id` 记录数完成受限恢复；任何集合计数不匹配时都会拒绝发布，届时才需要重新执行完整同步。
 
 ## 6. 视频素材
 
