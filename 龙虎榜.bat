@@ -20,8 +20,13 @@ if /I "%~1"=="--date" (
     if not "%~2"=="" goto :usage
     set "DATE_ARG=%~1"
 )
-call :normalize_date "%DATE_ARG%"
-if errorlevel 1 goto :invalid_date
+if "%DATE_ARG:~4,1%"=="-" (
+    if not "%DATE_ARG:~10,1%"=="" goto :invalid_date
+) else (
+    if "%DATE_ARG:~7,1%"=="" goto :invalid_date
+    if not "%DATE_ARG:~8,1%"=="" goto :invalid_date
+    set "DATE_ARG=%DATE_ARG:~0,4%-%DATE_ARG:~4,2%-%DATE_ARG:~6,2%"
+)
 
 :run_producer
 pushd "%PRODUCER_ROOT%"
@@ -76,14 +81,6 @@ exit /b 2
 echo [ERROR] Usage: %~nx0 [YYYYMMDD^|YYYY-MM-DD] or %~nx0 --date YYYYMMDD
 pause
 exit /b 2
-
-:normalize_date
-set "DATE_ARG=%~1"
-if "%DATE_ARG:~4,1%"=="-" exit /b 0
-if "%DATE_ARG:~7,1%"=="" exit /b 1
-if not "%DATE_ARG:~8,1%"=="" exit /b 1
-set "DATE_ARG=%DATE_ARG:~0,4%-%DATE_ARG:~4,2%-%DATE_ARG:~6,2%"
-exit /b 0
 
 :build_failed
 echo.
